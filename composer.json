@@ -1,0 +1,204 @@
+{
+    "name": "SIG/odontologia",
+    "license": "GPLv3",
+    "type": "project",
+    "description": "Sistema de información gerencial para el seguimiento de expedientes dentales para el área de Ortodoncia, Facultad de Odontologia, Universidad de El Salvador",
+    "autoload": {
+        "psr-0": { "": "src/" }
+    },
+    "require": {
+        "php": ">=5.3.3",
+        "symfony/symfony": "~2.4",
+        "doctrine/orm": "~2.2,>=2.2.3",
+        "doctrine/doctrine-bundle": "~1.2",
+        "twig/extensions": "~1.0",
+        "symfony/assetic-bundle": "~2.3",
+        "symfony/monolog-bundle": "~2.4",
+        "sensio/distribution-bundle": "~2.3",
+        "sensio/framework-extra-bundle": "~3.0",
+        "sensio/generator-bundle": "~2.3",
+        "incenteev/composer-parameter-handler": "~2.0",
+        "braincrafted/bootstrap-bundle": "dev-master",
+        "friendsofsymfony/jsrouting-bundle": "~1.1",
+        "psliwa/pdf-bundle": "dev-master",
+        "components/jquery": "1.9.*",
+        "twbs/bootstrap": "3.*",
+        "jzaefferer/jquery-validation": "1.12.*",
+        "mozilla/pdf.js": "1.0.*",
+        "eternicode/bootstrap-datepicker": "1.3.*"
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
+        ],
+        "post-update-cmd": [
+            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
+        ]
+    },
+    "config": {
+        "bin-dir": "bin",
+        "component-dir": "web/js/",
+        "component-baseurl": "/js/"
+    },
+    "extra": {
+        "symfony-app-dir": "app",
+        "symfony-web-dir": "web",
+        "symfony-assets-install": "symlink",
+        "incenteev-parameters": {
+            "file": "app/config/parameters.yml"
+        },
+        "branch-alias": {
+            "dev-master": "2.4-dev"
+        }
+    },
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "jzaefferer/jquery-validation",
+                "type": "component",
+                "version": "1.12.0",
+                "dist": {
+                    "url": "https://github.com/jzaefferer/jquery-validation/archive/1.12.0.zip",
+                    "type": "zip"
+                },
+                "source": {
+                    "url": "https://github.com/jzaefferer/jquery-validation.git",
+                    "type": "git",
+                    "reference": "1.12.0"
+                },
+                "extra": {
+                    "component": {
+                        "scripts": ["dist/jquery.validate.min.js"],
+                        "shim": {
+                            "deps": ["jquery", "bootstrap"],
+                            "exports": "$"
+                        }
+                    }
+                },
+                "require": {
+                    "robloach/component-installer": "*",
+                    "components/jquery": "1.9.*",
+                    "twbs/bootstrap": "3.*"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "mozilla/pdf.js",
+                "type": "component",
+                "version": "1.0.21",
+                "dist": {
+                    "url": "https://github.com/mozilla/pdf.js/archive/v1.0.21.zip",
+                    "type": "zip"
+                },
+                "source": {
+                    "url": "https://github.com/mozilla/pdf.js.git",
+                    "type": "git",
+                    "reference": "v1.0.21"
+                },
+                "extra": {
+                    "component": {
+                        "scripts": [
+                            "src/pdf.js",
+                            "src/worker_loader.js"
+                        ]
+                    }
+                },
+                "require": {
+                    "robloach/component-installer": "*"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "twbs/bootstrap",
+                "type": "component",
+                "version": "3.1.1",
+                "dist": {
+                    "url": "https://github.com/twbs/bootstrap/archive/v3.1.1.zip",
+                    "type": "zip"
+                },
+                "source": {
+                    "url": "https://github.com/twbs/bootstrap.git",
+                    "type": "git",
+                    "reference": "v3.1.1"
+                },
+                "extra": {
+                    "component": {
+                        "scripts": [
+                            "dist/js/bootstrap.min.js"
+                        ],
+                        "styles": [
+                            "dist/css/bootstrap.min.css",
+                            "dist/css/bootstrap-theme.min.css"
+                        ],
+                        "files": [
+                            "dist/fonts/glyphicons-halflings-regular.eot",
+                            "dist/fonts/glyphicons-halflings-regular.svg",
+                            "dist/fonts/glyphicons-halflings-regular.ttf",
+                            "dist/fonts/glyphicons-halflings-regular.woff"
+                        ],
+                        "shim": {
+                            "deps": ["jquery"],
+                            "exports": "$"
+                        }
+                    }
+                },
+                "require": {
+                    "robloach/component-installer": "*",
+                    "components/jquery": "1.9.*"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "eternicode/bootstrap-datepicker",
+                "type": "component",
+                "version": "1.3.0",
+                "dist": {
+                    "url": "https://github.com/eternicode/bootstrap-datepicker/archive/1.3.0.zip",
+                    "type": "zip"
+                },
+                "source": {
+                    "url": "https://github.com/eternicode/bootstrap-datepicker.git",
+                    "type": "git",
+                    "reference": "1.3.0"
+                },
+                "extra": {
+                    "component": {
+                        "scripts": [
+                            "js/bootstrap-datepicker.js"
+                        ],
+                        "styles": [
+                            "css/datepicker3.css"
+                        ],
+                        "files": [
+                            "js/locales/bootstrap-datepicker.*.js"
+                        ],
+                        "shim": {
+                            "deps": ["jquery", "bootstrap"],
+                            "exports": "$"
+                        }
+                    }
+                },
+                "require": {
+                    "robloach/component-installer": "*",
+                    "components/jquery": "1.9.*",
+                    "twbs/bootstrap": "3.*"
+                }
+            }
+        }
+    ]
+}
