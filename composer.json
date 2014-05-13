@@ -24,8 +24,9 @@
         "components/jquery": "1.9.*",
         "twbs/bootstrap": "3.*",
         "jzaefferer/jquery-validation": "1.12.*",
-        "mozilla/pdf.js": "1.0.*",
-        "eternicode/bootstrap-datepicker": "1.3.*"
+        "mozilla/pdf": "1.0.*",
+        "eternicode/bootstrap-datepicker": "1.3.*",
+	"needim/noty": "2.2.2"
     },
     "scripts": {
         "post-install-cmd": [
@@ -94,7 +95,7 @@
         {
             "type": "package",
             "package": {
-                "name": "mozilla/pdf.js",
+                "name": "mozilla/pdf",
                 "type": "component",
                 "version": "1.0.21",
                 "dist": {
@@ -197,6 +198,38 @@
                     "robloach/component-installer": "*",
                     "components/jquery": "1.9.*",
                     "twbs/bootstrap": "3.*"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "needim/noty",
+                "type": "component",
+                "version": "2.2.2",
+                "dist": {
+                    "url": "https://github.com/needim/noty/archive/v2.2.2.zip",
+                    "type": "zip"
+                },
+                "source": {
+                    "url": "https://github.com/needim/noty.git",
+                    "type": "git",
+                    "reference": "v2.2.2"
+                },
+                "extra": {
+                    "component": {
+                        "scripts": [
+                            "js/noty/packaged/jquery.noty.packaged.min.js"
+                        ],
+                        "shim": {
+                            "deps": ["jquery"],
+                            "exports": "$"
+                        }
+                    }
+                },
+                "require": {
+                    "robloach/component-installer": "*",
+                    "components/jquery": "1.9.*"
                 }
             }
         }
