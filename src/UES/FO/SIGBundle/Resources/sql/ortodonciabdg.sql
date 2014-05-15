@@ -10,7 +10,7 @@ use ortodonciabdg;
 
 create table usuario
 (
-   idusuario                      int                    not null,
+   idusuario                      int                    not null auto_increment,
    nombres                        varchar(50)                    not null,
    apellidos                      varchar(50)                    not null,
    username                       varchar(10)                  not null unique,
