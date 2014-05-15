@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ title|default('Sistema de información gerencial') }}</title>
+        <meta charset="utf-8">
+        <meta name="description" content="Sistema de información gerencial para el seguimiento de expedientes ortodentales" />
+        <meta name="author" content="Ingeniería de Sistemas Informáticos" />
+        <meta name="keywords" content="SIG" />
+        <!-- Optimized mobile viewport -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+        <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}" />
+        <!-- CSS -->
+        {#<link rel="stylesheet" href="{{ asset('js/require.css') }}" />#}
+        {% stylesheets
+            'js/require.css'
+            '@SIGBundle/Resources/public/css/*'
+            output='js/estilo.css' %}
+            <link rel="stylesheet" href="{{ asset_url }}" />
+        {% endstylesheets %}
+        <!-- HTML5 Shim and Respond.js add IE8 support of HTML5 elements and media queries -->
+        {% include 'BraincraftedBootstrapBundle::ie8-support.html.twig' %}
+    </head>
+    <body>
+        {{ bootstrap_set_widget_col(8) }}{{ bootstrap_set_label_col(4) }}
+        <noscript>Para el correcto funcionamiento del sistema debe tener habilitado el uso de Javascript en su navegador</noscript>
+        {% block layout %}
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+                        <span class="sr-only">Cambiar navegación</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="{{ path('index') }}"><i class="glyphicon glyphicon-home"></i> Principal</a>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="navbar-collapse">
+                    {% if is_granted('ROLE_TACTIC') %}
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-book"></i> Reportes tácticos <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ path('enfermedades-padecidas') }}"><i class="glyphicon glyphicon-file"></i> Enfermedades padecidas</a></li>
+                                <li><a href="{{ path('tipo-perfil') }}"><i class="glyphicon glyphicon-file"></i> Tipo de perfiles</a></li>
+                                <li><a href="{{ path('lineas-medias') }}"><i class="glyphicon glyphicon-file"></i> Lineas medias</a></li>
+                                <li><a href="{{ path('sobre-mordidas') }}"><i class="glyphicon glyphicon-file"></i> Sobre mordidas</a></li>
+                                <li><a href="{{ path('mordidas-cruzadas') }}"><i class="glyphicon glyphicon-file"></i> Mordidas cruzadas</a></li>
+                                <li><a href="{{ path('estadios-nolla') }}"><i class="glyphicon glyphicon-file"></i> Estadios de Nolla</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    {% endif %}
+                    {% if is_granted('ROLE_STRATEGIC') %}
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-book"></i> Reportes estratégicos <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ path('relacion-sagital') }}"><i class="glyphicon glyphicon-file"></i> Relaciones sagitales</a></li>
+                                <li><a href="{{ path('cantidad-citas') }}"><i class="glyphicon glyphicon-file"></i> Cantidad de citas</a></li>
+                                <li><a href="{{ path('plan-tratamiento') }}"><i class="glyphicon glyphicon-file"></i> Plan de tratamiento</a></li>
+                                <li><a href="{{ path('asistencias') }}"><i class="glyphicon glyphicon-file"></i> Asistencias generales</a></li>
+                                <li><a href="{{ path('casos-referidos') }}"><i class="glyphicon glyphicon-file"></i> Casos referidos</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    {% endif %}
+                    {% if is_granted('ROLE_OPERATIVE') %}
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-tasks"></i> Administración del sistema <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ path('actividad-sistema') }}"><I class="glyphicon glyphicon-stats"></I> Consultar registro de actividad</a></li>
+                                <li class="divider"></li>
+                                <li><a href="{{ path('respaldar-bd') }}"><i class="glyphicon glyphicon-floppy-save"></i> Respaldar base de datos</a></li>
+                                <li><a href="{{ path('restaurar-bd') }}"><I class="glyphicon glyphicon-floppy-open"></I> Restaurar base de datos</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-tower"></i> Gestionar usuarios <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ path('usuario_new') }}"><i class="glyphicon glyphicon-plus-sign"></i> Ingresar usuario</a></li>
+                                <li><a href="{{ path('usuario_index') }}"><i class="glyphicon glyphicon-eye-open"></i> Consultar usuarios</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    {% endif %}
+                    {% if app.user.username is defined %}
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i> {{ app.user.username|default('usuario') }} <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#"><i class="glyphicon glyphicon-info-sign"></i> Información</a></li>
+                                <li><a href="#"><i class="glyphicon glyphicon-fire"></i> Cambiar contraseña</a></li>
+                                <li class="divider"></li>
+                                <li><a href="{{ path('logout') }}"><i class="glyphicon glyphicon-off"></i> Salir</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    {% endif %}
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+        <!--Centralize the grid-->
+        <div class="container">
+            <div id="main" class="row">
+                {% block content %}
+                    {% block parameters %}
+                    {% endblock %}
+                    <div id="preview-pdf"></div>
+                {% endblock %}
+            </div>
+        </div>
+        {% endblock %}
+        <!-- JavaScript at the bottom for fast page loading -->
+        <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+        <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+        <!-- Require.js loader -->
+        <script src="{{ asset('js/require.js') }}"></script>
+        {% block javascript %}
+        <script>
+            require(['bootstrap'], function($) {
+                console.log($);
+            });
+        </script>
+        {% endblock %}
+        <script>
+            //IE outdate friendly warning if you don't want remove it
+            var sig = {vs: {i:6,f:2,o:9.63,s:2,c:10}};
+            sig.ol = window.onload; 
+            window.onload = function() {
+                try {
+                    if (sig.ol)
+                        sig.ol();
+                } catch (e) {}
+                var e = document.createElement("script");
+                e.setAttribute("type", "text/javascript");
+                e.setAttribute("src", "//browser-update.org/update.js");
+                document.body.appendChild(e); 
+            }
+        </script>
+    </body>
+</html>

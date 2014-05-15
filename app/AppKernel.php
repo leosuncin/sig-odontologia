@@ -18,6 +18,7 @@ class AppKernel extends Kernel
             new Braincrafted\Bundle\BootstrapBundle\BraincraftedBootstrapBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new Ps\PdfBundle\PsPdfBundle(),
+            new UES\FO\SIGBundle\SIGBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

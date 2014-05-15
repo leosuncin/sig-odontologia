@@ -1,0 +1,32 @@
+form {
+    margin: 0 auto;
+}
+
+#usuario button, a {
+    margin-right: 3px;
+}
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen 
+and (min-device-width : 320px) 
+and (max-device-width : 480px) {
+    form {
+        width: 100%;
+    }
+}
+
+/* iPads (portrait and landscape) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) {
+    form {
+        width: 600px;
+    }
+}
+
+/* Desktops and laptops ----------- */
+@media only screen 
+and (min-width : 1224px) {
+    form {
+        width: 700px;
+    }
+}

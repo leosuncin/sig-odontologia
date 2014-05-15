@@ -1,0 +1,21 @@
+{% extends 'SIGBundle:Default:index.html.twig' %}
+
+{% block content %}
+{{ form(form, { 'style': 'horizontal' }) }}
+<a href="{{ path('usuario_index') }}" id="usuario_regresar" class="btn btn-default">Regresar</a>
+{% endblock %}
+
+{% block javascript %}
+<script>
+require([
+	'../bundles/sig/js/util/dom_usuario',
+	'../bundles/sig/js/util/generate_username',
+	'../bundles/sig/js/validator/usuario_crear_validador'
+	], function(dom, genUsername, validator){
+		dom();
+		$('#usuario_nombres').keypress(genUsername);
+		$('#usuario_apellidos').keypress(genUsername);
+		$('form[name="usuario"]').validate(validator);
+});
+</script>
+{% endblock %}

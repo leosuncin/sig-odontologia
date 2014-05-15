@@ -7,4 +7,4 @@ parameters:
     database_password: ~
 
     locale:            es
-    secret:            ThisTokenIsNotSoSecretChangeIt
+    secret:            5dd84003aa04ff8f4713611f55de19263ab555783473030f376c758d1bbea35fb5b399e2ba4c33a3742f051afe4cd774aba24e3c20fb013351cfaf6bc2b656d7

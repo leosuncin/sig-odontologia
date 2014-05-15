@@ -1,0 +1,7 @@
+{% extends 'SIGBundle:Usuario:index.html.twig' %}
+
+{% block content %}
+    {{ form(edit_form, { 'style': 'horizontal' }) }}
+    <a class="btn btn-default" id="usario_regresar" href="{{ path('usuario_index') }}">Regresar</a>
+	{{ form(delete_form) }}
+{% endblock %}

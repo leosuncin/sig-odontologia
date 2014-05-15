@@ -1,0 +1,7 @@
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
+
+sig:
+    resource: "@SIGBundle/Controller/"
+    type:     annotation
+    prefix:   /
