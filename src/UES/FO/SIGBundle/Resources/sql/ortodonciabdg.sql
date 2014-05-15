@@ -15,9 +15,10 @@ create table usuario
    apellidos                      varchar(50)                    not null,
    username                       varchar(10)                  not null unique,
    password                       varchar(150)                    not null,
-   salt                           varchar(10)                    not null,
-   locked                         boolean                           not null,
+   salt                           varchar(100)                    not null,
+   nivel                          int                            not null,
    enabled                        boolean                          not null,
+   locked                         boolean                           not null,
    role                           mediumtext                    not null,
    primary key (idusuario)
 )

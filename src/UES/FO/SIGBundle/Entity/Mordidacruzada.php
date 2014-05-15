@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Mordidacruzada
  *
- * @ORM\Table(name="MORDIDACRUZADA", indexes={@ORM\Index(name="CODEXPEDIENTE", columns={"CODEXPEDIENTE"})})
+ * @ORM\Table(name="mordidacruzada", indexes={@ORM\Index(name="codexpediente", columns={"codexpediente"})})
  * @ORM\Entity
  */
 class Mordidacruzada
@@ -15,7 +15,7 @@ class Mordidacruzada
     /**
      * @var integer
      *
-     * @ORM\Column(name="IDMORDIDACRUZADA", type="integer", nullable=false)
+     * @ORM\Column(name="idmordidacruzada", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -24,42 +24,42 @@ class Mordidacruzada
     /**
      * @var integer
      *
-     * @ORM\Column(name="CUADSUPERIOR", type="integer", nullable=false)
+     * @ORM\Column(name="cuadsuperior", type="integer", nullable=false)
      */
     private $cuadsuperior;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="PIEZASUPERIOR", type="integer", nullable=false)
+     * @ORM\Column(name="piezasuperior", type="integer", nullable=false)
      */
     private $piezasuperior;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="CUADINFERIOR", type="integer", nullable=false)
+     * @ORM\Column(name="cuadinferior", type="integer", nullable=false)
      */
     private $cuadinferior;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="PIEZAINFERIOR", type="integer", nullable=false)
+     * @ORM\Column(name="piezainferior", type="integer", nullable=false)
      */
     private $piezainferior;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="INFERIOR", type="string", length=5, nullable=false)
+     * @ORM\Column(name="inferior", type="string", length=5, nullable=false)
      */
     private $inferior;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="SUPERIOR", type="string", length=5, nullable=false)
+     * @ORM\Column(name="superior", type="string", length=5, nullable=false)
      */
     private $superior;
 
@@ -68,7 +68,7 @@ class Mordidacruzada
      *
      * @ORM\ManyToOne(targetEntity="Datosgenerales")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="CODEXPEDIENTE", referencedColumnName="CODEXPEDIENTE")
+     *   @ORM\JoinColumn(name="codexpediente", referencedColumnName="codexpediente")
      * })
      */
     private $codexpediente;

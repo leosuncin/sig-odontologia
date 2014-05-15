@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Relacionessagitales
  *
- * @ORM\Table(name="RELACIONESSAGITALES", indexes={@ORM\Index(name="CODEXPEDIENTE", columns={"CODEXPEDIENTE"})})
+ * @ORM\Table(name="relacionessagitales", indexes={@ORM\Index(name="codexpediente", columns={"codexpediente"})})
  * @ORM\Entity
  */
 class Relacionessagitales
@@ -15,7 +15,7 @@ class Relacionessagitales
     /**
      * @var integer
      *
-     * @ORM\Column(name="IDRELACIONESSAGITALES", type="integer", nullable=false)
+     * @ORM\Column(name="idrelacionessagitales", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -24,28 +24,28 @@ class Relacionessagitales
     /**
      * @var integer
      *
-     * @ORM\Column(name="MOLARDERECHA", type="integer", nullable=false)
+     * @ORM\Column(name="molarderecha", type="integer", nullable=false)
      */
     private $molarderecha;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="MOLARIZQUIERDA", type="integer", nullable=false)
+     * @ORM\Column(name="molarizquierda", type="integer", nullable=false)
      */
     private $molarizquierda;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="CANINADERECHA", type="integer", nullable=false)
+     * @ORM\Column(name="caninaderecha", type="integer", nullable=false)
      */
     private $caninaderecha;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="CANINAIZQUIERDA", type="integer", nullable=false)
+     * @ORM\Column(name="caninaizquierda", type="integer", nullable=false)
      */
     private $caninaizquierda;
 
@@ -54,7 +54,7 @@ class Relacionessagitales
      *
      * @ORM\ManyToOne(targetEntity="Datosgenerales")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="CODEXPEDIENTE", referencedColumnName="CODEXPEDIENTE")
+     *   @ORM\JoinColumn(name="codexpediente", referencedColumnName="codexpediente")
      * })
      */
     private $codexpediente;

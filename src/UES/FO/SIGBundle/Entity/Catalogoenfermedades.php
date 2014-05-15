@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Catalogoenfermedades
  *
- * @ORM\Table(name="CATALOGOENFERMEDADES")
+ * @ORM\Table(name="catalogoenfermedades")
  * @ORM\Entity
  */
 class Catalogoenfermedades
@@ -15,7 +15,7 @@ class Catalogoenfermedades
     /**
      * @var integer
      *
-     * @ORM\Column(name="IDENFERMEDAD", type="integer", nullable=false)
+     * @ORM\Column(name="idenfermedad", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -24,7 +24,7 @@ class Catalogoenfermedades
     /**
      * @var string
      *
-     * @ORM\Column(name="NOMBREENFERMEDAD", type="string", length=20, nullable=false)
+     * @ORM\Column(name="nombreenfermedad", type="string", length=20, nullable=false)
      */
     private $nombreenfermedad;
 

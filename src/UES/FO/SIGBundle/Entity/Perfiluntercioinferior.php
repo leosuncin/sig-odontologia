@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Perfiluntercioinferior
  *
- * @ORM\Table(name="PERFILUNTERCIOINFERIOR")
+ * @ORM\Table(name="perfiluntercioinferior")
  * @ORM\Entity
  */
 class Perfiluntercioinferior
@@ -15,7 +15,7 @@ class Perfiluntercioinferior
     /**
      * @var integer
      *
-     * @ORM\Column(name="IDPERFILUNTERCIOINFERIOR", type="integer", nullable=false)
+     * @ORM\Column(name="idperfiluntercioinferior", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -24,7 +24,7 @@ class Perfiluntercioinferior
     /**
      * @var string
      *
-     * @ORM\Column(name="NOMBREPERFILUNTERCIOINFERIOR", type="string", length=20, nullable=false)
+     * @ORM\Column(name="nombreperfiluntercioinferior", type="string", length=20, nullable=false)
      */
     private $nombreperfiluntercioinferior;
 

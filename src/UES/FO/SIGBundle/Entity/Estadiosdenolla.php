@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Estadiosdenolla
  *
- * @ORM\Table(name="ESTADIOSDENOLLA", indexes={@ORM\Index(name="CODEXPEDIENTE", columns={"CODEXPEDIENTE"})})
+ * @ORM\Table(name="estadiosdenolla", indexes={@ORM\Index(name="codexpediente", columns={"codexpediente"})})
  * @ORM\Entity
  */
 class Estadiosdenolla
@@ -15,7 +15,7 @@ class Estadiosdenolla
     /**
      * @var integer
      *
-     * @ORM\Column(name="IDESTADIO", type="integer", nullable=false)
+     * @ORM\Column(name="idestadio", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -24,140 +24,140 @@ class Estadiosdenolla
     /**
      * @var integer
      *
-     * @ORM\Column(name="E51", type="integer", nullable=false)
+     * @ORM\Column(name="e51", type="integer", nullable=false)
      */
     private $e51;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="E52", type="integer", nullable=false)
+     * @ORM\Column(name="e52", type="integer", nullable=false)
      */
     private $e52;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="E53", type="integer", nullable=false)
+     * @ORM\Column(name="e53", type="integer", nullable=false)
      */
     private $e53;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="E54", type="integer", nullable=false)
+     * @ORM\Column(name="e54", type="integer", nullable=false)
      */
     private $e54;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="E55", type="integer", nullable=false)
+     * @ORM\Column(name="e55", type="integer", nullable=false)
      */
     private $e55;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="E61", type="integer", nullable=false)
+     * @ORM\Column(name="e61", type="integer", nullable=false)
      */
     private $e61;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="E62", type="integer", nullable=false)
+     * @ORM\Column(name="e62", type="integer", nullable=false)
      */
     private $e62;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="E63", type="integer", nullable=false)
+     * @ORM\Column(name="e63", type="integer", nullable=false)
      */
     private $e63;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="E64", type="integer", nullable=false)
+     * @ORM\Column(name="e64", type="integer", nullable=false)
      */
     private $e64;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="E65", type="integer", nullable=false)
+     * @ORM\Column(name="e65", type="integer", nullable=false)
      */
     private $e65;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="E71", type="integer", nullable=false)
+     * @ORM\Column(name="e71", type="integer", nullable=false)
      */
     private $e71;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="E72", type="integer", nullable=false)
+     * @ORM\Column(name="e72", type="integer", nullable=false)
      */
     private $e72;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="E73", type="integer", nullable=false)
+     * @ORM\Column(name="e73", type="integer", nullable=false)
      */
     private $e73;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="E74", type="integer", nullable=false)
+     * @ORM\Column(name="e74", type="integer", nullable=false)
      */
     private $e74;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="E75", type="integer", nullable=false)
+     * @ORM\Column(name="e75", type="integer", nullable=false)
      */
     private $e75;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="E81", type="integer", nullable=false)
+     * @ORM\Column(name="e81", type="integer", nullable=false)
      */
     private $e81;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="E82", type="integer", nullable=false)
+     * @ORM\Column(name="e82", type="integer", nullable=false)
      */
     private $e82;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="E83", type="integer", nullable=false)
+     * @ORM\Column(name="e83", type="integer", nullable=false)
      */
     private $e83;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="E84", type="integer", nullable=false)
+     * @ORM\Column(name="e84", type="integer", nullable=false)
      */
     private $e84;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="E85", type="integer", nullable=false)
+     * @ORM\Column(name="e85", type="integer", nullable=false)
      */
     private $e85;
 
@@ -166,7 +166,7 @@ class Estadiosdenolla
      *
      * @ORM\ManyToOne(targetEntity="Datosgenerales")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="CODEXPEDIENTE", referencedColumnName="CODEXPEDIENTE")
+     *   @ORM\JoinColumn(name="codexpediente", referencedColumnName="codexpediente")
      * })
      */
     private $codexpediente;

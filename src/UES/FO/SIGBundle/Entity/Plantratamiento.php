@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Plantratamiento
  *
- * @ORM\Table(name="PLANTRATAMIENTO", indexes={@ORM\Index(name="CODEXPEDIENTE", columns={"CODEXPEDIENTE"})})
+ * @ORM\Table(name="plantratamiento", indexes={@ORM\Index(name="codexpediente", columns={"codexpediente"})})
  * @ORM\Entity
  */
 class Plantratamiento
@@ -15,7 +15,7 @@ class Plantratamiento
     /**
      * @var integer
      *
-     * @ORM\Column(name="IDPLAN", type="integer", nullable=false)
+     * @ORM\Column(name="idplan", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -24,7 +24,7 @@ class Plantratamiento
     /**
      * @var string
      *
-     * @ORM\Column(name="NOMBRETRATAMIENTO", type="string", length=30, nullable=false)
+     * @ORM\Column(name="nombretratamiento", type="string", length=30, nullable=false)
      */
     private $nombretratamiento;
 
@@ -33,7 +33,7 @@ class Plantratamiento
      *
      * @ORM\ManyToOne(targetEntity="Datosgenerales")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="CODEXPEDIENTE", referencedColumnName="CODEXPEDIENTE")
+     *   @ORM\JoinColumn(name="codexpediente", referencedColumnName="codexpediente")
      * })
      */
     private $codexpediente;

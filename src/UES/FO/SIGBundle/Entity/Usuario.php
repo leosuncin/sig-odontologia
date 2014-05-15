@@ -5,14 +5,12 @@ namespace UES\FO\SIGBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Usuario
  *
- * @ORM\Table(name="usuario", uniqueConstraints={@ORM\UniqueConstraint(name="username_UNIQUE", columns={"username"})})
+ * @ORM\Table(name="usuario", uniqueConstraints={@ORM\UniqueConstraint(name="username", columns={"username"})})
  * @ORM\Entity(repositoryClass="UES\FO\SIGBundle\Entity\Repository\UsuarioRepository")
- * @UniqueEntity(fields = "username", message = "El nombre de usuario ya esta registrado")
  */
 class Usuario implements AdvancedUserInterface, \Serializable
 {
@@ -28,26 +26,12 @@ class Usuario implements AdvancedUserInterface, \Serializable
     /**
      * @var string
      *
-     * @Assert\Length(
-     *     min = "3",
-     *     max = "50",
-     *     minMessage = "Los nombres por lo menos debe tener {{ limit }} caracteres de largo",
-     *     maxMessage = "Los nombres no puede tener más de {{ limit }} caracteres de largo"
-     * )
-     *
      * @ORM\Column(name="nombres", type="string", length=50, nullable=false)
      */
     private $nombres;
 
     /**
      * @var string
-     *
-     * @Assert\Length(
-     *     min = "3",
-     *     max = "50",
-     *     minMessage = "Los apellidos por lo menos debe tener {{ limit }} caracteres de largo",
-     *     maxMessage = "Los apellidos no puede tener más de {{ limit }} caracteres de largo"
-     * )
      *
      * @ORM\Column(name="apellidos", type="string", length=50, nullable=false)
      */
@@ -56,30 +40,12 @@ class Usuario implements AdvancedUserInterface, \Serializable
     /**
      * @var string
      *
-     * @Assert\Length(
-     *     min = "6",
-     *     max = "10",
-     *     minMessage = "El nombre de usuario por lo menos debe tener {{ limit }} caracteres de largo",
-     *     maxMessage = "El nombre de usuario no puede tener más de {{ limit }} caracteres de largo"
-     * )
-     * @Assert\Regex(
-     *     pattern="/^[A-Za-z0-9_-]{6,10}$/",
-     *     message="El nombre de usuario solo puede ser una combinación letras mayúscula y minúsculas, números, _, - sin espacios en blanco"
-     * )
-     *
      * @ORM\Column(name="username", type="string", length=10, nullable=false)
      */
     private $username;
 
     /**
      * @var string
-     *
-     * @Assert\Length(
-     *      min = "8",
-     *      max = "16",
-     *      minMessage = "La contraseña del usuario por lo menos debe tener {{ limit }} caracteres de largo",
-     *      maxMessage = "La contraseña del usuario no puede tener más de {{ limit }} caracteres de largo"
-     * )
      *
      * @ORM\Column(name="password", type="string", length=150, nullable=false)
      */
@@ -100,13 +66,6 @@ class Usuario implements AdvancedUserInterface, \Serializable
     private $nivel;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="role", type="array", nullable=false)
-     */
-    private $role = array();
-
-    /**
      * @var boolean
      *
      * @ORM\Column(name="enabled", type="boolean", nullable=false)
@@ -119,6 +78,13 @@ class Usuario implements AdvancedUserInterface, \Serializable
      * @ORM\Column(name="locked", type="boolean", nullable=false)
      */
     private $locked = false;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="role", type="array", nullable=false)
+     */
+    private $role = array();
 
     public function __construct() {
         $this->salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
@@ -267,50 +233,6 @@ class Usuario implements AdvancedUserInterface, \Serializable
     }
 
     /**
-     * Set role
-     *
-     * @param string $role
-     * @return Usuario
-     */
-    public function setRole($role = array())
-    {
-        $this->role = $role;
-
-        return $this;
-    }
-
-    /**
-     * Get role
-     *
-     * @return string 
-     */
-    public function getRole()
-    {
-        return $this->role;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function addRole($role)
-    {
-        $role = strtoupper($role);
-        if (!in_array($role, $this->role, true)) {
-            array_push($this->role, $role);
-        }
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getRoles()
-    {
-        return $this->role;
-    }
-
-    /**
      * Set enabled
      *
      * @param boolean $enabled
@@ -354,6 +276,50 @@ class Usuario implements AdvancedUserInterface, \Serializable
     public function getLocked()
     {
         return $this->locked;
+    }
+
+    /**
+     * Set role
+     *
+     * @param string $role
+     * @return Usuario
+     */
+    public function setRole($role = array())
+    {
+        $this->role = $role;
+
+        return $this;
+    }
+
+    /**
+     * Get role
+     *
+     * @return string 
+     */
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addRole($role)
+    {
+        $role = strtoupper($role);
+        if (!in_array($role, $this->role, true)) {
+            array_push($this->role, $role);
+        }
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRoles()
+    {
+        return $this->role;
     }
 
     /**

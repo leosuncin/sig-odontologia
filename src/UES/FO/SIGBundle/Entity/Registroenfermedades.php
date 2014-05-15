@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Registroenfermedades
  *
- * @ORM\Table(name="REGISTROENFERMEDADES", indexes={@ORM\Index(name="CODEXPEDIENTE", columns={"CODEXPEDIENTE"}), @ORM\Index(name="IDENFERMEDAD", columns={"IDENFERMEDAD"})})
+ * @ORM\Table(name="registroenfermedades", indexes={@ORM\Index(name="codexpediente", columns={"codexpediente"}), @ORM\Index(name="idenfermedad", columns={"idenfermedad"})})
  * @ORM\Entity
  */
 class Registroenfermedades
@@ -15,7 +15,7 @@ class Registroenfermedades
     /**
      * @var integer
      *
-     * @ORM\Column(name="IDREGISTRO", type="integer", nullable=false)
+     * @ORM\Column(name="idregistro", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -26,7 +26,7 @@ class Registroenfermedades
      *
      * @ORM\ManyToOne(targetEntity="Datosgenerales")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="CODEXPEDIENTE", referencedColumnName="CODEXPEDIENTE")
+     *   @ORM\JoinColumn(name="codexpediente", referencedColumnName="codexpediente")
      * })
      */
     private $codexpediente;
@@ -36,7 +36,7 @@ class Registroenfermedades
      *
      * @ORM\ManyToOne(targetEntity="Catalogoenfermedades")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="IDENFERMEDAD", referencedColumnName="IDENFERMEDAD")
+     *   @ORM\JoinColumn(name="idenfermedad", referencedColumnName="idenfermedad")
      * })
      */
     private $idenfermedad;

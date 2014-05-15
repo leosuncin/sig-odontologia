@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Bitacora
  *
- * @ORM\Table(name="BITACORA", indexes={@ORM\Index(name="IDUSUARIO", columns={"IDUSUARIO"})})
+ * @ORM\Table(name="bitacora", indexes={@ORM\Index(name="idusuario", columns={"idusuario"})})
  * @ORM\Entity
  */
 class Bitacora
@@ -15,7 +15,7 @@ class Bitacora
     /**
      * @var integer
      *
-     * @ORM\Column(name="IDACCION", type="integer", nullable=false)
+     * @ORM\Column(name="idaccion", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -24,14 +24,14 @@ class Bitacora
     /**
      * @var string
      *
-     * @ORM\Column(name="ACCION", type="string", length=50, nullable=false)
+     * @ORM\Column(name="accion", type="string", length=50, nullable=false)
      */
     private $accion;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="FECHAYHORA", type="datetime", nullable=false)
+     * @ORM\Column(name="fechayhora", type="datetime", nullable=false)
      */
     private $fechayhora;
 
@@ -40,7 +40,7 @@ class Bitacora
      *
      * @ORM\ManyToOne(targetEntity="Usuario")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="IDUSUARIO", referencedColumnName="IDUSUARIO")
+     *   @ORM\JoinColumn(name="idusuario", referencedColumnName="idusuario")
      * })
      */
     private $idusuario;

@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Sobremordida
  *
- * @ORM\Table(name="SOBREMORDIDA", indexes={@ORM\Index(name="CODEXPEDIENTE", columns={"CODEXPEDIENTE"})})
+ * @ORM\Table(name="sobremordida", indexes={@ORM\Index(name="codexpediente", columns={"codexpediente"})})
  * @ORM\Entity
  */
 class Sobremordida
@@ -15,7 +15,7 @@ class Sobremordida
     /**
      * @var integer
      *
-     * @ORM\Column(name="IDSOBREMORDIDA", type="integer", nullable=false)
+     * @ORM\Column(name="idsobremordida", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -24,14 +24,14 @@ class Sobremordida
     /**
      * @var integer
      *
-     * @ORM\Column(name="HORIZONTAL", type="integer", nullable=false)
+     * @ORM\Column(name="horizontal", type="integer", nullable=false)
      */
     private $horizontal;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="VERTICAL", type="integer", nullable=false)
+     * @ORM\Column(name="vertical", type="integer", nullable=false)
      */
     private $vertical;
 
@@ -40,7 +40,7 @@ class Sobremordida
      *
      * @ORM\ManyToOne(targetEntity="Datosgenerales")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="CODEXPEDIENTE", referencedColumnName="CODEXPEDIENTE")
+     *   @ORM\JoinColumn(name="codexpediente", referencedColumnName="codexpediente")
      * })
      */
     private $codexpediente;

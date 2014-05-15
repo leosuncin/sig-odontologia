@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Tipodeperfil
  *
- * @ORM\Table(name="TIPODEPERFIL", indexes={@ORM\Index(name="CODEXPEDIENTE", columns={"CODEXPEDIENTE"}), @ORM\Index(name="IDPERFILUNTERCIOINFERIOR", columns={"IDPERFILUNTERCIOINFERIOR"}), @ORM\Index(name="IDFACIALFRONTAL", columns={"IDFACIALFRONTAL"}), @ORM\Index(name="IDPERFILTOTAL", columns={"IDPERFILTOTAL"})})
+ * @ORM\Table(name="tipodeperfil", indexes={@ORM\Index(name="codexpediente", columns={"codexpediente"}), @ORM\Index(name="idperfiluntercioinferior", columns={"idperfiluntercioinferior"}), @ORM\Index(name="idfacialfrontal", columns={"idfacialfrontal"}), @ORM\Index(name="idperfiltotal", columns={"idperfiltotal"})})
  * @ORM\Entity
  */
 class Tipodeperfil
@@ -15,7 +15,7 @@ class Tipodeperfil
     /**
      * @var integer
      *
-     * @ORM\Column(name="IDTIPODEPERFIL", type="integer", nullable=false)
+     * @ORM\Column(name="idtipodeperfil", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -26,7 +26,7 @@ class Tipodeperfil
      *
      * @ORM\ManyToOne(targetEntity="Datosgenerales")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="CODEXPEDIENTE", referencedColumnName="CODEXPEDIENTE")
+     *   @ORM\JoinColumn(name="codexpediente", referencedColumnName="codexpediente")
      * })
      */
     private $codexpediente;
@@ -36,7 +36,7 @@ class Tipodeperfil
      *
      * @ORM\ManyToOne(targetEntity="Perfiluntercioinferior")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="IDPERFILUNTERCIOINFERIOR", referencedColumnName="IDPERFILUNTERCIOINFERIOR")
+     *   @ORM\JoinColumn(name="idperfiluntercioinferior", referencedColumnName="idperfiluntercioinferior")
      * })
      */
     private $idperfiluntercioinferior;
@@ -46,7 +46,7 @@ class Tipodeperfil
      *
      * @ORM\ManyToOne(targetEntity="Facialfrontal")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="IDFACIALFRONTAL", referencedColumnName="IDFACIALFRONTAL")
+     *   @ORM\JoinColumn(name="idfacialfrontal", referencedColumnName="idfacialfrontal")
      * })
      */
     private $idfacialfrontal;
@@ -56,7 +56,7 @@ class Tipodeperfil
      *
      * @ORM\ManyToOne(targetEntity="Perfiltotal")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="IDPERFILTOTAL", referencedColumnName="IDPERFILTOTAL")
+     *   @ORM\JoinColumn(name="idperfiltotal", referencedColumnName="idperfiltotal")
      * })
      */
     private $idperfiltotal;

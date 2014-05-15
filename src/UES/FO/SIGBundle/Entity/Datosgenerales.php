@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Datosgenerales
  *
- * @ORM\Table(name="DATOSGENERALES")
+ * @ORM\Table(name="datosgenerales")
  * @ORM\Entity
  */
 class Datosgenerales
@@ -15,7 +15,7 @@ class Datosgenerales
     /**
      * @var string
      *
-     * @ORM\Column(name="CODEXPEDIENTE", type="string", length=10, nullable=false)
+     * @ORM\Column(name="codexpediente", type="string", length=10, nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -24,28 +24,28 @@ class Datosgenerales
     /**
      * @var integer
      *
-     * @ORM\Column(name="EDADREGISTRO", type="integer", nullable=false)
+     * @ORM\Column(name="edadregistro", type="integer", nullable=false)
      */
     private $edadregistro;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="GENERO", type="string", length=1, nullable=false)
+     * @ORM\Column(name="genero", type="string", length=1, nullable=false)
      */
     private $genero;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="FECHANACIMIENTO", type="date", nullable=false)
+     * @ORM\Column(name="fechanacimiento", type="date", nullable=false)
      */
     private $fechanacimiento;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="FECHAREGISTRO", type="date", nullable=false)
+     * @ORM\Column(name="fecharegistro", type="date", nullable=false)
      */
     private $fecharegistro;
 

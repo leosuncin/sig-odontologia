@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Citas
  *
- * @ORM\Table(name="CITAS", indexes={@ORM\Index(name="CODEXPEDIENTE", columns={"CODEXPEDIENTE"})})
+ * @ORM\Table(name="citas", indexes={@ORM\Index(name="codexpediente", columns={"codexpediente"})})
  * @ORM\Entity
  */
 class Citas
@@ -15,7 +15,7 @@ class Citas
     /**
      * @var integer
      *
-     * @ORM\Column(name="NUMCITA", type="integer", nullable=false)
+     * @ORM\Column(name="numcita", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -24,7 +24,7 @@ class Citas
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="FECHACITA", type="date", nullable=false)
+     * @ORM\Column(name="fechacita", type="date", nullable=false)
      */
     private $fechacita;
 
@@ -33,7 +33,7 @@ class Citas
      *
      * @ORM\ManyToOne(targetEntity="Datosgenerales")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="CODEXPEDIENTE", referencedColumnName="CODEXPEDIENTE")
+     *   @ORM\JoinColumn(name="codexpediente", referencedColumnName="codexpediente")
      * })
      */
     private $codexpediente;

@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Facialfrontal
  *
- * @ORM\Table(name="FACIALFRONTAL")
+ * @ORM\Table(name="facialfrontal")
  * @ORM\Entity
  */
 class Facialfrontal
@@ -15,7 +15,7 @@ class Facialfrontal
     /**
      * @var integer
      *
-     * @ORM\Column(name="IDFACIALFRONTAL", type="integer", nullable=false)
+     * @ORM\Column(name="idfacialfrontal", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -24,7 +24,7 @@ class Facialfrontal
     /**
      * @var string
      *
-     * @ORM\Column(name="NOMBREFACIALFRONTAL", type="string", length=20, nullable=false)
+     * @ORM\Column(name="nombrefacialfrontal", type="string", length=20, nullable=false)
      */
     private $nombrefacialfrontal;
 

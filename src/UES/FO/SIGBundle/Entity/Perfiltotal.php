@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Perfiltotal
  *
- * @ORM\Table(name="PERFILTOTAL")
+ * @ORM\Table(name="perfiltotal")
  * @ORM\Entity
  */
 class Perfiltotal
@@ -15,7 +15,7 @@ class Perfiltotal
     /**
      * @var integer
      *
-     * @ORM\Column(name="IDPERFILTOTAL", type="integer", nullable=false)
+     * @ORM\Column(name="idperfiltotal", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -24,7 +24,7 @@ class Perfiltotal
     /**
      * @var string
      *
-     * @ORM\Column(name="NOMBREPERFILTOTAL", type="string", length=20, nullable=false)
+     * @ORM\Column(name="nombreperfiltotal", type="string", length=20, nullable=false)
      */
     private $nombreperfiltotal;
 

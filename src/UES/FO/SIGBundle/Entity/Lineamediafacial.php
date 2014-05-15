@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Lineamediafacial
  *
- * @ORM\Table(name="LINEAMEDIAFACIAL", indexes={@ORM\Index(name="CODEXPEDIENTE", columns={"CODEXPEDIENTE"})})
+ * @ORM\Table(name="lineamediafacial", indexes={@ORM\Index(name="codexpediente", columns={"codexpediente"})})
  * @ORM\Entity
  */
 class Lineamediafacial
@@ -15,7 +15,7 @@ class Lineamediafacial
     /**
      * @var integer
      *
-     * @ORM\Column(name="IDLINEAMEDIAFACIAL", type="integer", nullable=false)
+     * @ORM\Column(name="idlineamediafacial", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -24,28 +24,28 @@ class Lineamediafacial
     /**
      * @var integer
      *
-     * @ORM\Column(name="MX", type="integer", nullable=false)
+     * @ORM\Column(name="mx", type="integer", nullable=false)
      */
     private $mx;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="MXDESVIACION", type="integer", nullable=false)
+     * @ORM\Column(name="mxdesviacion", type="integer", nullable=false)
      */
     private $mxdesviacion;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="MD", type="integer", nullable=false)
+     * @ORM\Column(name="md", type="integer", nullable=false)
      */
     private $md;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="MDDESVIACION", type="integer", nullable=false)
+     * @ORM\Column(name="mddesviacion", type="integer", nullable=false)
      */
     private $mddesviacion;
 
@@ -54,7 +54,7 @@ class Lineamediafacial
      *
      * @ORM\ManyToOne(targetEntity="Datosgenerales")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="CODEXPEDIENTE", referencedColumnName="CODEXPEDIENTE")
+     *   @ORM\JoinColumn(name="codexpediente", referencedColumnName="codexpediente")
      * })
      */
     private $codexpediente;

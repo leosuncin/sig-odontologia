@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Diagnosticogeneral
  *
- * @ORM\Table(name="DIAGNOSTICOGENERAL", indexes={@ORM\Index(name="CODEXPEDIENTE", columns={"CODEXPEDIENTE"})})
+ * @ORM\Table(name="diagnosticogeneral", indexes={@ORM\Index(name="codexpediente", columns={"codexpediente"})})
  * @ORM\Entity
  */
 class Diagnosticogeneral
@@ -15,7 +15,7 @@ class Diagnosticogeneral
     /**
      * @var integer
      *
-     * @ORM\Column(name="IDCITA", type="integer", nullable=false)
+     * @ORM\Column(name="idcita", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -24,7 +24,7 @@ class Diagnosticogeneral
     /**
      * @var integer
      *
-     * @ORM\Column(name="TRATAMIENTO", type="integer", nullable=false)
+     * @ORM\Column(name="tratamiento", type="integer", nullable=false)
      */
     private $tratamiento;
 
@@ -33,7 +33,7 @@ class Diagnosticogeneral
      *
      * @ORM\ManyToOne(targetEntity="Datosgenerales")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="CODEXPEDIENTE", referencedColumnName="CODEXPEDIENTE")
+     *   @ORM\JoinColumn(name="codexpediente", referencedColumnName="codexpediente")
      * })
      */
     private $codexpediente;
