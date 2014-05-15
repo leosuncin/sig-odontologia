@@ -47,14 +47,14 @@ class Usuario implements AdvancedUserInterface, \Serializable
     /**
      * @var string
      *
-     * @ORM\Column(name="password", type="string", length=150, nullable=false)
+     * @ORM\Column(name="password", type="string", length=255, nullable=false)
      */
     private $password;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="salt", type="string", length=100, nullable=false)
+     * @ORM\Column(name="salt", type="string", length=255, nullable=false)
      */
     private $salt;
 

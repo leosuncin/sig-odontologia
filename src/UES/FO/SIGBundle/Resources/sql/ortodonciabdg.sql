@@ -14,8 +14,8 @@ create table usuario
    nombres                        varchar(50)                    not null,
    apellidos                      varchar(50)                    not null,
    username                       varchar(10)                  not null unique,
-   password                       varchar(150)                    not null,
-   salt                           varchar(100)                    not null,
+   password                       varchar(255)                    not null,
+   salt                           varchar(255)                    not null,
    nivel                          int                            not null,
    enabled                        boolean                          not null,
    locked                         boolean                           not null,
@@ -338,3 +338,4 @@ alter table tipodeperfil add constraint fk_presenta_un2 foreign key (codexpedien
 alter table tipodeperfil add constraint fk_tiene_un foreign key (_table__pk12, _table__pk, _table__pk2, _table__pk3)
       references facialfrontal (codexpediente, idfacialfrontal, idperfiltotal, idperfiluntercioinferior) on delete restrict on update restrict;
 */
+INSERT INTO usuario (idusuario,nombres,apellidos,username,password,salt,nivel,enabled,locked,role) VALUES (2,'Usuario','Administrador','superAdmin','jitzJL3isf7ZP2ZhBTLQkrCEbmaQNg/mnlBS8JCt94/2eUP9K5OCtC9UEZujJpz5mYtmHqAm3M7bS/NuTvhQgQ==','grdowsemqncog884ok0kwso8gos0g0c',1,1,0,'a:1:{i:0;s:16:\"ROLE_SUPER_ADMIN\";}');
