@@ -5,12 +5,14 @@ namespace UES\FO\SIGBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Usuario
  *
  * @ORM\Table(name="usuario", uniqueConstraints={@ORM\UniqueConstraint(name="username", columns={"username"})})
  * @ORM\Entity(repositoryClass="UES\FO\SIGBundle\Entity\Repository\UsuarioRepository")
+ * @UniqueEntity(fields = "username", message = "El nombre de usuario ya esta registrado")
  */
 class Usuario implements AdvancedUserInterface, \Serializable
 {
