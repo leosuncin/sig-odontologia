@@ -26,7 +26,7 @@
         {{ bootstrap_set_widget_col(8) }}{{ bootstrap_set_label_col(4) }}
         <noscript>Para el correcto funcionamiento del sistema debe tener habilitado el uso de Javascript en su navegador</noscript>
         {% block layout %}
-        <nav class="navbar navbar-default" role="navigation">
+        <nav id="navbar-menu" class="navbar navbar-default" role="navigation">
             <div class="container-fluid">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
@@ -94,16 +94,19 @@
                     {% if app.user.username is defined %}
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i> {{ app.user.username|default('usuario') }} <b class="caret"></b></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i> {{ app.user.username }} <b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a href="#"><i class="glyphicon glyphicon-info-sign"></i> Información</a></li>
-                                <li><a href="#"><i class="glyphicon glyphicon-fire"></i> Cambiar contraseña</a></li>
+                                <li><a href="{{ path('usuario_show', {'username': app.user.username}) }}"><i class="glyphicon glyphicon-info-sign"></i> Información</a></li>
+                                <li><a href="{{ path('usuario_pwd', {'username': app.user.username}) }}"><i class="glyphicon glyphicon-fire"></i> Cambiar contraseña</a></li>
                                 <li class="divider"></li>
                                 <li><a href="{{ path('logout') }}"><i class="glyphicon glyphicon-off"></i> Salir</a></li>
                             </ul>
                         </li>
                     </ul>
                     {% endif %}
+                    <div class="nav navbar-nav navbar-right">
+                        <p class="navbar-text">Ayuda</p>
+                    </div>
                 </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->
         </nav>

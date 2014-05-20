@@ -28,12 +28,26 @@ class Usuario implements AdvancedUserInterface, \Serializable
     /**
      * @var string
      *
+     * @Assert\Length(
+     *      min = "3",
+     *      max = "50",
+     *      minMessage = "Los nombres por lo menos debe tener {{ limit }} caracteres de largo",
+     *      maxMessage = "Los nombres no puede tener más de {{ limit }} caracteres de largo"
+     * )
+     *
      * @ORM\Column(name="nombres", type="string", length=50, nullable=false)
      */
     private $nombres;
 
     /**
      * @var string
+     *
+     * @Assert\Length(
+     *      min = "3",
+     *      max = "50",
+     *      minMessage = "Los apellidos por lo menos debe tener {{ limit }} caracteres de largo",
+     *      maxMessage = "Los apellidos no puede tener más de {{ limit }} caracteres de largo"
+     * )
      *
      * @ORM\Column(name="apellidos", type="string", length=50, nullable=false)
      */
@@ -42,7 +56,18 @@ class Usuario implements AdvancedUserInterface, \Serializable
     /**
      * @var string
      *
-     * @ORM\Column(name="username", type="string", length=10, nullable=false)
+     * @Assert\Length(
+     *     min = "8",
+     *     max = "16",
+     *     minMessage = "El nombre de usuario por lo menos debe tener {{ limit }} caracteres de largo",
+     *     maxMessage = "El nombre de usuario no puede tener más de {{ limit }} caracteres de largo"
+     * )
+     * @Assert\Regex(
+     *     pattern="/^[A-Za-z0-9_-]{8,16}$/",
+     *     message="El nombre de usuario solo puede ser una combinación letras mayúscula y minúsculas, números, _, - sin espacios en blanco"
+     * )
+     *
+     * @ORM\Column(name="username", type="string", length=16, nullable=false)
      */
     private $username;
 

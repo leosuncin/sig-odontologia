@@ -1,0 +1,17 @@
+{% extends 'SIGBundle:Usuario:index.html.twig' %}
+
+{% block content %}
+<h1>Cambiar contraseña de acceso</h1>
+{% include 'BraincraftedBootstrapBundle::flash.html.twig' %}
+{% include 'SIGBundle:Usuario:pwdAjax.html.twig' %}
+<a id="form_actions_regresar" class="btn btn-default" href="{{ path('usuario_show', { 'username': entity.username }) }}">Regresar</a>
+{% endblock %}
+
+{% block javascript %}
+<script>
+    require(['../bundles/sig/js/util/dom_usuario', '../bundles/sig/js/validator/validadores', 'noty'], function(dom, validador, noty) {
+        dom.contrasenia();
+        validador.contrasenia('form[name="form"]');
+    });
+</script>
+{% endblock %}

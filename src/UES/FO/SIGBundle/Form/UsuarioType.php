@@ -23,7 +23,7 @@ class UsuarioType extends AbstractType
                 ))
             ->add('username', 'text', array(
                 'label'      => 'Nombre de usuario',
-                'max_length' => 10,
+                'max_length' => 16,
                 'attr'       => array(
                     'help_text' => 'Escriba el nombre del usuario sin espacios'
                 )))
@@ -45,9 +45,10 @@ class UsuarioType extends AbstractType
                 'label' => 'Habilitar el usuario',
                 'attr' => array('align_with_widget' => true)
                 ))
+            ->add('actions', 'form_actions');
+        $builder->get('actions')
             ->add('crear', 'submit')
-            ->add('limpiar', 'reset')
-        ;
+            ->add('limpiar', 'reset');
     }
     
     /**

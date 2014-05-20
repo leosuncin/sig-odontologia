@@ -30,15 +30,28 @@ class UsuarioEditType extends AbstractType
                 )))
             ->add('enabled', 'checkbox', array(
                 'label' => 'Habilitar el usuario',
+                'required' => false,
                 'attr' => array('align_with_widget' => true)
                 ))
             ->add('locked', 'checkbox', array(
                 'label' => 'Bloquear al usuario',
+                'required' => false,
                 'attr' => array('align_with_widget' => true)
                 ))
             ->add('modificar', 'submit')
-            ->add('limpiar', 'reset')
-        ;
+            ->add('revertir', 'reset')
+            ->add('eliminar', 'button', array(
+                'attr' => array(
+                    'data-toggle' => 'modal',
+                    'data-target' => '#modal-confirm-del'
+                )))
+            ->add('pwd', 'button', array(
+                'label' => 'Cambiar contraseña',
+                'attr' => array(
+                    'data-toggle' => 'modal',
+                    'data-target' => '#modal-confirm-pwd'
+                )))
+            ;
     }
 
     /**

@@ -1,7 +1,37 @@
 {% extends 'SIGBundle:Usuario:index.html.twig' %}
 
 {% block content %}
-    {{ form(edit_form, { 'style': 'horizontal' }) }}
-    <a class="btn btn-default" id="usario_regresar" href="{{ path('usuario_index') }}">Regresar</a>
-	{{ form(delete_form) }}
+<h1>Modificar la información del usuario</h1>
+{{ form_start(edit_form, { 'style': 'horizontal' }) }}
+{{ form_row(edit_form.nombres, { 'style': 'horizontal' }) }}
+{{ form_row(edit_form.apellidos, { 'style': 'horizontal' }) }}
+{% if is_granted('ROLE_OPERATIVE') %}
+    {{ form_row(edit_form.nivel, { 'style': 'horizontal' }) }}
+    {{ form_row(edit_form.enabled, { 'style': 'horizontal' }) }}
+    {{ form_row(edit_form.locked, { 'style': 'horizontal' }) }}
+    {% if app.user.username != edit_form.vars.value.username %}
+		{{ form_row(edit_form.eliminar, { 'style': 'horizontal', 'attr': { 'class': 'btn btn-danger' } }) }}
+    {% endif %}
+{% endif %}
+{{ form_row(edit_form.modificar, { 'style': 'horizontal' }) }}
+{{ form_row(edit_form.revertir, { 'style': 'horizontal' }) }}
+{{ form_row(edit_form.pwd, { 'style': 'horizontal' }) }}
+{{ form_errors(edit_form) }}
+{{ form_end(edit_form, {'render_rest': false}) }}
+<a class="btn btn-default" id="usario_regresar" href="{{ path('usuario_index') }}">Regresar</a>
+{{ util.modal('modal-confirm-pwd', '', 'Cambiar contraseña', '') }}
+{% if is_granted('ROLE_OPERATIVE') %}
+    {{ util.modal('modal-confirm-del', 'sm', 'Confirmar eliminación', '¿Desea eliminar al usuario?<br />La operación no se puede revertir') }}
+{% endif %}
+{% endblock %}
+
+{% block javascript %}
+<script>
+    require(['../bundles/sig/js/util/dom_usuario', '../bundles/sig/js/util/listener_usuario', '../bundles/sig/js/validator/validadores'], function(dom, listener, validador){
+        dom.actualizar();
+        validador.actualizar('form[name="usuario"]');
+        listener.eliminarUsuario(Routing.generate('usuario_delete', {'username':'{{ edit_form.vars.value.username }}'}));
+        listener.passwordUsuario(Routing.generate('usuario_pwd', { 'username': '{{ edit_form.vars.value.username }}' }), Routing.generate('usuario_pwd_update', { 'username': '{{ edit_form.vars.value.username }}' }));
+    });
+</script>
 {% endblock %}

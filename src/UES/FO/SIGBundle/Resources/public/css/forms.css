@@ -1,32 +1,47 @@
+label.error {
+    padding: .2em .6em .3em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    vertical-align: baseline;
+    border-radius: .25em;
+    background-color: #d9534f;
+}
 form {
     margin: 0 auto;
 }
-
-#usuario button, a {
+.modal-body form {
+    width: 100%;
+}
+.form-actions button,
+a {
     margin-right: 3px;
 }
+
 /* Smartphones (portrait and landscape) ----------- */
-@media only screen 
-and (min-device-width : 320px) 
-and (max-device-width : 480px) {
+@media only screen
+and (min-device-width:320px)
+and (max-device-width:480px) {
     form {
         width: 100%;
     }
 }
 
 /* iPads (portrait and landscape) ----------- */
-@media only screen 
-and (min-device-width : 768px) 
-and (max-device-width : 1024px) {
+@media only screen
+and (min-device-width:768px)
+and (max-device-width:1024px) {
     form {
         width: 600px;
     }
 }
 
 /* Desktops and laptops ----------- */
-@media only screen 
-and (min-width : 1224px) {
+@media only screen
+and (min-width:1224px) {
     form {
-        width: 700px;
+        width: 750px;
     }
 }
