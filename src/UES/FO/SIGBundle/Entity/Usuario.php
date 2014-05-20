@@ -246,6 +246,18 @@ class Usuario implements AdvancedUserInterface, \Serializable
     {
         $this->nivel = $nivel;
 
+        switch ($nivel) {
+            case 1:
+                $this->setRole(['ROLE_OPERATIVE']);
+                break;
+            case 2:
+                $this->setRole(['ROLE_TACTIC']);
+                break;
+            case 3:
+                $this->setRole(['ROLE_STRATEGIC']);
+                break;
+        }
+
         return $this;
     }
 

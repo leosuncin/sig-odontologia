@@ -66,17 +66,6 @@ class UsuarioController extends Controller
             $encoder  = $factory->getEncoder($entity);
             $password = $encoder->encodePassword($entity->getPassword(), $entity->getSalt());
             $entity->setPassword($password);
-            switch ($entity->getNivel()) {
-                case 1:
-                    $entity->addRole('ROLE_OPERATIVE');
-                    break;
-                case 2:
-                    $entity->addRole('ROLE_TACTIC');
-                    break;
-                case 3:
-                    $entity->addRole('ROLE_STRATEGIC');
-                    break;
-            }
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();

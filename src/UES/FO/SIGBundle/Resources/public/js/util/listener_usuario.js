@@ -33,6 +33,7 @@ define(['../validator/validadores', './notificacion'], function(validador, notif
                     })
                         .done(function(response) {
                             $('#modal-content').html(response);
+                            validador.contrasenia('form[name="form"]');
                         });
                 }
                 $('#modal-confirm-pwd-acept').button('reset');
@@ -61,8 +62,6 @@ define(['../validator/validadores', './notificacion'], function(validador, notif
                             btn.button('reset');
                         });
                     $('#modal-confirm-pwd').modal('hide');
-                } else {
-                    validador.contrasenia('form[name="form"]');
                 }
             });
         }
