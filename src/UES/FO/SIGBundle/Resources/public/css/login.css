@@ -1,8 +1,21 @@
+#login-page {
+  background: #111617;
+  background-image: url('/bundles/sig/images/locked.jpg');
+  background-size: cover;
+  overflow: auto;
+  width: 100vw;
+  height: 100vh;
+  display: block;
+  position: relative;
+}
+
 .form-signin {
   max-width: 330px;
   padding: 15px;
   margin: 0 auto;
   margin-top: 10%;
+  background: #F6FFFE;
+  border-radius: 10px;
 }
 .form-signin .form-signin-heading,
 .form-signin .checkbox {
