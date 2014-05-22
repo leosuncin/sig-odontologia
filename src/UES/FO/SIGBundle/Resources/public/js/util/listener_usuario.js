@@ -33,10 +33,12 @@ define(['../validator/validadores', './notificacion'], function(validador, notif
                     })
                         .done(function(response) {
                             $('#modal-content').html(response);
-                            validador.contrasenia('form[name="form"]');
                         });
                 }
                 $('#modal-confirm-pwd-acept').button('reset');
+            });
+            $('#modal-confirm-pwd').on('shown.bs.modal', function(e) {
+                validador.contrasenia('form[name="form"]');
             });
 
             return $('#modal-confirm-pwd-acept').click(function(event) {

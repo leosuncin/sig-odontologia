@@ -110,6 +110,7 @@
                 </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->
         </nav>
+        {% include 'BraincraftedBootstrapBundle::flash.html.twig' with { close: true, translation_domain: 'es' } %}
         <!--Centralize the grid-->
         <div class="container">
             <div id="main" class="row">
@@ -129,7 +130,6 @@
         {% block javascript %}
         <script>
             require(['bootstrap'], function($) {
-                console.log($);
             });
         </script>
         {% endblock %}

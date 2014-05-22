@@ -2,7 +2,6 @@
 
 {% block content %}
 <h1>Cambiar contraseña de acceso</h1>
-{% include 'BraincraftedBootstrapBundle::flash.html.twig' %}
 {% include 'SIGBundle:Usuario:pwdAjax.html.twig' %}
 <a id="form_actions_regresar" class="btn btn-default" href="{{ path('usuario_show', { 'username': entity.username }) }}">Regresar</a>
 {% endblock %}

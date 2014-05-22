@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Security\Core\Util\StringUtils;
 use Symfony\Component\Validator\Constraints as Assert;
 use UES\FO\SIGBundle\Entity\Usuario;
 use UES\FO\SIGBundle\Form\UsuarioType;
@@ -31,6 +32,9 @@ class UsuarioController extends Controller
      */
     public function indexAction()
     {
+        if(!$this->get('security.context')->isGranted('ROLE_OPERATIVE')) {
+            throw new AccessDeniedException();
+        }
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('SIGBundle:Usuario')->findAll();
@@ -49,6 +53,9 @@ class UsuarioController extends Controller
      */
     public function createAction(Request $request)
     {
+        if(!$this->get('security.context')->isGranted('ROLE_OPERATIVE')) {
+            throw new AccessDeniedException();
+        }
         $entity = new Usuario();
         $form   = $this->createForm(
             new UsuarioType(),
@@ -88,6 +95,9 @@ class UsuarioController extends Controller
      */
     public function newAction()
     {
+        if(!$this->get('security.context')->isGranted('ROLE_OPERATIVE')) {
+            throw new AccessDeniedException();
+        }
         $entity = new Usuario();
         $form   = $this->createForm(
             new UsuarioType(),
@@ -113,6 +123,9 @@ class UsuarioController extends Controller
      */
     public function showAction(Usuario $entity)
     {
+        if(!StringUtils::equals($this->getUser()->getUsername(), $entity->getUsername()) && !$this->get('security.context')->isGranted('ROLE_OPERATIVE')) {
+            throw new AccessDeniedException();
+        }
         return array('entity' => $entity);
     }
 
@@ -125,6 +138,9 @@ class UsuarioController extends Controller
      */
     public function editAction(Usuario $entity)
     {
+        if(!StringUtils::equals($this->getUser()->getUsername(), $entity->getUsername()) && !$this->get('security.context')->isGranted('ROLE_OPERATIVE')) {
+            throw new AccessDeniedException();
+        }
         $editForm = $this->createForm(
             new UsuarioEditType(),
             $entity,
@@ -148,6 +164,9 @@ class UsuarioController extends Controller
      */
     public function updateAction(Request $request, Usuario $entity)
     {
+        if(!StringUtils::equals($this->getUser()->getUsername(), $entity->getUsername()) && !$this->get('security.context')->isGranted('ROLE_OPERATIVE')) {
+            throw new AccessDeniedException();
+        }
         $em = $this->getDoctrine()->getManager();
 
         $editForm = $this->createForm(
@@ -214,7 +233,7 @@ class UsuarioController extends Controller
      */
     public function pwdAction(Usuario $entity)
     {
-        if ($this->getUser()->getUsername() != $entity->getUsername() && !$this->get('security.context')->isGranted('ROLE_OPERATIVE')) {
+        if(!StringUtils::equals($this->getUser()->getUsername(), $entity->getUsername()) && !$this->get('security.context')->isGranted('ROLE_OPERATIVE')) {
             throw new AccessDeniedException();
         }
 
@@ -245,6 +264,9 @@ class UsuarioController extends Controller
      */
     public function updatePwdAction(Request $request, Usuario $entity)
     {
+        if(!StringUtils::equals($this->getUser()->getUsername(), $entity->getUsername()) && !$this->get('security.context')->isGranted('ROLE_OPERATIVE')) {
+            throw new AccessDeniedException();
+        }
         $result = array(
             'status' => 'danger', // posibles valores: success, warning
             'message' => 'La información enviada tiene errores'
@@ -260,9 +282,9 @@ class UsuarioController extends Controller
             $factory  = $this->get('security.encoder_factory');
             $encoder  = $factory->getEncoder($entity);
             $pwd_enc = $encoder->encodePassword($data['old_password'], $entity->getSalt());
-            if($entity->getPassword() == $pwd_enc) {
+            if(StringUtils::equals($entity->getPassword(), $pwd_enc)) {
                 $pwd_new_enc = $encoder->encodePassword($data['new_password'], $entity->getSalt());
-                if($entity->getPassword() == $pwd_new_enc) {
+                if(StringUtils::equals($entity->getPassword(), $pwd_new_enc)) {
                     if ($ajax) {
                         $result['status'] = 'warning';
                         $result['message'] = 'La nueva contraseña debe ser diferente de la anterior';

@@ -47,7 +47,7 @@ security:
 
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/usuario, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/usuario, roles: ROLE_USER }
         - { path: ^/admin, roles: ROLE_OPERATIVE }
         - { path: ^/estrategico, roles: ROLE_STRATEGIC }
         - { path: ^/tactico, roles: ROLE_TACTIC }

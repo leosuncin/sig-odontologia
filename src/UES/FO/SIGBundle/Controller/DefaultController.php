@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Security\Core\SecurityContext;
+use Symfony\Component\Security\Core\SecurityContextInterface;
 
 class DefaultController extends Controller
 {
@@ -29,11 +30,12 @@ class DefaultController extends Controller
         $session = $request->getSession();
  
 		// obtiene el error de inicio de sesión si lo hay
-		if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
-			$error = $request->attributes->get(SecurityContext::AUTHENTICATION_ERROR);
-		} else {
-			$error = $session->get(SecurityContext::AUTHENTICATION_ERROR);
-		}
+		if ($request->attributes->has(SecurityContextInterface::AUTHENTICATION_ERROR)) {
+            $error = $request->attributes->get(SecurityContextInterface::AUTHENTICATION_ERROR);
+        } else {
+            $error = $session->get(SecurityContextInterface::AUTHENTICATION_ERROR);
+            $session->remove(SecurityContextInterface::AUTHENTICATION_ERROR);
+        }
 
 		return array(
 			// último nombre de usuario ingresado
