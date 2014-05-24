@@ -2,28 +2,12 @@
 
 {% block content %}
 <h1>{{ title }}</h1>
-{{ form_start(edit_form, { 'style': 'horizontal' }) }}
-{{ form_row(edit_form.nombres, { 'style': 'horizontal' }) }}
-{{ form_row(edit_form.apellidos, { 'style': 'horizontal' }) }}
-{% if is_granted('ROLE_OPERATIVE') %}
-    {{ form_row(edit_form.nivel, { 'style': 'horizontal' }) }}
-    {{ form_row(edit_form.enabled, { 'style': 'horizontal' }) }}
-    {{ form_row(edit_form.locked, { 'style': 'horizontal' }) }}
-    {% if app.user.username != edit_form.vars.value.username %}
-		{{ form_row(edit_form.eliminar, { 'style': 'horizontal', 'attr': { 'class': 'btn btn-danger' } }) }}
-    {% endif %}
-{% endif %}
-{{ form_row(edit_form.modificar, { 'style': 'horizontal' }) }}
-{{ form_row(edit_form.revertir, { 'style': 'horizontal' }) }}
-{{ form_row(edit_form.pwd, { 'style': 'horizontal' }) }}
-{{ form_row(edit_form._token) }}
-{{ form_errors(edit_form) }}
-{{ form_end(edit_form, {'render_rest': false}) }}
-<a class="btn btn-default" id="usario_regresar" href="{{ path('usuario_index') }}">Regresar</a>
-{{ util.modal('modal-confirm-pwd', '', 'Cambiar contraseña', '') }}
-{% if is_granted('ROLE_OPERATIVE') %}
+{{ form(edit_form, { 'style': 'horizontal' }) }}
+<a class="btn btn-default" id="usario_actions_regresar" href="{{ path('usuario_show', { 'username':edit_form.vars.value.username }) }}">Regresar</a>
+{% if is_granted('ROLE_OPERATIVE') and app.user.username != edit_form.vars.value.username %}
     {{ util.modal('modal-confirm-del', 'sm', 'Confirmar eliminación', '¿Desea eliminar al usuario?<br />La operación no se puede revertir') }}
 {% endif %}
+{{ util.modal('modal-confirm-pwd', '', 'Cambiar contraseña', '') }}
 {% endblock %}
 
 {% block javascript %}

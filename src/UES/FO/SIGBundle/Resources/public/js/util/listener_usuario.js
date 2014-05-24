@@ -9,18 +9,18 @@ define(['../validator/validadores', './notificacion'], function(validador, notif
                     type: 'DELETE',
                     dataType: 'json'
                 })
-                    .done(function(data) {
-                        notificar(data.message + '.<br/>Espere a ser redirigido, en caso de no ser así haga clic <a href="' + data.url + '">aquí</a>', 'success');
-                        location.href = data.url;
-                    })
-                    .fail(function(data) {
-                        var response = JSON.parse(data.responseText);
-                        notificar(response.message, 'warning');
-                    })
-                    .always(function() {
-                        btn.button('reset');
-                        $('#modal-confirm-del').modal('hide');
-                    });
+				.done(function(data) {
+					notificar(data.message + '.<br/>Espere a ser redirigido, en caso de no ser así haga clic <a href="' + data.url + '">aquí</a>', 'success');
+					location.href = data.url;
+				})
+				.fail(function(data) {
+					var response = JSON.parse(data.responseText);
+					notificar(response.message, 'warning');
+				})
+				.always(function() {
+					btn.button('reset');
+					$('#modal-confirm-del').modal('hide');
+				});
             });
         },
         passwordUsuario: function(get, put) {
@@ -31,9 +31,14 @@ define(['../validator/validadores', './notificacion'], function(validador, notif
                         type: 'GET',
                         dataType: 'html'
                     })
-                        .done(function(response) {
-                            $('#modal-content').html(response);
-                        });
+                    .fail(function(e){
+						console.log(e);
+						$('#modal-content').html('<div class="alert aler-danger"><strong>ERROR:</strong> no se pudo cargar el contenido</div>');
+					})
+                    .done(function(response) {
+						$('#modal-content').html(response);
+						$('#modal-content').removeClass('loading');
+					});
                 }
                 $('#modal-confirm-pwd-acept').button('reset');
             });
@@ -51,18 +56,18 @@ define(['../validator/validadores', './notificacion'], function(validador, notif
                         dataType: 'json',
                         data: $('form[name="form"]').serialize()
                     })
-                        .done(function(response) {
-                            notificar(response.message, 'success');
-                            btn.button('reset');
-                        })
-                        .fail(function(e) {
-                            var response = JSON.parse(e.responseText);
-                            $('#modal-content').html(response.view);
-                            notificar(response.message, 'warning', function() {
-                                $('#modal-confirm-pwd').modal('show');
-                            });
-                            btn.button('reset');
-                        });
+					.done(function(response) {
+						notificar(response.message, 'success');
+						btn.button('reset');
+					})
+					.fail(function(e) {
+						var response = JSON.parse(e.responseText);
+						$('#modal-content').html(response.view);
+						notificar(response.message, 'warning', function() {
+							$('#modal-confirm-pwd').modal('show');
+						});
+						btn.button('reset');
+					});
                     $('#modal-confirm-pwd').modal('hide');
                 }
             });

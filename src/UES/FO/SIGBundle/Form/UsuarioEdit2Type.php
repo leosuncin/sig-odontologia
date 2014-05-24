@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class UsuarioEditType extends AbstractType
+class UsuarioEdit2Type extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -21,23 +21,6 @@ class UsuarioEditType extends AbstractType
             ->add('apellidos', 'text', array(
                 'max_length' => 50
                 ))
-            ->add('nivel', 'choice', array(
-                'empty_value' => 'Asigne un nivel',
-                'choices'     => array(
-                    1 => 'Administrador del sistema',
-                    2 => 'Táctico',
-                    3 => 'Estratégico'
-                )))
-            ->add('enabled', 'checkbox', array(
-                'label' => 'Habilitar el usuario',
-                'required' => false,
-                'attr' => array('align_with_widget' => true)
-                ))
-            ->add('locked', 'checkbox', array(
-                'label' => 'Bloquear al usuario',
-                'required' => false,
-                'attr' => array('align_with_widget' => true)
-                ))
             ->add('actions', 'form_actions');
         $builder->get('actions')
             ->add('modificar', 'submit')
@@ -47,8 +30,7 @@ class UsuarioEditType extends AbstractType
                 'attr' => array(
                     'data-toggle' => 'modal',
                     'data-target' => '#modal-confirm-pwd'
-                )))
-            ;
+                )));
     }
 
     /**

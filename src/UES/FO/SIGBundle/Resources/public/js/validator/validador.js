@@ -18,7 +18,7 @@ define(['jquery-validation'], function($, add) {
     }, 'El nombre de usuario solo debe contener letras, numeros, _ y -');
 
     $.validator.addMethod("nombre", function(value) {
-        return /^[A-ZÑa-zñ]+(\s[A-Za-z]+)*$/.test(value);
+        return /^[A-ZÑÁÉÍÓÚa-zñáéíóú]+(\s[A-ZÑÁÉÍÓÚa-zñáéíóú]+)*$/.test(value);
     }, 'El nombre solo debe contener letras');
 
     $.validator.addMethod("confirm_password", function(value) {

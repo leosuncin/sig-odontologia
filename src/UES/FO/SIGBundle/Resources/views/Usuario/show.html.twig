@@ -29,19 +29,17 @@
 </div>
     {% endif %}
 <div class="form-actions">
-    <a class="btn btn-default" href="{{ path('usuario_index') }}">Regresar</a>
-    {% if is_granted('ROLE_OPERATIVE') %}
-    <a class="btn btn-info" href="{{ path('usuario_edit', { 'username': entity.username }) }}">Modificar</a>
-        {% if app.user.username != entity.username %}
+    <a class="btn btn-primary" href="{{ path('usuario_edit', { 'username': entity.username }) }}">Modificar</a>
+    {% if is_granted('ROLE_OPERATIVE') and app.user.username != entity.username %}
         <button id="usuario_eliminar" class="btn btn-danger" data-target="#modal-confirm-del" data-toggle="modal">Eliminar</button>
-        {% endif %}
+        {{ util.modal('modal-confirm-del', 'sm', 'Confirmar eliminación', '¿Desea eliminar al usuario?<br />La operación no se puede revertir') }}
     {% endif %}
     <button type="button" id="usuario_pwd" class="btn btn-info" data-target="#modal-confirm-pwd" data-toggle="modal">Cambiar contraseña</button>
+    {% if is_granted('ROLE_OPERATIVE') %}
+    <a class="btn btn-default" href="{{ path('usuario_index') }}">Regresar</a>
+    {% endif %}
 </div>
 {{ util.modal('modal-confirm-pwd', '', 'Cambiar contraseña', '') }}
-{% if is_granted('ROLE_OPERATIVE') %}
-    {{ util.modal('modal-confirm-del', 'sm', 'Confirmar eliminación', '¿Desea eliminar al usuario?<br />La operación no se puede revertir') }}
-{% endif %}
 {% endblock %}
 
 {% block javascript %}

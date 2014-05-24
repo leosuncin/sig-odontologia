@@ -5,12 +5,12 @@ define(['./validador'], function(validador) {
                 'usuario[nombres]': {
                     minlength: 3,
                     maxlength: 50,
-                    nombre: true
+                    // nombre: true
                 },
                 'usuario[apellidos]': {
                     minlength: 3,
                     maxlength: 50,
-                    nombre: true
+                    // nombre: true
                 },
                 'usuario[username]': {
                     minlength: 8,
@@ -32,12 +32,12 @@ define(['./validador'], function(validador) {
                 'usuario[nombres]': {
                     minlength: 3,
                     maxlength: 50,
-                    nombre: true
+                    // nombre: true
                 },
                 'usuario[apellidos]': {
                     minlength: 3,
                     maxlength: 50,
-                    nombre: true
+                    // nombre: true
                 },
                 'usuario[enabled]': {
                     required: false

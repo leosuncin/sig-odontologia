@@ -6,21 +6,15 @@ define(function() {
             this.dom(crear, regresar);
         },
         actualizar: function() {
-            var modificar = document.getElementById('usuario_modificar');
-            var regresar = document.getElementById('usario_regresar');
-            var revertir = document.getElementById('usuario_revertir');
-            var eliminar = document.getElementById('usuario_eliminar');
-            var contrasenia = document.getElementById('usuario_pwd')
+            var modificar = document.getElementById('usuario_actions_modificar');
+            var regresar = document.getElementById('usario_actions_regresar');
+            var eliminar = document.getElementById('usuario_actions_eliminar');
+            var contrasenia = document.getElementById('usuario_actions_pwd');
             contrasenia.className = 'btn btn-info';
-            var acciones = this.getPadre(modificar);
-            acciones.appendChild(modificar);
-            acciones.appendChild(regresar);
-            acciones.appendChild(revertir);
+            this.dom(modificar, regresar);
             if (eliminar) {
-                acciones.appendChild(eliminar);
                 eliminar.className = 'btn btn-danger';
             }
-            acciones.appendChild(contrasenia);
         },
         contrasenia: function() {
             var cambiar = document.getElementById('form_actions_cambiar');

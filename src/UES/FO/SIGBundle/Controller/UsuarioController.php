@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use UES\FO\SIGBundle\Entity\Usuario;
 use UES\FO\SIGBundle\Form\UsuarioType;
 use UES\FO\SIGBundle\Form\UsuarioEditType;
+use UES\FO\SIGBundle\Form\UsuarioEdit2Type;
 
 /**
  * Usuario controller.
@@ -147,14 +148,26 @@ class UsuarioController extends Controller
         if(!StringUtils::equals($this->getUser()->getUsername(), $entity->getUsername()) && !$this->get('security.context')->isGranted('ROLE_OPERATIVE')) {
             throw new AccessDeniedException();
         }
-        $editForm = $this->createForm(
-            new UsuarioEditType(),
-            $entity,
-            array(
-                'action' => $this->generateUrl('usuario_update', array('username' => $entity->getUsername())),
-                'method' => 'PUT',
-                'attr' => array('col_size' => 'xs')
-            ));
+        
+        if($this->get('security.context')->isGranted('ROLE_OPERATIVE')) {
+            $editForm = $this->createForm(
+                new UsuarioEditType(),
+                $entity,
+                array(
+                    'action' => $this->generateUrl('usuario_update', array('username' => $entity->getUsername())),
+                    'method' => 'PUT',
+                    'attr' => array('col_size' => 'xs')
+                ));
+        } else {
+            $editForm = $this->createForm(
+                new UsuarioEdit2Type(),
+                $entity,
+                array(
+                    'action' => $this->generateUrl('usuario_update', array('username' => $entity->getUsername())),
+                    'method' => 'PUT',
+                    'attr' => array('col_size' => 'xs')
+                ));
+        }
 
         return array(
             'title'     => 'Modificar información del usuario',
@@ -176,21 +189,40 @@ class UsuarioController extends Controller
         }
         $em = $this->getDoctrine()->getManager();
 
-        $editForm = $this->createForm(
-            new UsuarioEditType(),
-            $entity,
-            array(
-                'action' => $this->generateUrl('usuario_update', array('username' => $entity->getUsername())),
-                'method' => 'PUT',
-                'attr' => array('col_size' => 'xs')
-            ));
+        if($this->get('security.context')->isGranted('ROLE_OPERATIVE')) {
+            $editForm = $this->createForm(
+                new UsuarioEditType(),
+                $entity,
+                array(
+                    'action' => $this->generateUrl('usuario_update', array('username' => $entity->getUsername())),
+                    'method' => 'PUT',
+                    'attr' => array('col_size' => 'xs')
+                ));
+            if(!StringUtils::equals($this->getUser()->getUsername(), $entity->getUsername())) {
+                $editForm->get('actions')
+                    ->add('eliminar', 'button', array(
+                        'attr' => array(
+                            'data-toggle' => 'modal',
+                            'data-target' => '#modal-confirm-del'
+                    )));
+            }
+        } else {
+            $editForm = $this->createForm(
+                new UsuarioEdit2Type(),
+                $entity,
+                array(
+                    'action' => $this->generateUrl('usuario_update', array('username' => $entity->getUsername())),
+                    'method' => 'PUT',
+                    'attr' => array('col_size' => 'xs')
+                ));
+        }
 
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('usuario_show', array('username' => $id)));
+            return $this->redirect($this->generateUrl('usuario_show', array('username' => $entity->getUsername())));
         }
 
         return array(
