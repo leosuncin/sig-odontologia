@@ -1,7 +1,7 @@
 {% extends 'SIGBundle:Usuario:index.html.twig' %}
 
 {% block content %}
-<h1>Modificar la información del usuario</h1>
+<h1>{{ title }}</h1>
 {{ form_start(edit_form, { 'style': 'horizontal' }) }}
 {{ form_row(edit_form.nombres, { 'style': 'horizontal' }) }}
 {{ form_row(edit_form.apellidos, { 'style': 'horizontal' }) }}
@@ -28,11 +28,20 @@
 
 {% block javascript %}
 <script>
-    require(['../bundles/sig/js/util/dom_usuario', '../bundles/sig/js/util/listener_usuario', '../bundles/sig/js/validator/validadores'], function(dom, listener, validador){
+    require([
+        '../bundles/sig/js/util/dom_usuario',
+        '../bundles/sig/js/util/listener_usuario',
+        '../bundles/sig/js/validator/validadores',
+        '../bundles/sig/js/util/toys'
+        ], function(dom, listener, validador, toys){
         dom.actualizar();
         validador.actualizar('form[name="usuario"]');
         listener.eliminarUsuario(Routing.generate('usuario_delete', {'username':'{{ edit_form.vars.value.username }}'}));
         listener.passwordUsuario(Routing.generate('usuario_pwd', { 'username': '{{ edit_form.vars.value.username }}' }), Routing.generate('usuario_pwd_update', { 'username': '{{ edit_form.vars.value.username }}' }));
+        toys.bootswitch('#usuario_enabled');
+        toys.bootswitch('#usuario_locked');
+        toys.strengthPwd('#form_old_password');
+
     });
 </script>
 {% endblock %}

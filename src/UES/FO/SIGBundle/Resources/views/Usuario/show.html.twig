@@ -1,31 +1,31 @@
 {% extends 'SIGBundle:Usuario:index.html.twig' %}
 
 {% block content %}
-<h1>Información del usuario</h1>
+<h1>{{ title }}</h1>
 <div class="row">
-    <span class="col-xs-12 col-sm-6 col-md-4 col-lg-2">Nombres</span>
-    <span class="col-xs-12 col-sm-6 col-md-8 col-lg-10">{{ entity.nombres }}</span>
+    <span class="col-xs-4">Nombres</span>
+    <span class="col-xs-8">{{ entity.nombres }}</span>
 </div>
 <div class="row">
-    <span class="col-xs-12 col-sm-6 col-md-4 col-lg-2">Apellidos</span>
-    <span class="col-xs-12 col-sm-6 col-md-8 col-lg-10">{{ entity.apellidos }}</span>
+    <span class="col-xs-4">Apellidos</span>
+    <span class="col-xs-8">{{ entity.apellidos }}</span>
 </div>
 <div class="row">
-    <span class="col-xs-12 col-sm-6 col-md-4 col-lg-2">Nombre de usuario</span>
-    <span class="col-xs-12 col-sm-6 col-md-8 col-lg-10">{{ entity.username }}</span>
+    <span class="col-xs-4">Nombre de usuario</span>
+    <span class="col-xs-8">{{ entity.username }}</span>
 </div>
 <div class="row">
-    <span class="col-xs-12 col-sm-6 col-md-4 col-lg-2">Nivel</span>
-    <span class="col-xs-12 col-sm-6 col-md-8 col-lg-10">{% for rol in entity.role %}{{ util.getNivel(rol) }}{% endfor %}</span>
+    <span class="col-xs-4">Nivel</span>
+    <span class="col-xs-8">{% for rol in entity.role %}{{ util.getNivel(rol) }}{% endfor %}</span>
 </div>
     {% if is_granted('ROLE_OPERATIVE') %}
 <div class="row">
-    <span class="col-xs-12 col-sm-6 col-md-4 col-lg-2">Habilitado</span>
-    <span class="col-xs-12 col-sm-6 col-md-8 col-lg-10">{{ util.estado(entity.enabled) }}</span>
+    <span class="col-xs-4">Habilitado</span>
+    <span class="col-xs-8">{{ util.estado(entity.enabled) }}</span>
 </div>
 <div class="row">
-    <span class="col-xs-12 col-sm-6 col-md-4 col-lg-2">Bloqueado</span>
-    <span class="col-xs-12 col-sm-6 col-md-8 col-lg-10">{{ util.estado(entity.locked) }}</span>
+    <span class="col-xs-4">Bloqueado</span>
+    <span class="col-xs-8">{{ util.estado(entity.locked) }}</span>
 </div>
     {% endif %}
 <div class="form-actions">

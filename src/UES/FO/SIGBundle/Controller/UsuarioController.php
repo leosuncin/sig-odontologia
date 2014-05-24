@@ -40,6 +40,7 @@ class UsuarioController extends Controller
         $entities = $em->getRepository('SIGBundle:Usuario')->findAll();
 
         return array(
+            'title'    => 'Consultar usuarios',
             'entities' => $entities,
         );
     }
@@ -81,6 +82,7 @@ class UsuarioController extends Controller
         }
 
         return array(
+            'title'  => 'Ingresar usuario',
             'entity' => $entity,
             'form'   => $form->createView(),
         );
@@ -109,6 +111,7 @@ class UsuarioController extends Controller
             ));
 
         return array(
+            'title'  => 'Ingresar usuario',
             'entity' => $entity,
             'form'   => $form->createView(),
         );
@@ -126,7 +129,10 @@ class UsuarioController extends Controller
         if(!StringUtils::equals($this->getUser()->getUsername(), $entity->getUsername()) && !$this->get('security.context')->isGranted('ROLE_OPERATIVE')) {
             throw new AccessDeniedException();
         }
-        return array('entity' => $entity);
+        return array(
+            'title'  => 'Mostrar información del usuario',
+            'entity' => $entity
+        );
     }
 
     /**
@@ -151,7 +157,8 @@ class UsuarioController extends Controller
             ));
 
         return array(
-            'edit_form'   => $editForm->createView()
+            'title'     => 'Modificar información del usuario',
+            'edit_form' => $editForm->createView()
         );
     }
 
@@ -187,7 +194,8 @@ class UsuarioController extends Controller
         }
 
         return array(
-            'edit_form'   => $editForm->createView()
+            'title'     => 'Modificar información del usuario',
+            'edit_form' => $editForm->createView()
         );
     }
 
@@ -249,6 +257,7 @@ class UsuarioController extends Controller
             );
         } else {
             return array(
+                'title'    => 'Cambiar contraseña de acceso',
                 'entity'   => $entity,
                 'pwd_form' => $form->createView()
             );
@@ -319,6 +328,7 @@ class UsuarioController extends Controller
             return new Response(json_encode($result), 400, array("Content-Type" => "application/json; charset=UTF-8"));
         } else {
             return array(
+                'title'    => 'Cambiar contraseña de acceso',
                 'entity'   => $entity,
                 'pwd_form' => $form->createView()
             );

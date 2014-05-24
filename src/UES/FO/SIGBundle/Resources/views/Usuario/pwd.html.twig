@@ -1,16 +1,22 @@
 {% extends 'SIGBundle:Usuario:index.html.twig' %}
 
 {% block content %}
-<h1>Cambiar contraseña de acceso</h1>
+<h1>{{ title }}</h1>
 {% include 'SIGBundle:Usuario:pwdAjax.html.twig' %}
 <a id="form_actions_regresar" class="btn btn-default" href="{{ path('usuario_show', { 'username': entity.username }) }}">Regresar</a>
 {% endblock %}
 
 {% block javascript %}
 <script>
-    require(['../bundles/sig/js/util/dom_usuario', '../bundles/sig/js/validator/validadores', 'noty'], function(dom, validador, noty) {
+    require([
+    	'../bundles/sig/js/util/dom_usuario',
+    	'../bundles/sig/js/validator/validadores',
+    	'../bundles/sig/js/util/toys'
+    	], function(dom, validador, toys) {
         dom.contrasenia();
         validador.contrasenia('form[name="form"]');
+        toys.strengthPwd('#form_old_password');
+        toys.strengthPwd('#form_new_password_first');
     });
 </script>
 {% endblock %}

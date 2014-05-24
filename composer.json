@@ -28,7 +28,9 @@
         "jzaefferer/jquery-validation": "1.12.*",
         "mozilla/pdf": "1.0.*",
         "eternicode/bootstrap-datepicker": "1.3.*",
-        "needim/noty": "2.2.2"
+        "needim/noty": "2.2.2",
+        "kartik-v/strength-meter": "dev-master",
+        "nostalgiaz/bootstrap-switch": "3.0.0"
     },
     "scripts": {
         "post-install-cmd": [
@@ -215,6 +217,77 @@
                 "component": {
                     "scripts": [
                         "js/noty/packaged/jquery.noty.packaged.min.js"
+                    ],
+                    "shim": {
+                        "deps": ["jquery"],
+                        "exports": "$"
+                    }
+                }
+            },
+            "require": {
+                "robloach/component-installer": "*",
+                "components/jquery": "1.9.*"
+            }
+        }
+    }, {
+        "type": "package",
+        "package": {
+            "name": "kartik-v/strength-meter",
+            "type": "component",
+            "version": "dev-master",
+            "dist": {
+                "url": "https://github.com/kartik-v/strength-meter/archive/master.zip",
+                "type": "zip"
+            },
+            "source": {
+                "url": "https://github.com/kartik-v/strength-meter.git",
+                "type": "git",
+                "reference": "master"
+            },
+            "extra": {
+                "component": {
+                    "scripts": [
+                        "js/strength-meter.min.js"
+                    ],
+                    "styles": [
+                        "css/strength-meter.min.css"
+                    ],
+                    "files": [
+                        "img/bg_strength_gradient.jpg"
+                    ],
+                    "shim": {
+                        "deps": ["jquery"],
+                        "exports": "$"
+                    }
+                }
+            },
+            "require": {
+                "robloach/component-installer": "*",
+                "components/jquery": "1.9.*"
+            }
+        }
+    }, {
+        "type": "package",
+        "package": {
+            "name": "nostalgiaz/bootstrap-switch",
+            "type": "component",
+            "version": "3.0.0",
+            "dist": {
+                "url": "https://github.com/nostalgiaz/bootstrap-switch/archive/v3.0.0.zip",
+                "type": "zip"
+            },
+            "source": {
+                "url": "https://github.com/kartik-v/strength-meter.git",
+                "type": "git",
+                "reference": "v3.0.0"
+            },
+            "extra": {
+                "component": {
+                    "scripts": [
+                        "dist/js/bootstrap-switch.min.js"
+                    ],
+                    "styles": [
+                        "dist/css/bootstrap3/bootstrap-switch.min.css"
                     ],
                     "shim": {
                         "deps": ["jquery"],
