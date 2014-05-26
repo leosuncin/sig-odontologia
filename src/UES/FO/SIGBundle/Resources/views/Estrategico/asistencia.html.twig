@@ -1,5 +1,14 @@
 {% extends "SIGBundle:Default:index.html.twig" %}
 
 {% block parameters %}
-<h1>Welcome to the Estrategico:asistencia page</h1>
+{{form(form,{'style':'horizontal'})}}
+{% endblock %}
+{% block javascript %}
+<script type="text/javascript">
+require(['bootstrap-datepicker'], function($){
+	$('.datepicker').datepicker({
+format: "dd/mm/yyyy"
+});
+});
+</script>
 {% endblock %}
