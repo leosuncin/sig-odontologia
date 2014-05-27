@@ -420,6 +420,6 @@ class UsuarioController extends Controller
                 ->setAction($this->generateUrl('usuario_pwd_update', array('username' => $username)))
                 ->setMethod('PUT');
 
-        return $formBuilder->getForm();;
+        return $formBuilder->getForm();
     }
 }

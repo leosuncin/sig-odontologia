@@ -8,66 +8,61 @@ define(['../validator/validadores', './notificacion'], function(validador, notif
                     url: url,
                     type: 'DELETE',
                     dataType: 'json'
-                })
-				.done(function(data) {
-					notificar(data.message + '.<br/>Espere a ser redirigido, en caso de no ser así haga clic <a href="' + data.url + '">aquí</a>', 'success');
-					location.href = data.url;
-				})
-				.fail(function(data) {
-					var response = JSON.parse(data.responseText);
-					notificar(response.message, 'warning');
-				})
-				.always(function() {
-					btn.button('reset');
-					$('#modal-confirm-del').modal('hide');
-				});
+                }).done(function(data) {
+                    notificar(data.message + '.<br/>Espere a ser redirigido, en caso de no ser así haga clic <a href="' + data.url + '">aquí</a>', 'success');
+                    location.href = data.url;
+                }).fail(function(data) {
+                    var response = JSON.parse(data.responseText);
+                    notificar(response.message, 'warning');
+                }).always(function() {
+                    btn.button('reset');
+                    $('#modal-confirm-del').modal('hide');
+                });
             });
         },
         passwordUsuario: function(get, put) {
             $('#modal-confirm-pwd').on('show.bs.modal', function(e) {
-                if ($('#modal-content').has('form').length <= 0) {
+                var modalBody = $('#modal-confirm-pwd .modal-body');
+                if(modalBody.has('form').length <= 0) {
                     $.ajax({
                         url: get,
                         type: 'GET',
                         dataType: 'html'
-                    })
-                    .fail(function(e){
-						console.log(e);
-						$('#modal-content').html('<div class="alert aler-danger"><strong>ERROR:</strong> no se pudo cargar el contenido</div>');
-					})
-                    .done(function(response) {
-						$('#modal-content').html(response);
-						$('#modal-content').removeClass('loading');
-					});
+                    }).fail(function(e) {
+                        console.log(e);
+                        modalBody.html('<div class="alert aler-danger"><strong>ERROR:</strong> no se pudo cargar el contenido</div>');
+                    }).done(function(response) {
+                        modalBody.html(response);
+                        modalBody.removeClass('loading');
+                    });
                 }
                 $('#modal-confirm-pwd-acept').button('reset');
             });
+
             $('#modal-confirm-pwd').on('shown.bs.modal', function(e) {
                 validador.contrasenia('form[name="form"]');
             });
 
             return $('#modal-confirm-pwd-acept').click(function(event) {
                 var btn = $(this);
-                if ($('form[name="form"]').valid()) {
+                if($('form[name="form"]').valid()) {
                     btn.button('loading');
                     $.ajax({
                         url: put,
                         type: 'PUT',
                         dataType: 'json',
                         data: $('form[name="form"]').serialize()
-                    })
-					.done(function(response) {
-						notificar(response.message, 'success');
-						btn.button('reset');
-					})
-					.fail(function(e) {
-						var response = JSON.parse(e.responseText);
-						$('#modal-content').html(response.view);
-						notificar(response.message, 'warning', function() {
-							$('#modal-confirm-pwd').modal('show');
-						});
-						btn.button('reset');
-					});
+                    }).done(function(response) {
+                        notificar(response.message, 'success');
+                        btn.button('reset');
+                    }).fail(function(e) {
+                        var response = JSON.parse(e.responseText);
+                        $('#modal-content').html(response.view);
+                        notificar(response.message, 'warning', function() {
+                            $('#modal-confirm-pwd').modal('show');
+                        });
+                        btn.button('reset');
+                    });
                     $('#modal-confirm-pwd').modal('hide');
                 }
             });
