@@ -1,8 +1,22 @@
-<pdf>
+{% import _self as util %}
+<pdf encoding="UTF-8" page-size="{% if orientation is not defined %}letter{% else %}letter-landscape{% endif %}' }}">
     <dynamic-page>
-        {#<!-- pdf_image('BundleName:image-name.extension') -->
-        <img src="{{ pdf_image('SymfonyWebConfiguratorBundle:blue-arrow.png') }}" />#}
-        {% block content %}
-        {% endblock %}
+        <img width="100px" height="100px" position="relative" float="left" src="{{ pdf_image('SIGBundle:ues.png') }}" />
+        <img width="100px" height="100px" position="relative" float="right" src="{{ pdf_image('SIGBundle:odontologia.png') }}" />
+        <h1 position="absolute" float="left" text-align="center" width="100%" top="1in" >Universidad de El Salvador<br />Facultad de Odontología</h1>
+        <hr />
+        <div id="content" height="7in">{% block content %}{% endblock %}</div>
+        <hr />
+        <p position="absolute" text-align="center">
+        Facultad de Odontologia<br />
+        Universidad de El Salvador<br />
+        Final 25 Av. Norte, Ciudad Universitaria, San Salvador.<br />
+        Tels (503) 225 7198<br />
+        www.odontologia.ues.edu.sv
+        </p>
     </dynamic-page>
 </pdf>
+
+{% macro fecha(fecha) %}
+{{ fecha|date('d \\d\\e %m% \\d\\e Y')|replace({'%01%': 'Enero', '%02%':'Febrero', '%03%':'Marzo', '%04%': 'Abril', '%05%': 'Mayo', '%06%': 'Junio', '%07%': 'Julio', '%08%': 'Agosto', '%09%': 'Septiembre', '%10%': 'Octubre', '%11%': 'Noviembre', '%12%': 'Diciembre'}) }}
+{% endmacro %}

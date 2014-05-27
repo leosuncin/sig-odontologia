@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Ps\PdfBundle\Annotation\Pdf;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -91,39 +92,51 @@ class EstrategicoController extends Controller
         $form = $this->createReportForm();
         return array('form'=> $form->createView());
     }
+
     /**
-     * @Route("/asistencias", name="asistencias_post")
+     * @Route(
+     *     "/asistencias",
+     *     name="validar-asistencias",
+     *     options={"expose"=true}
+     * )
      * @Method("POST")
      * @Template("SIGBundle:Estrategico:asistencia.html.twig")
      */
-    public function asistenciaPostAction(Request $request)
+    public function validateAsistenciaAction(Request $request)
     {
-
         $form = $this->createReportForm();
 
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $data = $form->getData();
-            return $this->redirect($this->generateUrl('reporte-asistencias', array('desde' => date_format($data['desde'], 'd-m-y'), 'hasta'=>date_format($data['hasta'], 'd-m-y'), '_format'=>'pdf')));
+            $fecha_inicio = $data['fecha_inicio'];
+            $fecha_fin = $data['fecha_fin'];
+            if($fecha_inicio > $fecha_fin){
+                $form->get('fecha_fin')->addError(new \Symfony\Component\Form\FormError('La fecha de finalización debe ser mayor que la de inicio'));
+                return new Response(json_encode($this->getFormErrors($form)), 400, array("Content-Type" => "application/json; charset=UTF-8"));
+            } else {
+                $data = $form->getData();
+                return $this->redirect($this->generateUrl('reporte-asistencias', array('fecha_inicio' => date_format($data['fecha_inicio'], 'd-m-y'), 'fecha_fin'=>date_format($data['fecha_fin'], 'd-m-y'), '_format'=>'pdf')));
+            }
+        } else {
+            return new Response(json_encode($this->getFormErrors($form)), 400, array("Content-Type" => "application/json; charset=UTF-8"));
         }
 
         return array('form'=> $form->createView());
     }
 
     /**
-     * @Route(
-     *     "/{desde}/{hasta}/asistencias.{_format}",
-     *     name="reporte-asistencias",
-     *     options={"expose"=true}
-     * )
-     * @Method("GET")
+     * @Route("/{fecha_inicio}/{fecha_fin}/asistencias.{_format}", name="reporte-asistencias")
      * @Template()
      * @Pdf()
      */
-    public function reporteAsistenciaAction(\Datetime $desde, \Datetime $hasta)
+    public function reporteAsistenciaAction(\DateTime $fecha_inicio, \DateTime $fecha_fin)
     {
-        return array('desde' => $desde, 'hasta'=> $hasta);
+        return array(
+            'fecha_inicio' => $fecha_inicio,
+            'fecha_fin' => $fecha_fin
+        );
     }
 
     /**
@@ -148,34 +161,92 @@ class EstrategicoController extends Controller
     {
     }
 
-    private function createReportForm(){
+    private function getFormErrors(\Symfony\Component\Form\Form $form) {        
+        $result = [];
+
+        // Looking for own errors.
+        $errors = $form->getErrors();
+        if (count($errors)) {
+            $result['errors'] = [];
+            foreach ($errors as $error) {
+                $result['errors'][] = $error->getMessage();
+            }
+        }
+
+        // Looking for invalid children and collecting errors recursively.
+        if ($form->count()) {
+            $childErrors = [];
+            foreach ($form->all() as $child) {
+                if (!$child->isValid()) {
+                    $childErrors[$child->getName()] = $this->getFormErrors($child);
+                }
+            }
+            if (count($childErrors)) {
+                $result['childrens'] = $childErrors;
+            }
+        }
+
+        return $result;
+    }
+
+    private function createReportForm()
+    {
         $constraints = array(
-            new Assert\NotBlank(array(
+        	new Assert\NotBlank(array(
                 'message' => 'El campo no puede quedar vacio'
-            )));
+            )),
+            new Assert\Date(array(
+                'message' => 'Ingrese una fecha valida'
+            ))
+        );
+
         $formBuilder = $this->createFormBuilder()
-            ->add('desde', 'date', array(
-                'label'       => 'Fecha de inicio',
-                'widget'=>'single_text',
-                'format'=>'d-M-y',
-                'attr'        => array('placeholder' => 'Escriba la fecha de inicio de el periodo','class'=>'datepicker'),
-                'constraints' => $constraints
+        	->add('fecha_inicio', 'date', array(
+                'label'           => 'Fecha de inicio',
+                'widget'          => 'single_text',
+                'format'          => 'dd/MM/yyyy',
+                'invalid_message' => 'La fecha debe tener el formato dd/mm/yyyy',
+                'attr'            => array(
+                    'placeholder'      => 'Por ejemplo: 17/01/2007',
+                    'class'            => 'datepicker',
+                    'data-provide'     => 'datepicker',
+					'data-date-format' => 'dd/mm/yyyy',
+					'data-language'    => 'es'
+                ),
+                'constraints'     => $constraints
                 ))
-            ->add('hasta', 'date', array(
-                'label'       => 'Fecha de fin',
-                'widget'=>'single_text',
-                'format'=>'d-M-y',
-                'attr'        => array('placeholder' => 'Escriba la fecha de fin de el periodo','class'=>'datepicker'),
-                'constraints' => $constraints
+            ->add('fecha_fin', 'date', array(
+                'label'           => 'Fecha de fin',
+                'widget'          => 'single_text',
+                'format'          => 'dd/MM/yyyy',
+                'invalid_message' => 'La fecha debe tener el formato dd/mm/yyyy',
+                'attr'            => array(
+                    'placeholder'      => 'Por ejemplo: 17/10/2009',
+                    'class'            => 'datepicker',
+                    'data-provide'     => 'datepicker',
+                    'data-date-format' => 'dd/mm/yyyy',
+                    'data-language'    => 'es'
+                ),
+                'constraints'     => $constraints
                 ))
-            ->add('actions', 'form_actions');
-                $formBuilder->get('actions')
-                    ->add('Enviar', 'submit')
-                    ->add('limpiar', 'reset');
-                    $formBuilder
-                ->setAction($this->generateUrl('asistencias_post'))
+            ->add('sexo', 'choice',
+                array(
+                    'label'   => 'Sexo',
+                    'choices' => array(
+                        0 => 'Ambos',
+                        1 => 'Masculino',
+                        2 => 'Femenino'
+                )));
+
+        $formBuilder->add('actions', 'form_actions');
+            $formBuilder->get('actions')
+                ->add('generar', 'submit')
+                ->add('limpiar', 'reset');
+
+        $formBuilder
+                ->setAction($this->generateUrl('validar-asistencias'))
                 ->setMethod('POST');
 
-        return $formBuilder->getForm();;
+        return $formBuilder->getForm();
     }
 }

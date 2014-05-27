@@ -1,14 +1,20 @@
 {% extends "SIGBundle:Default:index.html.twig" %}
 
 {% block parameters %}
-{{form(form,{'style':'horizontal'})}}
+<h1>Generación de reporte de asistencias generales</h1>
+<div id="parametros" class="row">{{ form(form, {'style': 'horizontal', 'col_size': 'xs'}) }}</div>
+<canvas id="preview"></canvas>
 {% endblock %}
+
 {% block javascript %}
-<script type="text/javascript">
-require(['bootstrap-datepicker'], function($){
-	$('.datepicker').datepicker({
-format: "dd/mm/yyyy"
-});
-});
+<script>
+	require(['bootstrap-datepicker', 'pdf'], function($, pdfjs) {
+		$('.datepicker').datepicker({
+			format: 'dd/mm/yyyy',
+			clearBtn: true,
+			language: 'es'
+		});
+		console.log(pdfjs);
+	});
 </script>
 {% endblock %}
