@@ -59,4 +59,13 @@ class DefaultController extends Controller
     public function logoutAction()
     {
     }
+
+    /**
+     * @Route("/viewer", name="pdf_viewer")
+     * @Template()
+     */
+    public function viewerAction()
+    {
+        return array();
+    }
 }
