@@ -117,7 +117,9 @@ class EstrategicoController extends Controller
                 return new Response(json_encode($this->getFormErrors($form)), 400, array("Content-Type" => "application/json; charset=UTF-8"));
             } else {
                 $data = $form->getData();
-                return $this->redirect($this->generateUrl('reporte-asistencias', array('fecha_inicio' => date_format($data['fecha_inicio'], 'd-m-y'), 'fecha_fin'=>date_format($data['fecha_fin'], 'd-m-y'), '_format'=>'pdf')));
+                return $this->redirect(
+                    $this->generateUrl('pdf_viewer')."?file=".$this->generateUrl('reporte-asistencias', array('fecha_inicio' => date_format($data['fecha_inicio'], 'd-m-Y'), 'fecha_fin'=>date_format($data['fecha_fin'], 'd-m-Y'), '_format'=>'pdf'), true)
+                );
             }
         } else {
             return new Response(json_encode($this->getFormErrors($form)), 400, array("Content-Type" => "application/json; charset=UTF-8"));

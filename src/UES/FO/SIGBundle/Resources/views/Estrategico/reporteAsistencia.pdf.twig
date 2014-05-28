@@ -1,6 +1,30 @@
-{% extends "SIGBundle::reporteMaestro.pdf.twig" %}
-
-{% block content %}
-<h1 text-align="center">Asitencias generales</h1>
-<p text-align="center">Desde {{ util.fecha(fecha_inicio) }} hasta el {{ util.fecha(fecha_fin) }}</p>
-{% endblock %}
+{% import "SIGBundle::macros.html.twig" as util %}
+<pdf encoding="UTF-8" page-size="letter">
+    <page>
+        <placeholders>
+            <header>
+                <div width="100%" height="1in">
+                    <img width="100px" height="100px" float="left" src="{{ pdf_image('SIGBundle:ues.png') }}" />
+                    <img width="100px" height="100px" float="right" src="{{ pdf_image('SIGBundle:odontologia.png') }}" />
+                    <h1 position="absolute" text-align="center" width="100%" top="1in" >Universidad de El Salvador<br />Facultad de Odontología</h1>
+                    <hr />
+                </div>
+            </header>
+            <footer>
+                <div width="100%" height="1in">
+                    <p>pagina 1 de 1</p>
+                    <hr />
+                    <p position="absolute" text-align="center">
+                        Facultad de Odontología<br />
+                        Universidad de El Salvador<br />
+                        Final 25 Av. Norte, Ciudad Universitaria, San Salvador.<br />
+                        Tels (503) 225 7198<br />
+                        www.odontologia.ues.edu.sv
+                    </p>
+                </div>
+            </footer>
+        </placeholders>
+        <h1 text-align="center">Asitencias generales</h1>
+        <p text-align="center">Desde {{ util.fecha(fecha_inicio) }} hasta el {{ util.fecha(fecha_fin) }}</p>
+    </page>
+</pdf>

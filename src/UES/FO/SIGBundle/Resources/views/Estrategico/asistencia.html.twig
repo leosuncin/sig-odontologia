@@ -14,7 +14,30 @@
 			clearBtn: true,
 			language: 'es'
 		});
-		console.log(pdfjs);
+		console.log(PDFJS);
+		PDFJS.workerSrc = '/js/pdf/build/pdf.worker.js';
+		PDFJS.getDocument('/estrategico/24-05-14/27-05-14/asistencias.pdf');
+		PDFJS.getPdf('/estrategico/24-05-14/27-05-14/asistencias.pdf', function getPdfHelloWorld(data) {
+			//
+			// Instantiate PDFDoc with PDF data
+			//
+			var pdf = new PDFJS.PDFDoc(data);
+			var page = pdf.getPage(1);
+			var scale = 1.5;
+
+			//
+			// Prepare canvas using PDF page dimensions
+			//
+			var canvas = document.getElementById('the-canvas');
+			var context = canvas.getContext('2d');
+			canvas.height = page.height * scale;
+			canvas.width = page.width * scale;
+
+			//
+			// Render PDF page into canvas context
+			//
+			page.startRendering(context);
+		});
 	});
 </script>
 {% endblock %}
