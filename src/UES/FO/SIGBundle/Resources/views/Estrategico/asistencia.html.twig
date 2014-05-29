@@ -3,41 +3,42 @@
 {% block parameters %}
 <h1>Generación de reporte de asistencias generales</h1>
 <div id="parametros" class="row">{{ form(form, {'style': 'horizontal', 'col_size': 'xs'}) }}</div>
-<canvas id="preview"></canvas>
 {% endblock %}
 
 {% block javascript %}
 <script>
-	require(['bootstrap-datepicker', 'pdf'], function($, pdfjs) {
-		$('.datepicker').datepicker({
-			format: 'dd/mm/yyyy',
-			clearBtn: true,
-			language: 'es'
-		});
-		console.log(PDFJS);
-		PDFJS.workerSrc = '/js/pdf/build/pdf.worker.js';
-		PDFJS.getDocument('/estrategico/24-05-14/27-05-14/asistencias.pdf');
-		PDFJS.getPdf('/estrategico/24-05-14/27-05-14/asistencias.pdf', function getPdfHelloWorld(data) {
-			//
-			// Instantiate PDFDoc with PDF data
-			//
-			var pdf = new PDFJS.PDFDoc(data);
-			var page = pdf.getPage(1);
-			var scale = 1.5;
-
-			//
-			// Prepare canvas using PDF page dimensions
-			//
-			var canvas = document.getElementById('the-canvas');
-			var context = canvas.getContext('2d');
-			canvas.height = page.height * scale;
-			canvas.width = page.width * scale;
-
-			//
-			// Render PDF page into canvas context
-			//
-			page.startRendering(context);
-		});
-	});
+    require(['bootstrap-datepicker'], function($) {
+        var btn = $('#form_actions_generar');
+        $('.datepicker').datepicker({
+            format: 'dd/mm/yyyy',
+            clearBtn: true,
+            language: 'es',
+            autoClose: true
+        });
+        $('form[name="form"]').submit(function(e) {
+            e.preventDefault();
+            btn.button('loading');
+            $.ajax({
+                url: Routing.generate('validar-asistencias'),
+                type: 'POST',
+                dataType: 'json',
+                data: $('form[name="form"]').serialize()
+            })
+            .done(function(response) {
+                data = JSON.parse(response);
+                $('#preview-pdf').prop('src', data.route);
+            })
+            .fail(function(response) {
+                console.log(response);
+            })
+            .always(function() {
+                btn.button('reset');
+            });
+            
+        });
+        $('#form_actions_limpiar').click(function() {
+            btn.button('reset');
+        });
+    });
 </script>
 {% endblock %}

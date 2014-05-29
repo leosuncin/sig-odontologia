@@ -24,7 +24,6 @@
 
 'use strict';
 
-var DEFAULT_URL = 'compressed.tracemonkey-pldi-09.pdf';
 var DEFAULT_SCALE = 'auto';
 var DEFAULT_SCALE_DELTA = 1.1;
 var UNKNOWN_SCALE = 0;
@@ -1660,7 +1659,6 @@ var SecondaryToolbar = {
         // Define the toolbar buttons.
         this.toggleButton = options.toggleButton;
         this.presentationModeButton = options.presentationModeButton;
-        this.openFile = options.openFile;
         this.print = options.print;
         this.download = options.download;
         this.viewBookmark = options.viewBookmark;
@@ -1682,9 +1680,6 @@ var SecondaryToolbar = {
             {
                 element: this.presentationModeButton,
                 handler: this.presentationModeClick
-            }, {
-                element: this.openFile,
-                handler: this.openFileClick
             }, {
                 element: this.print,
                 handler: this.printClick
@@ -1723,11 +1718,6 @@ var SecondaryToolbar = {
     // Event handling functions.
     presentationModeClick: function secondaryToolbarPresentationModeClick(evt) {
         this.presentationMode.request();
-        this.close();
-    },
-
-    openFileClick: function secondaryToolbarOpenFileClick(evt) {
-        document.getElementById('fileInput').click();
         this.close();
     },
 
@@ -2675,7 +2665,6 @@ var PDFView = {
             presentationMode: PresentationMode,
             toggleButton: document.getElementById('secondaryToolbarToggle'),
             presentationModeButton: document.getElementById('secondaryPresentationMode'),
-            openFile: document.getElementById('secondaryOpenFile'),
             print: document.getElementById('secondaryPrint'),
             download: document.getElementById('secondaryDownload'),
             viewBookmark: document.getElementById('secondaryViewBookmark'),
@@ -5351,20 +5340,6 @@ function webViewerInitialized() {
     var params = PDFView.parseQueryString(document.location.search.substring(1));
     var file = 'file' in params ? params.file : DEFAULT_URL;
 
-    var fileInput = document.createElement('input');
-    fileInput.id = 'fileInput';
-    fileInput.className = 'fileInput';
-    fileInput.setAttribute('type', 'file');
-    fileInput.oncontextmenu = noContextMenuHandler;
-    document.body.appendChild(fileInput);
-
-    if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
-        document.getElementById('openFile').setAttribute('hidden', 'true');
-        document.getElementById('secondaryOpenFile').setAttribute('hidden', 'true');
-    } else {
-        document.getElementById('fileInput').value = null;
-    }
-
     // Special debugging flags in the hash section of the URL.
     var hash = document.location.hash.substring(1);
     var hashParams = PDFView.parseQueryString(hash);
@@ -5534,9 +5509,6 @@ function webViewerInitialized() {
 
     document.getElementById('presentationMode').addEventListener('click',
         SecondaryToolbar.presentationModeClick.bind(SecondaryToolbar));
-
-    document.getElementById('openFile').addEventListener('click',
-        SecondaryToolbar.openFileClick.bind(SecondaryToolbar));
 
     document.getElementById('print').addEventListener('click',
         SecondaryToolbar.printClick.bind(SecondaryToolbar));

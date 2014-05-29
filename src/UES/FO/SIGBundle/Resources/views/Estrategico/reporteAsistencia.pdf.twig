@@ -1,20 +1,20 @@
 {% import "SIGBundle::macros.html.twig" as util %}
-<pdf encoding="UTF-8" page-size="letter">
+<pdf encoding="UTF-8" page-size="letter" Title="{{ titulo }}" Author="{{ autor }}" CreationDate="{{ "now"|date }}" Creator="Sistema de Información Gerencial, Facultad de Odontología, Universidad de El Salvador">
     <page>
         <placeholders>
             <header>
-                <div width="100%" height="1in">
+                <div width="100%" height="0.8in">
                     <img width="100px" height="100px" float="left" src="{{ pdf_image('SIGBundle:ues.png') }}" />
                     <img width="100px" height="100px" float="right" src="{{ pdf_image('SIGBundle:odontologia.png') }}" />
-                    <h1 position="absolute" text-align="center" width="100%" top="1in" >Universidad de El Salvador<br />Facultad de Odontología</h1>
                     <hr />
+                    <h1 position="absolute" text-align="center" width="100%" top="1in" >Universidad de El Salvador<br />Facultad de Odontología</h1>
                 </div>
             </header>
             <footer>
                 <div width="100%" height="1in">
-                    <p>pagina 1 de 1</p>
+                    <p text-align="center">Pagina 1 de 1</p>
                     <hr />
-                    <p position="absolute" text-align="center">
+                    <p position="absolute" text-align="center" top="10.7in">
                         Facultad de Odontología<br />
                         Universidad de El Salvador<br />
                         Final 25 Av. Norte, Ciudad Universitaria, San Salvador.<br />
@@ -24,7 +24,7 @@
                 </div>
             </footer>
         </placeholders>
-        <h1 text-align="center">Asitencias generales</h1>
+        <h2 text-align="center">Asitencias generales</h2>
         <p text-align="center">Desde {{ util.fecha(fecha_inicio) }} hasta el {{ util.fecha(fecha_fin) }}</p>
     </page>
 </pdf>

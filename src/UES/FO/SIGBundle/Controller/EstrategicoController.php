@@ -9,6 +9,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Ps\PdfBundle\Annotation\Pdf;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -104,6 +106,7 @@ class EstrategicoController extends Controller
      */
     public function validateAsistenciaAction(Request $request)
     {
+        $ajax = $request->isXmlHttpRequest();
         $form = $this->createReportForm();
 
         $form->handleRequest($request);
@@ -112,20 +115,28 @@ class EstrategicoController extends Controller
             $data = $form->getData();
             $fecha_inicio = $data['fecha_inicio'];
             $fecha_fin = $data['fecha_fin'];
+
             if($fecha_inicio > $fecha_fin){
-                $form->get('fecha_fin')->addError(new \Symfony\Component\Form\FormError('La fecha de finalización debe ser mayor que la de inicio'));
-                return new Response(json_encode($this->getFormErrors($form)), 400, array("Content-Type" => "application/json; charset=UTF-8"));
+                $form->get('fecha_fin')->addError(new \Symfony\Component\Form\FormError('La fecha de finalización debe ser posterior a la de inicio'));
             } else {
-                $data = $form->getData();
-                return $this->redirect(
-                    $this->generateUrl('pdf_viewer')."?file=".$this->generateUrl('reporte-asistencias', array('fecha_inicio' => date_format($data['fecha_inicio'], 'd-m-Y'), 'fecha_fin'=>date_format($data['fecha_fin'], 'd-m-Y'), '_format'=>'pdf'), true)
-                );
+                $route = $this->generateUrl('pdf_viewer', array(), true).'?file='.$this->generateUrl('reporte-asistencias', array(
+                        'fecha_inicio' => date_format($fecha_inicio, 'd-m-Y'),
+                        'fecha_fin' => date_format($fecha_fin, 'd-m-Y'),
+                        '_format'=>'pdf'), true);
+                if($ajax) {
+                    return new JsonResponse(json_encode(array('route' => $route)));
+                } else {
+                    return new RedirectResponse($route);
+                }
             }
-        } else {
-            return new Response(json_encode($this->getFormErrors($form)), 400, array("Content-Type" => "application/json; charset=UTF-8"));
+
         }
 
-        return array('form'=> $form->createView());
+        if ($ajax) {
+            return new JsonResponse(json_encode($this->getFormErrors($form)), 400);
+        } else {
+            return array('form'=> $form->createView());
+        }
     }
 
     /**
@@ -136,8 +147,10 @@ class EstrategicoController extends Controller
     public function reporteAsistenciaAction(\DateTime $fecha_inicio, \DateTime $fecha_fin)
     {
         return array(
+            'titulo'       => 'Reporte de asistencias generales',
+            'autor'        => $this->getUser()->getNombreCompleto(),
             'fecha_inicio' => $fecha_inicio,
-            'fecha_fin' => $fecha_fin
+            'fecha_fin'    => $fecha_fin
         );
     }
 
@@ -242,7 +255,10 @@ class EstrategicoController extends Controller
 
         $formBuilder->add('actions', 'form_actions');
             $formBuilder->get('actions')
-                ->add('generar', 'submit')
+                ->add('generar', 'submit', array(
+                    'attr' => array(
+                        'data-loading-text' => 'Preparando...'
+                )))
                 ->add('limpiar', 'reset');
 
         $formBuilder

@@ -174,6 +174,15 @@ class Usuario implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     * Obetener el nombre completo del usuario
+     * @return string
+     */
+    public function getNombreCompleto()
+    {
+        return $this->nombres." ".$this->apellidos;
+    }
+
+    /**
      * Set username
      *
      * @param string $username
