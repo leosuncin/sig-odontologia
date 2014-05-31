@@ -11,7 +11,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Validator\Constraints as Assert;
+use UES\FO\SIGBundle\Model\ParametrosEstrategico;
+use UES\FO\SIGBundle\Form\EstrategicoType;
 
 /**
  * @Route("/estrategico")
@@ -85,17 +86,29 @@ class EstrategicoController extends Controller
     }
 
     /**
+     * Muestra el formulario de parámetros para el reporte de asistencias generales
+     *
      * @Route("/asistencias", name="asistencias")
      * @Method("GET")
      * @Template()
      */
     public function asistenciaAction()
     {
-        $form = $this->createReportForm();
+        $form = $this->createForm(// crear el formulario a partir de una clase modelo
+            new EstrategicoType(), // clase formulario de Symfony
+            new ParametrosEstrategico(), // modelo donde se manejaran los parámetros
+            array(
+                'action' => $this->generateUrl('validar-asistencias'),// a donde va a ser redirigido el formulario
+                'method' => 'POST',// por cual método HTTP
+                'attr' => array('col_size' => 'xs')// el tamaño mínimo del dispositivo
+            ));
+        // enviar variables a la vista para ser mostrada
         return array('form'=> $form->createView());
     }
 
     /**
+     * Validar la información del formulario enviado por método POST
+     *
      * @Route(
      *     "/asistencias",
      *     name="validar-asistencias",
@@ -106,51 +119,79 @@ class EstrategicoController extends Controller
      */
     public function validateAsistenciaAction(Request $request)
     {
-        $ajax = $request->isXmlHttpRequest();
-        $form = $this->createReportForm();
+        $ajax = $request->isXmlHttpRequest();// comprobar si la petición es AJAX
+        $data = new ParametrosEstrategico();// instancia de clase donde se manejaran los parámetros
+        $form = $this->createForm(// crear el formulario
+            new EstrategicoType(),// a partir de una clase modelo
+            $data,
+            array(
+                'action' => $this->generateUrl('validar-asistencias'),// a donde va a ser redirigido el formulario
+                'method' => 'POST',// por cual método HTTP
+                'attr' => array('col_size' => 'xs')// el tamaño mínimo del dispositivo
+            ));
 
-        $form->handleRequest($request);
+        $form->handleRequest($request);// manejar la petición con el formulario de Symfony
 
-        if ($form->isValid()) {
-            $data = $form->getData();
-            $fecha_inicio = $data['fecha_inicio'];
-            $fecha_fin = $data['fecha_fin'];
-
-            if($fecha_inicio > $fecha_fin){
-                $form->get('fecha_fin')->addError(new \Symfony\Component\Form\FormError('La fecha de finalización debe ser posterior a la de inicio'));
+        if ($form->isValid()) {// Symfony verifica que la información enviada cumpla con las reglas
+            // generar la URL donde se mostrará el PDF
+            $route = $this->generateUrl('pdf_viewer').'?file='.$this->generateUrl('reporte-asistencias', array(
+                    'fecha_inicio' => date_format($data->getFechaInicio(), 'd-m-Y'),
+                    'fecha_fin'    => date_format($data->getFechaFin(), 'd-m-Y'),
+                    'sexo'         => $data->getSexo(),
+                    '_format'      =>'pdf'), true);
+            if($ajax) {
+                return new JsonResponse(json_encode(array('route' => $route)));// sí la petición es AJAX responder con un JSON con la URL
             } else {
-                $route = $this->generateUrl('pdf_viewer', array(), true).'?file='.$this->generateUrl('reporte-asistencias', array(
-                        'fecha_inicio' => date_format($fecha_inicio, 'd-m-Y'),
-                        'fecha_fin' => date_format($fecha_fin, 'd-m-Y'),
-                        '_format'=>'pdf'), true);
-                if($ajax) {
-                    return new JsonResponse(json_encode(array('route' => $route)));
-                } else {
-                    return new RedirectResponse($route);
-                }
+                return new RedirectResponse($route);// sí la petición no es AJAX redirigir el navegador al visor
             }
-
         }
-
+        // en caso de que la información enviada tenga errores
         if ($ajax) {
-            return new JsonResponse(json_encode($this->getFormErrors($form)), 400);
+            return new JsonResponse(json_encode($this->getFormErrors($form)), 400);// sí la petición es AJAX responder con JSON con los errores
         } else {
-            return array('form'=> $form->createView());
+            return array('form'=> $form->createView());// sí no mostrar de nuevo el formulario con los errores
         }
     }
 
     /**
-     * @Route("/{fecha_inicio}/{fecha_fin}/asistencias.{_format}", name="reporte-asistencias")
+     * Genera el reporte de asistencias generales
+     *
+     * @Route(
+     *     "/{fecha_inicio}/{fecha_fin}/{sexo}/asistencias.{_format}",
+     *     name="reporte-asistencias",
+     *     requirements={
+     *         "fecha_inicio"="\d{2}-\d{2}-\d{4}",
+     *         "fecha_fin"="\d{2}-\d{2}-\d{4}",
+     *         "_format"="pdf|html",
+     *         "sexo"="0|1|2"
+     * })
+     * @Method("GET")
      * @Template()
      * @Pdf()
      */
-    public function reporteAsistenciaAction(\DateTime $fecha_inicio, \DateTime $fecha_fin)
+    public function reporteAsistenciaAction(\DateTime $fecha_inicio, \DateTime $fecha_fin, $sexo = 0)
     {
+        /*$em = $this->getDoctrine()->getManager();
+        $qb = $em->createQueryBuilder()
+            ->select('c')
+            ->from('SIGBundle:Citas', 'c')
+            ->where('c.fechacita BETWEEN :inicio AND :fin')
+            ->setParameter(':inicio', $fecha_inicio)
+            ->setParameter(':fin', $fecha_fin);
+            if($sexo != 0){
+                $qb->andWhere('c.codexpediente IN (SELECT exp.codexpediente FROM SIGBundle:Datosgenerales exp WHERE exp.genero = :sexo)')
+                    ->setParameter(':sexo', $sexo);
+            }
+        $cant_ninias = $qb->getQuery()->getArrayResult();*/
+        $cant_ninias = 10;
+
         return array(
             'titulo'       => 'Reporte de asistencias generales',
             'autor'        => $this->getUser()->getNombreCompleto(),
             'fecha_inicio' => $fecha_inicio,
-            'fecha_fin'    => $fecha_fin
+            'fecha_fin'    => $fecha_fin,
+            'cant_ninias'  => $cant_ninias,
+            'cant_ninios'  => $sexo
         );
     }
 
@@ -202,69 +243,5 @@ class EstrategicoController extends Controller
         }
 
         return $result;
-    }
-
-    private function createReportForm()
-    {
-        $constraints = array(
-        	new Assert\NotBlank(array(
-                'message' => 'El campo no puede quedar vacio'
-            )),
-            new Assert\Date(array(
-                'message' => 'Ingrese una fecha valida'
-            ))
-        );
-
-        $formBuilder = $this->createFormBuilder()
-        	->add('fecha_inicio', 'date', array(
-                'label'           => 'Fecha de inicio',
-                'widget'          => 'single_text',
-                'format'          => 'dd/MM/yyyy',
-                'invalid_message' => 'La fecha debe tener el formato dd/mm/yyyy',
-                'attr'            => array(
-                    'placeholder'      => 'Por ejemplo: 17/01/2007',
-                    'class'            => 'datepicker',
-                    'data-provide'     => 'datepicker',
-					'data-date-format' => 'dd/mm/yyyy',
-					'data-language'    => 'es'
-                ),
-                'constraints'     => $constraints
-                ))
-            ->add('fecha_fin', 'date', array(
-                'label'           => 'Fecha de fin',
-                'widget'          => 'single_text',
-                'format'          => 'dd/MM/yyyy',
-                'invalid_message' => 'La fecha debe tener el formato dd/mm/yyyy',
-                'attr'            => array(
-                    'placeholder'      => 'Por ejemplo: 17/10/2009',
-                    'class'            => 'datepicker',
-                    'data-provide'     => 'datepicker',
-                    'data-date-format' => 'dd/mm/yyyy',
-                    'data-language'    => 'es'
-                ),
-                'constraints'     => $constraints
-                ))
-            ->add('sexo', 'choice',
-                array(
-                    'label'   => 'Sexo',
-                    'choices' => array(
-                        0 => 'Ambos',
-                        1 => 'Masculino',
-                        2 => 'Femenino'
-                )));
-
-        $formBuilder->add('actions', 'form_actions');
-            $formBuilder->get('actions')
-                ->add('generar', 'submit', array(
-                    'attr' => array(
-                        'data-loading-text' => 'Preparando...'
-                )))
-                ->add('limpiar', 'reset');
-
-        $formBuilder
-                ->setAction($this->generateUrl('validar-asistencias'))
-                ->setMethod('POST');
-
-        return $formBuilder->getForm();
     }
 }

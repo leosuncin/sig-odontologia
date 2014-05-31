@@ -2,31 +2,34 @@
 
 {% block parameters %}
 <h1>Generación de reporte de asistencias generales</h1>
-<div id="parametros" class="row">{{ form(form, {'style': 'horizontal', 'col_size': 'xs'}) }}</div>
+<div id="parametros" class="row">{{ form(form, {'style': 'horizontal'}) }}</div>
 {% endblock %}
 
 {% block javascript %}
 <script>
     require(['bootstrap-datepicker'], function($) {
-        var btn = $('#form_actions_generar');
+        var btn = $('#parametros_actions_generar');
         $('.datepicker').datepicker({
             format: 'dd/mm/yyyy',
             clearBtn: true,
             language: 'es',
             autoClose: true
         });
-        $('form[name="form"]').submit(function(e) {
+        $('form[name="parametros"]').submit(function(e) {
             e.preventDefault();
             btn.button('loading');
             $.ajax({
                 url: Routing.generate('validar-asistencias'),
                 type: 'POST',
                 dataType: 'json',
-                data: $('form[name="form"]').serialize()
+                data: $(this).serialize()
             })
             .done(function(response) {
                 data = JSON.parse(response);
-                $('#preview-pdf').prop('src', data.route);
+                $('#preview-report').html('<iframe src="%src%" frameborder="0" class="col-xs-12" height="%height%"></iframe>'.replace('%src%', data.route).replace('%height%', $(window).height()));
+                window.setTimeout(function() {
+                    location.href = '#preview-report';
+                }, 1500);
             })
             .fail(function(response) {
                 console.log(response);
@@ -36,7 +39,7 @@
             });
             
         });
-        $('#form_actions_limpiar').click(function() {
+        $('#parametros_actions_limpiar').click(function() {
             btn.button('reset');
         });
     });

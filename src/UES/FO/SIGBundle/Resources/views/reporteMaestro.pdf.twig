@@ -1,18 +1,27 @@
 {% import "SIGBundle::macros.html.twig" as util %}
-<pdf encoding="UTF-8" page-size="{% if orientation is not defined %}letter{% else %}letter-landscape{% endif %}' }}">
+<pdf encoding="UTF-8" page-size="{{ page_size|default('letter') }}" Title="{{ titulo }}" Author="{{ autor }}" CreationDate="{{ "now"|date }}" Creator="Sistema de Información Gerencial, Facultad de Odontología, Universidad de El Salvador">
     <dynamic-page>
-        <img width="100px" height="100px" position="relative" float="left" src="{{ pdf_image('SIGBundle:ues.png') }}" />
-        <img width="100px" height="100px" position="relative" float="right" src="{{ pdf_image('SIGBundle:odontologia.png') }}" />
-        <h1 position="absolute" float="left" text-align="center" width="100%" top="1in" >Universidad de El Salvador<br />Facultad de Odontología</h1>
-        <hr />
-        <div id="content" height="7in">{% block content %}{% endblock %}</div>
-        <hr />
-        <p position="absolute" text-align="center">
-        Facultad de Odontologia<br />
-        Universidad de El Salvador<br />
-        Final 25 Av. Norte, Ciudad Universitaria, San Salvador.<br />
-        Tels (503) 225 7198<br />
-        www.odontologia.ues.edu.sv
-        </p>
+        <placeholders>
+            <header>
+                <div width="100%" height="0.8in">
+                    <img width="100px" height="100px" float="left" src="{{ pdf_image('SIGBundle:ues.png') }}" />
+                    <img width="100px" height="100px" float="right" src="{{ pdf_image('SIGBundle:odontologia.png') }}" />
+                    <hr />
+                    <h1 position="absolute" text-align="center" width="100%" top="1in" >Universidad de El Salvador<br />Facultad de Odontología</h1>
+                </div>
+            </header>
+            <footer>
+                <div width="100%" height="1in">
+                    <p text-align="center"><page-info format="Pagina %s de %s" /></p>
+                    <hr />
+                    <p text-align="center">
+                        Facultad de Odontología, Universidad de El Salvador<br />
+                        Final 25 Av. Norte, Ciudad Universitaria, San Salvador. Tels (503) 225 7198<br />
+                        <a href="www.odontologia.ues.edu.sv">www.odontologia.ues.edu.sv</a>
+                    </p>
+                </div>
+            </footer>
+        </placeholders>
+        {% block contenido %}{% endblock %}
     </dynamic-page>
 </pdf>
