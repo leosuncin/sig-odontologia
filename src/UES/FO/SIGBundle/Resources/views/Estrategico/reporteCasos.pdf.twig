@@ -1,5 +1,6 @@
 {% extends "SIGBundle::reporteMaestro.pdf.twig" %}
 
-{% block content %}
-<h1>Welcome to the Estrategico:casos page</h1>
+{% block contenido %}
+<h2 text-align="center">Casos referidos</h2>
+<p text-align="center">Desde {{ util.fecha(fecha_inicio) }} hasta el {{ util.fecha(fecha_fin) }}</p>
 {% endblock %}

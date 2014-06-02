@@ -1,5 +1,13 @@
 {% extends "SIGBundle:Default:index.html.twig" %}
 
 {% block parameters %}
-<h1>Welcome to the Estrategico:tratamiento page</h1>
+<h1>Generación de reporte de plan de tratamiento</h1>
+{{ form(form, {'style': 'horizontal'}) }}
+{% endblock %}
+
+{% block javascript %}
+<script>
+    require(['../bundles/sig/js/tratamiento'], function(tratamiento) {
+    });
+</script>
 {% endblock %}

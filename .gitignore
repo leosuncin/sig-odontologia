@@ -34,7 +34,7 @@ composer.phar
 
 
 ### NetBeans ###
-nbproject/private/
+nbproject/
 build/
 nbbuild/
 dist/

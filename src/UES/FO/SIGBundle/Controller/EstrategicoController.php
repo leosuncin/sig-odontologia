@@ -65,25 +65,120 @@ class EstrategicoController extends Controller
     }
 
     /**
+     * Muestra el formulario de parámetros para el reporte de plan de tratamiento
+     *
      * @Route("/plan-tratamiento", name="plan-tratamiento")
+     * @Method("GET")
      * @Template()
      */
     public function tratamientoAction()
     {
+        $form = $this->createForm(
+            new EstrategicoType(),
+            new ParametrosEstrategico(),
+            array(
+                'action' => $this->generateUrl('validar-plan-tratamiento'),
+                'method' => 'POST',
+                'attr' => array('col_size' => 'xs')
+            ));
+        return array('title' => 'Reporte de plan de tratamiento', 'form'=> $form->createView());
     }
 
     /**
+     * Validar la información de los parametros enviados por método POST
+     *
      * @Route(
-     *     "/plan-tratamiento.{_format}",
-     *     name="reporte-plan-tratamiento",
+     *     "/plan-tratamiento",
+     *     name="validar-plan-tratamiento",
      *     options={"expose"=true}
      * )
      * @Method("POST")
+     * @Template("SIGBundle:Estrategico:tratamiento.html.twig")
+     * @Pdf()
+     */
+    public function validateTratamientoAction(Request $request)
+    {
+        $ajax = $request->isXmlHttpRequest();
+        $data = new ParametrosEstrategico();
+        $form = $this->createForm(
+            new EstrategicoType(),
+            $data,
+            array(
+                'action' => $this->generateUrl('validar-plan-tratamiento'),
+                'method' => 'POST',
+                'attr' => array('col_size' => 'xs')
+            ));
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $route = $this->generateUrl('pdf_viewer').'?file='.$this->generateUrl('reporte-plan-tratamiento', array(
+                    'fecha_inicio' => $data->getFechaInicio()->format('d-m-Y'),
+                    'fecha_fin'    => $data->getFechaFin()->format('d-m-Y'),
+                    'sexo'         => $data->getSexo(),
+                    '_format'      =>'pdf'), true);
+            if($ajax) {
+                return new JsonResponse(json_encode(array('route' => $route)));
+            } else {
+                return new RedirectResponse($route);
+            }
+        }
+
+        if ($ajax) {
+            return new JsonResponse(json_encode(FormUtils::getFormErrors($form)), 400);
+        } else {
+            return array('title' => 'Reporte de plan de tratamiento', 'form'=> $form->createView());
+        }
+    }
+
+    /**
+     * Genera el reporte de plan de tratamiento
+     *
+     * @Route(
+     *     "/{fecha_inicio}/{fecha_fin}/{sexo}/plan-tratamiento.{_format}",
+     *     name="reporte-plan-tratamiento",
+     *     requirements={
+     *         "fecha_inicio"="\d{2}-\d{2}-\d{4}",
+     *         "fecha_fin"="\d{2}-\d{2}-\d{4}",
+     *         "_format"="pdf|html",
+     *         "sexo"="0|1|2"
+     * })
+     * @Method("GET")
      * @Template()
      * @Pdf()
      */
-    public function reporteTratamientoAction($request)
+    public function reporteTratamientoAction(\DateTime $fecha_inicio, \DateTime $fecha_fin, $sexo = 0)
     {
+        $parametros = new ParametrosEstrategico();
+        $parametros->setFechaInicio($fecha_inicio);
+        $parametros->setFechaFin($fecha_fin);
+        $parametros->setSexo($sexo);
+
+        $errores = $this->get('validator')->validate($parametros);
+        if (count($errores) > 0) {
+            throw new BadRequestHttpException((string) $errores);
+        }
+
+        $pdo_fecha_inicio = $fecha_inicio->format('Y-m-d');
+        $pdo_fecha_fin = $fecha_fin->format('Y-m-d');
+        $conn = $this->getDoctrine()->getManager()->getConnection();
+        $stmt = $conn->prepare('CALL pr_reporte_tratamiento(:fecha_inicio, :fecha_fin, :sexo, @cant_ninios, @cant_ninias, @cant_total)');
+        $stmt->bindParam(':fecha_inicio', $pdo_fecha_inicio, \PDO::PARAM_STR);
+        $stmt->bindParam(':fecha_fin', $pdo_fecha_fin, \PDO::PARAM_STR);
+        $stmt->bindParam(':sexo', $sexo, \PDO::PARAM_INT);
+        $stmt->execute();
+        $stmt = $conn->query('SELECT @cant_ninios, @cant_ninias, @cant_total');
+        $result = $stmt->fetchAll();
+
+        return array(
+            'titulo'       => 'Reporte de plan de tratamiento',
+            'autor'        => $this->getUser()->getNombreCompleto(),
+            'fecha_inicio' => $fecha_inicio,
+            'fecha_fin'    => $fecha_fin,
+            'cant_ninias'  => $result[0]['@cant_ninias'],
+            'cant_ninios'  => $result[0]['@cant_ninios'],
+            'cant_total'   => $result[0]['@cant_total']
+        );
     }
 
     /**
@@ -205,24 +300,115 @@ class EstrategicoController extends Controller
     }
 
     /**
+     * Muestra el formulario de parámetros para el reporte de casos referidos
+     *
      * @Route("/casos-referidos", name="casos-referidos")
+     * @Method("GET")
      * @Template()
      */
     public function casosAction()
     {
+        $form = $this->createForm(
+            new EstrategicoType(),
+            new ParametrosEstrategico(),
+            array(
+                'action' => $this->generateUrl('validar-casos-referidos'),
+                'method' => 'POST',
+                'attr' => array('col_size' => 'xs')
+            ));
+        return array('title' => 'Reporte de casos referidos', 'form'=> $form->createView());
     }
 
     /**
+     * Validar la información de los parametros enviados por método POST
+     *
      * @Route(
-     *     "/casos-referidos.{_format}",
-     *     name="reporte-casos-referidos",
+     *     "/casos-referidos",
+     *     name="validar-casos-referidos",
      *     options={"expose"=true}
      * )
      * @Method("POST")
+     * @Template("SIGBundle:Estrategico:casos.html.twig")
+     * @Pdf()
+     */
+    public function validateCasosAction(Request $request)
+    {
+        $ajax = $request->isXmlHttpRequest();
+        $data = new ParametrosEstrategico();
+        $form = $this->createForm(
+            new EstrategicoType(),
+            $data,
+            array(
+                'action' => $this->generateUrl('validar-casos-referidos'),
+                'method' => 'POST',
+                'attr' => array('col_size' => 'xs')
+            ));
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $route = $this->generateUrl('pdf_viewer').'?file='.$this->generateUrl('reporte-casos-referidos', array(
+                    'fecha_inicio' => $data->getFechaInicio()->format('d-m-Y'),
+                    'fecha_fin'    => $data->getFechaFin()->format('d-m-Y'),
+                    'sexo'         => $data->getSexo(),
+                    '_format'      =>'pdf'), true);
+            if($ajax) {
+                return new JsonResponse(json_encode(array('route' => $route)));
+            } else {
+                return new RedirectResponse($route);
+            }
+        }
+
+        if ($ajax) {
+            return new JsonResponse(json_encode(FormUtils::getFormErrors($form)), 400);
+        } else {
+            return array('title' => 'Reporte de casos referidos', 'form'=> $form->createView());
+        }
+    }
+
+    /**
+     * Genera el reporte de casos referidos
+     *
+     * @Route(
+     *     "/{fecha_inicio}/{fecha_fin}/{sexo}/casos-referidos.{_format}",
+     *     name="reporte-casos-referidos",
+     *     options={"expose"=true}
+     * )
+     * @Method("GET")
      * @Template()
      * @Pdf()
      */
-    public function reporteCasosAction($request)
+    public function reporteCasosAction(\DateTime $fecha_inicio, \DateTime $fecha_fin, $sexo = 0)
     {
+        $parametros = new ParametrosEstrategico();
+        $parametros->setFechaInicio($fecha_inicio);
+        $parametros->setFechaFin($fecha_fin);
+        $parametros->setSexo($sexo);
+
+        $errores = $this->get('validator')->validate($parametros);
+        if (count($errores) > 0) {
+            throw new BadRequestHttpException((string) $errores);
+        }
+
+        $pdo_fecha_inicio = $fecha_inicio->format('Y-m-d');
+        $pdo_fecha_fin = $fecha_fin->format('Y-m-d');
+        $conn = $this->getDoctrine()->getManager()->getConnection();
+        $stmt = $conn->prepare('CALL pr_reporte_casos(:fecha_inicio, :fecha_fin, :sexo, @cant_ninios, @cant_ninias, @cant_total)');
+        $stmt->bindParam(':fecha_inicio', $pdo_fecha_inicio, \PDO::PARAM_STR);
+        $stmt->bindParam(':fecha_fin', $pdo_fecha_fin, \PDO::PARAM_STR);
+        $stmt->bindParam(':sexo', $sexo, \PDO::PARAM_INT);
+        $stmt->execute();
+        $stmt = $conn->query('SELECT @cant_ninios, @cant_ninias, @cant_total');
+        $result = $stmt->fetchAll();
+
+        return array(
+            'titulo'       => 'Reporte de casos referidos',
+            'autor'        => $this->getUser()->getNombreCompleto(),
+            'fecha_inicio' => $fecha_inicio,
+            'fecha_fin'    => $fecha_fin,
+            'cant_ninias'  => $result[0]['@cant_ninias'],
+            'cant_ninios'  => $result[0]['@cant_ninios'],
+            'cant_total'   => $result[0]['@cant_total']
+        );
     }
 }

@@ -1,5 +1,13 @@
 {% extends "SIGBundle:Default:index.html.twig" %}
 
 {% block parameters %}
-<h1>Welcome to the Estrategico:casos page</h1>
+<h1>Generación de reporte de casos referidos</h1>
+{{ form(form, {'style': 'horizontal'}) }}
+{% endblock %}
+
+{% block javascript %}
+<script>
+    require(['../bundles/sig/js/casos'], function(casos) {
+    });
+</script>
 {% endblock %}
