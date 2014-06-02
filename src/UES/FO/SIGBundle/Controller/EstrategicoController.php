@@ -2,17 +2,18 @@
 
 namespace UES\FO\SIGBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Ps\PdfBundle\Annotation\Pdf;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\RedirectResponse;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use UES\FO\SIGBundle\Model\ParametrosEstrategico;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use UES\FO\SIGBundle\Form\EstrategicoType;
+use UES\FO\SIGBundle\Form\Util\FormUtils;
+use UES\FO\SIGBundle\Model\ParametrosEstrategico;
 
 /**
  * @Route("/estrategico")
@@ -103,7 +104,7 @@ class EstrategicoController extends Controller
                 'attr' => array('col_size' => 'xs')// el tamaño mínimo del dispositivo
             ));
         // enviar variables a la vista para ser mostrada
-        return array('form'=> $form->createView());
+        return array('title' => 'Reporte de asistencias generales', 'form'=> $form->createView());
     }
 
     /**
@@ -135,8 +136,8 @@ class EstrategicoController extends Controller
         if ($form->isValid()) {// Symfony verifica que la información enviada cumpla con las reglas
             // generar la URL donde se mostrará el PDF
             $route = $this->generateUrl('pdf_viewer').'?file='.$this->generateUrl('reporte-asistencias', array(
-                    'fecha_inicio' => date_format($data->getFechaInicio(), 'd-m-Y'),
-                    'fecha_fin'    => date_format($data->getFechaFin(), 'd-m-Y'),
+                    'fecha_inicio' => $data->getFechaInicio()->format('d-m-Y'),
+                    'fecha_fin'    => $data->getFechaFin()->format('d-m-Y'),
                     'sexo'         => $data->getSexo(),
                     '_format'      =>'pdf'), true);
             if($ajax) {
@@ -147,9 +148,9 @@ class EstrategicoController extends Controller
         }
         // en caso de que la información enviada tenga errores
         if ($ajax) {
-            return new JsonResponse(json_encode($this->getFormErrors($form)), 400);// sí la petición es AJAX responder con JSON con los errores
+            return new JsonResponse(json_encode(FormUtils::getFormErrors($form)), 400);// sí la petición es AJAX responder con JSON con los errores
         } else {
-            return array('form'=> $form->createView());// sí no mostrar de nuevo el formulario con los errores
+            return array('title' => 'Reporte de asistencias generales', 'form'=> $form->createView());// sí no mostrar de nuevo el formulario con los errores
         }
     }
 
@@ -171,27 +172,35 @@ class EstrategicoController extends Controller
      */
     public function reporteAsistenciaAction(\DateTime $fecha_inicio, \DateTime $fecha_fin, $sexo = 0)
     {
-        /*$em = $this->getDoctrine()->getManager();
-        $qb = $em->createQueryBuilder()
-            ->select('c')
-            ->from('SIGBundle:Citas', 'c')
-            ->where('c.fechacita BETWEEN :inicio AND :fin')
-            ->setParameter(':inicio', $fecha_inicio)
-            ->setParameter(':fin', $fecha_fin);
-            if($sexo != 0){
-                $qb->andWhere('c.codexpediente IN (SELECT exp.codexpediente FROM SIGBundle:Datosgenerales exp WHERE exp.genero = :sexo)')
-                    ->setParameter(':sexo', $sexo);
-            }
-        $cant_ninias = $qb->getQuery()->getArrayResult();*/
-        $cant_ninias = 10;
+        $parametros = new ParametrosEstrategico();// Crear una instancia del modelo de parámetros
+        $parametros->setFechaInicio($fecha_inicio);
+        $parametros->setFechaFin($fecha_fin);
+        $parametros->setSexo($sexo);
 
-        return array(
+        $errores = $this->get('validator')->validate($parametros);// Validar la instancia sí sus atributos son correctos
+        if (count($errores) > 0) {
+            throw new BadRequestHttpException((string) $errores);// Si hay un error, no continua con la generación del reporte y muestra el error
+        }
+
+        $pdo_fecha_inicio = $fecha_inicio->format('Y-m-d');// Formatear la fecha al estilo de MySQL
+        $pdo_fecha_fin = $fecha_fin->format('Y-m-d');
+        $conn = $this->getDoctrine()->getManager()->getConnection();// Obtener la conexión a la base de datos
+        $stmt = $conn->prepare('CALL pr_reporte_asistencias(:fecha_inicio, :fecha_fin, :sexo, @cant_ninios, @cant_ninias, @cant_total)');// Preparar la llamada al procedimiento almacenado
+        $stmt->bindParam(':fecha_inicio', $pdo_fecha_inicio, \PDO::PARAM_STR);// Preparar los parámetros de la consulta
+        $stmt->bindParam(':fecha_fin', $pdo_fecha_fin, \PDO::PARAM_STR);
+        $stmt->bindParam(':sexo', $sexo, \PDO::PARAM_INT);
+        $stmt->execute();// Ejecutar la consulta
+        $stmt = $conn->query('SELECT @cant_ninios, @cant_ninias, @cant_total');// Consultar el resultado de la ejecución
+        $result = $stmt->fetchAll();// Obtener los valores del resultado
+
+        return array(// Pasar las variables a la vista del reporte
             'titulo'       => 'Reporte de asistencias generales',
             'autor'        => $this->getUser()->getNombreCompleto(),
             'fecha_inicio' => $fecha_inicio,
             'fecha_fin'    => $fecha_fin,
-            'cant_ninias'  => $cant_ninias,
-            'cant_ninios'  => $sexo
+            'cant_ninias'  => $result[0]['@cant_ninias'],
+            'cant_ninios'  => $result[0]['@cant_ninios'],
+            'cant_total'   => $result[0]['@cant_total']
         );
     }
 
@@ -215,33 +224,5 @@ class EstrategicoController extends Controller
      */
     public function reporteCasosAction($request)
     {
-    }
-
-    private function getFormErrors(\Symfony\Component\Form\Form $form) {        
-        $result = [];
-
-        // Looking for own errors.
-        $errors = $form->getErrors();
-        if (count($errors)) {
-            $result['errors'] = [];
-            foreach ($errors as $error) {
-                $result['errors'][] = $error->getMessage();
-            }
-        }
-
-        // Looking for invalid children and collecting errors recursively.
-        if ($form->count()) {
-            $childErrors = [];
-            foreach ($form->all() as $child) {
-                if (!$child->isValid()) {
-                    $childErrors[$child->getName()] = $this->getFormErrors($child);
-                }
-            }
-            if (count($childErrors)) {
-                $result['childrens'] = $childErrors;
-            }
-        }
-
-        return $result;
     }
 }

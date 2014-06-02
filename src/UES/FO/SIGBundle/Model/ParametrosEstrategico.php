@@ -102,7 +102,7 @@ class ParametrosEstrategico
     {
         if($this->fecha_fin < $this->fecha_inicio)
             $context->addViolationAt(
-                'fecha_inicio',
+                'fecha_fin',
                 'La fecha de finalización debe ser posterior a la de inicio',
                 array(),
                 null

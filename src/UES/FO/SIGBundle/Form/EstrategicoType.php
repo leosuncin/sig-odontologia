@@ -21,11 +21,8 @@ class EstrategicoType extends AbstractType
                 'format'          => 'dd/MM/yyyy',
                 'invalid_message' => 'La fecha debe tener el formato dd/mm/yyyy',
                 'attr'            => array(
-                    'placeholder'      => 'Por ejemplo: 17/01/2007',
-                    'class'            => 'datepicker',
-                    'data-provide'     => 'datepicker',
-                    'data-date-format' => 'dd/mm/yyyy',
-                    'data-language'    => 'es'
+                    'placeholder' => 'Por ejemplo: 17/01/2007',
+                    'class'       => 'datepicker'
                 )
                 ))
             ->add('fecha_fin', 'date', array(
@@ -34,11 +31,8 @@ class EstrategicoType extends AbstractType
                 'format'          => 'dd/MM/yyyy',
                 'invalid_message' => 'La fecha debe tener el formato dd/mm/yyyy',
                 'attr'            => array(
-                    'placeholder'      => 'Por ejemplo: 17/10/2009',
-                    'class'            => 'datepicker',
-                    'data-provide'     => 'datepicker',
-                    'data-date-format' => 'dd/mm/yyyy',
-                    'data-language'    => 'es'
+                    'placeholder' => 'Por ejemplo: 17/10/2009',
+                    'class'       => 'datepicker'
                 )
                 ))
             ->add('sexo', 'choice',
