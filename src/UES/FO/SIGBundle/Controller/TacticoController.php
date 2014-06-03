@@ -18,7 +18,7 @@ class TacticoController extends Controller
 {
     /**
      * @Route("/enfermedades-padecidas", name="enfermedades-padecidas")
-     
+     * @Method("GET")
      * @Template()
      */
     public function enfermedadesPadecidasAction()
@@ -84,12 +84,47 @@ public function validateEnfermedadesPadecidasAction(Request $request)
      * @Template()
      * @Pdf()
      */
-    public function reporteEnfermedadesPadecidasAction($request)
-    { return array(
+    public function reporteEnfermedadesPadecidasAction(\DateTime $fecha_inicio, \DateTime $fecha_fin, $sexo = 0, \varchar $enfermedad)
+    { 
+    
+
+        $parametros = new ParametrosTactico1();// Crear una instancia del modelo de parámetros
+        $parametros->setFechaInicio($fecha_inicio);
+        $parametros->setFechaFin($fecha_fin);
+        $parametros->setSexo($sexo);
+        $parametros->setEnfermedad($enfermedad);
+
+        $errores = $this->get('validator')->validate($parametros);// Validar la instancia sí sus atributos son correctos
+        if (count($errores) > 0) {
+            throw new BadRequestHttpException((string) $errores);// Si hay un error, no continua con la generación del reporte y muestra el error
+        }
+
+        $pdo_fecha_inicio = $fecha_inicio->format('Y-m-d');// Formatear la fecha al estilo de MySQL
+        $pdo_fecha_fin = $fecha_fin->format('Y-m-d');
+        $conn = $this->getDoctrine()->getManager()->getConnection();// Obtener la conexión a la base de datos
+        //AQUI FALTAN LAS VARIABLES DE SALIDA Y REALIZAR EL PROCESO ALMACENADO EN LA BD
+        $stmt = $conn->prepare('CALL pr_reporte_enfermedades(:fecha_inicio, :fecha_fin, :sexo, :enfermedad)');// Preparar la llamada al procedimiento almacenado
+        $stmt->bindParam(':fecha_inicio', $pdo_fecha_inicio, \PDO::PARAM_STR);// Preparar los parámetros de la consulta
+        $stmt->bindParam(':fecha_fin', $pdo_fecha_fin, \PDO::PARAM_STR);
+        $stmt->bindParam(':sexo', $sexo, \PDO::PARAM_INT);
+        $stmt->bindParam(':enfermedad', $enfermedad, \PDO::PARAM_INT);
+        $stmt->execute();// Ejecutar la consulta
+        //ESTO LO DEBO DE CAMBIAR
+        $stmt = $conn->query('SELECT @cant_ninios, @cant_ninias, @cant_total');// Consultar el resultado de la ejecución
+        $result = $stmt->fetchAll();// Obtener los valores del resultado
+
+        return array(// Pasar las variables a la vista del reporte
+            'titulo'       => 'Reporte de Enfermedades Padecidas',
+            'autor'        => $this->getUser()->getNombreCompleto(),
             'fecha_inicio' => $fecha_inicio,
-            'fecha_fin' => $fecha_fin
+            'fecha_fin'    => $fecha_fin,
+            //ESTO LO DEBO DE CAMBIAR
+            'cant_ninias'  => $result[0]['@cant_ninias'],
+            'cant_ninios'  => $result[0]['@cant_ninios'],
+            'cant_total'   => $result[0]['@cant_total']
         );
-    }
+
+}
 
     /**
      * @Route("/tipo-perfil", name="tipo-perfil")
