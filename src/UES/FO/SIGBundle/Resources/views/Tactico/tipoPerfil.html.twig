@@ -1,20 +1,5 @@
 {% extends "SIGBundle:Default:index.html.twig" %}
 
 {% block parameters %}
-<h1>Generación de reporte de Tipo de Perfil</h1>
-<div id="parametros" class="row">{{ form(form, {'style': 'horizontal', 'col_size': 'xs'}) }}</div>
-<canvas id="preview"></canvas>
-{% endblock %}
-
-{% block javascript %}
-<script>
-	require(['bootstrap-datepicker', 'pdf'], function($, pdfjs) {
-		$('.datepicker').datepicker({
-			format: 'dd/mm/yyyy',
-			clearBtn: true,
-			language: 'es'
-		});
-		console.log(pdfjs);
-	});
-</script>
+<h1>Welcome to the Tactico:tipoPerfil page</h1>
 {% endblock %}
