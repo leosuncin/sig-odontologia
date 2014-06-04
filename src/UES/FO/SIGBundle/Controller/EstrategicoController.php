@@ -12,6 +12,8 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use UES\FO\SIGBundle\Form\EstrategicoType;
+use UES\FO\SIGBundle\Form\Estrategico2Type;
+use UES\FO\SIGBundle\Form\Estrategico3Type;
 use UES\FO\SIGBundle\Form\Util\FormUtils;
 use UES\FO\SIGBundle\Model\ParametrosEstrategico;
 
@@ -22,10 +24,21 @@ class EstrategicoController extends Controller
 {
     /**
      * @Route("/relacion-sagital", name="relacion-sagital")
+     * @Method("GET")
      * @Template()
      */
     public function relacionSagitalAction()
     {
+        $form = $this->createForm(// crear el formulario a partir de una clase modelo
+            new Estrategico3Type(), // clase formulario de Symfony
+            new ParametrosEstrategico(), // modelo donde se manejaran los parámetros
+            array(
+                'action' => $this->generateUrl('validar-relacion-sagital'),// a donde va a ser redirigido el formulario
+                'method' => 'POST',// por cual método HTTP
+                'attr' => array('col_size' => 'xs')// el tamaño mínimo del dispositivo
+            ));
+        // enviar variables a la vista para ser mostrada
+        return array('title' => 'Reporte de Relaciones Sagitales', 'form'=> $form->createView());
     }
 
     /**
@@ -43,11 +56,54 @@ class EstrategicoController extends Controller
     }
 
     /**
+     * Validar la información de los parametros enviados por método POST
+     *
+     * @Route(
+     *     "/relacion-sagital",
+     *     name="validar-relacion-sagital",
+     *     options={"expose"=true}
+     * )
+     * @Method("POST")
+     * @Template("SIGBundle:Estrategico:citas.html.twig")
+     * @Pdf()
+     */
+    public function validateSagitalesAction(Request $request){
+
+    }
+
+    /**
      * @Route("/cantidad-citas", name="cantidad-citas")
+     * @Method("GET")
      * @Template()
      */
     public function citasAction()
     {
+        $form = $this->createForm(// crear el formulario a partir de una clase modelo
+            new Estrategico2Type(), // clase formulario de Symfony
+            new ParametrosEstrategico(), // modelo donde se manejaran los parámetros
+            array(
+                'action' => $this->generateUrl('validar-cantidad-citas'),// a donde va a ser redirigido el formulario
+                'method' => 'POST',// por cual método HTTP
+                'attr' => array('col_size' => 'xs')// el tamaño mínimo del dispositivo
+            ));
+        // enviar variables a la vista para ser mostrada
+        return array('title' => 'Reporte de Cantidad de Citas', 'form'=> $form->createView());
+    }
+
+    /**
+     * Validar la información de los parametros enviados por método POST
+     *
+     * @Route(
+     *     "/cantidad-citas",
+     *     name="validar-cantidad-citas",
+     *     options={"expose"=true}
+     * )
+     * @Method("POST")
+     * @Template("SIGBundle:Estrategico:citas.html.twig")
+     * @Pdf()
+     */
+    public function validateCitasAction(Request $request){
+
     }
 
     /**
