@@ -1,5 +1,13 @@
 {% extends "SIGBundle:Default:index.html.twig" %}
 
 {% block parameters %}
-<h1>Welcome to the Estrategico:citas page</h1>
+<h1>Generación de reporte de Cantidad de Citas</h1>
+{{ form(form, {'style': 'horizontal'}) }}
+{% endblock %}
+
+{% block javascript %}
+<script>
+    require(['../bundles/sig/js/citas'], function(citas) {
+    });
+</script>
 {% endblock %}

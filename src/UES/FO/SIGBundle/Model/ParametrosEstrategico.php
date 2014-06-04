@@ -36,6 +36,7 @@ class ParametrosEstrategico
      */
     private $sexo;
 
+
     /**
      * set fecha_inicio
      * @param \DateTime $fecha_inicio
@@ -91,6 +92,65 @@ class ParametrosEstrategico
     public function getSexo()
     {
         return $this->sexo;
+    }
+
+    /**
+     * Edad a filtrar
+     * 
+     * @var int
+     *
+     * @Assert\Choice(choices = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, message = "Escoja una edad valida")
+     */
+    private $edad;
+
+
+    /**
+     * set edad
+     * @param int $edad
+     */
+    public function setEdad($edad)
+    {
+        $this->edad = $edad;
+        return $this;
+    }
+
+    /**
+     * get edad
+     * @return int
+     */
+    public function getEdad()
+    {
+        return $this->edad;
+    }
+
+
+    /**
+     * Tipo a filtrar
+     * 
+     * @var int
+     *
+     * @Assert\Choice(choices = {0, 1, 2, 3, 4}, message = "Escoja una tipo valida")
+     */
+    private $tipo;
+
+
+    /**
+     * set tipo
+     * @param int $tipo
+     */
+    public function setTipo($tipo)
+    {
+        $this->tipo = $tipo;
+        return $this;
+    }
+
+    /**
+     * get tipo
+     * @return int
+     */
+    public function getTipo()
+    {
+        return $this->tipo;
     }
 
     /**
