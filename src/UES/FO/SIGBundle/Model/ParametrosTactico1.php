@@ -44,7 +44,7 @@ class ParametrosTactico1
      * 
      * @var varchar
      *
-     * @Assert\Choice(choices = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}, message = "Escoja una enfermedad valida valido")
+     *@Assert\Choice(choices = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14}, message = "Escoja una enfermedad valida")
      */
     private $enfermedad;
 
@@ -205,7 +205,7 @@ class ParametrosTactico1
      * set enfermedad
      * @param \varchar $enfermedad
      */
-    public function setFechaInicio(\varchar $enfermedad)
+    public function setEnfermedad(\varchar $enfermedad)
     {
         $this->enfermedad = $enfermedad;
         return $this;
@@ -273,22 +273,22 @@ class ParametrosTactico1
 
 
 /**
-     * set desviacionmx
-     * @param \int $desviacionmx
+     * set milimetrosmx
+     * @param \int $milimetrosmx
      */
-    public function setDesviacionMx(\int $desviacionmx)
+    public function setMilimetrosMx(\int $milimetrosmx)
     {
-        $this->desviacionmx = $desviacionmx;
+        $this->milimetrosmx = $milimetrosmx;
         return $this;
     }
 
     /**
-     * get desviacionmx
+     * get milimetrosmx
      * @return \int
      */
-    public function getDesviacionMx()
+    public function getMilimetrosMx()
     {
-        return $this->desviacionmx;
+        return $this->milimetrosmx;
     }
 
 
@@ -297,22 +297,22 @@ class ParametrosTactico1
 
 
 /**
-     * set desviacionmd
-     * @param \int $desviacionmd
+     * set milimetrosmd
+     * @param \int $milimetrosmd
      */
-    public function setDesviacionMx(\int $desviacionmd)
+    public function setMilimetrosMd(\int $milimetrosmd)
     {
-        $this->desviacionmd = $desviacionmd;
+        $this->milimetrosmd = $milimetrosmd;
         return $this;
     }
 
     /**
-     * get desviacionmx
+     * get milimetrosmd
      * @return \int
      */
-    public function getDesviacionMd()
+    public function getMilimetrosMd()
     {
-        return $this->desviacionmd;
+        return $this->milimetrosmd;
     }
 
 
