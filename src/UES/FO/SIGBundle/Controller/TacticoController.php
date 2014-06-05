@@ -19,12 +19,7 @@ use UES\FO\SIGBundle\Model\ParametrosTactico1;
 use UES\FO\SIGBundle\Form\Tactico4Type; //este es mi vista del 
 use UES\FO\SIGBundle\Form\Tactico5Type; //este es mi vista del 
 use UES\FO\SIGBundle\Form\Tactico6Type; //este es mi vista del 
-
-use Ps\PdfBundle\Annotation\Pdf;
-
-
-=======
->>>>>>> 6c475222fabc47138c30fccc415368257ef4e296
+//use Ps\PdfBundle\Annotation\Pdf;
 /**
  * @Route("/tactico")
  */
