@@ -10,13 +10,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use UES\FO\SIGBundle\Form\Tactico4Type; //este es mi vista del 
 use UES\FO\SIGBundle\Form\Tactico5Type; //este es mi vista del 
 use UES\FO\SIGBundle\Form\Tactico6Type; //este es mi vista del 
-use Ps\PdfBundle\Annotation\Pdf;
-use UES\FO\SIGBundle\Form\Util\FormUtils;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
-
 /**
  * @Route("/tactico")
  */
