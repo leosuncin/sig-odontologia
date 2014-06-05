@@ -63,9 +63,6 @@ class Tactico3Type extends AbstractType
                         2 => 'Derecha',
                         
                 )))
-
-
-
            ->add('milimetrosmx', 'choice',
                 array(
                     'label'   => 'Milimetros desviación en Mx',
@@ -76,8 +73,6 @@ class Tactico3Type extends AbstractType
                         3 => '4',
                         4 => '5',
                 )))
-
-
            ->add('milimetrosmd', 'choice',
                 array(
                     'label'   => 'Milimetros desviación en Md',
@@ -88,8 +83,6 @@ class Tactico3Type extends AbstractType
                         3 => '4',
                         4 => '5',
                 )))
-
-          
 ->add('actions', 'form_actions');
             
             $builder->get('actions')
@@ -98,9 +91,6 @@ class Tactico3Type extends AbstractType
                     'data-loading-text' => 'Preparando...'
             )))
             ->add('limpiar', 'reset');
-
-
-
     }// fin funcion buildForm
 
 
