@@ -426,7 +426,7 @@ public function validateLineasMediasAction(Request $request)
         $pdo_fecha_fin = $fecha_fin->format('Y-m-d');
         $conn = $this->getDoctrine()->getManager()->getConnection();// Obtener la conexión a la base de datos
         //AQUI FALTAN LAS VARIABLES DE SALIDA Y REALIZAR EL PROCESO ALMACENADO EN LA BD
-        $stmt = $conn->prepare('CALL pr_reporte_enfermedades(:fecha_inicio, :fecha_fin, :sexo, :enfermedad)');// Preparar la llamada al procedimiento almacenado
+        $stmt = $conn->prepare('CALL pr_reporte_lineas_medias:fecha_inicio, :fecha_fin, :sexo, :orientacionmx, :orientacionmd, :milimetrosmx, :milimetrosmd)');// Preparar la llamada al procedimiento almacenado
         $stmt->bindParam(':fecha_inicio', $pdo_fecha_inicio, \PDO::PARAM_STR);// Preparar los parámetros de la consulta
         $stmt->bindParam(':fecha_fin', $pdo_fecha_fin, \PDO::PARAM_STR);
         $stmt->bindParam(':sexo', $sexo, \PDO::PARAM_INT);
