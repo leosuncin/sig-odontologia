@@ -1,5 +1,18 @@
 {% extends "SIGBundle:Default:index.html.twig" %}
-
 {% block parameters %}
-<h1>Welcome to the Tactico:estadiosNolla page</h1>
+<h1> Generacion de Reporte de Estadios de Nolla </h1>
+{{ form(form, {'style': 'horizontal'}) }}
+{% endblock %}
+
+{% block javascript %}
+<script>
+	require(['bootstrap-datepicker', 'pdf'], function($, pdfjs) {
+		$('.datepicker').datepicker({
+			format: 'dd/mm/yyyy',
+			clearBtn: true,
+			language: 'es'
+		});
+		console.log(pdfjs);
+	});
+</script>
 {% endblock %}
