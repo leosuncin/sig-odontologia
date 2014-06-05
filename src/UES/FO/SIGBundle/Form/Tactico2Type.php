@@ -59,9 +59,15 @@ class Tactico2Type extends AbstractType
                 array(
                     'label'   => 'Tipo',
                     'choices' => array(
-                        0 => 'Facial Frontal',
-                        1 => 'Perfil Total',
-                        2 => 'Perfil del 1/3 inferior',
+                        0 => 'Dolicofacial',
+                        1 => 'Mesofacial',
+                        2 => 'Braquifacial',
+                        3 => 'Ortognatico',
+                        4 => 'Divergente Anterior',
+                        5 => 'Divergente Posterior',
+                        6 => 'Recto',
+                        7 => 'Concavo',
+                        8 => 'Convexo',
                 )))
 
           

@@ -68,7 +68,7 @@ class Tactico3Type extends AbstractType
 
            ->add('milimetrosmx', 'choice',
                 array(
-                    'label'   => 'Milimetros de la desviación en Mx',
+                    'label'   => 'Milimetros desviación en Mx',
                     'choices' => array(
                         0 => '1',
                         1 => '2',
@@ -80,7 +80,7 @@ class Tactico3Type extends AbstractType
 
            ->add('milimetrosmd', 'choice',
                 array(
-                    'label'   => 'Milimetros de la desviación en Md',
+                    'label'   => 'Milimetros desviación en Md',
                     'choices' => array(
                         0 => '1',
                         1 => '2',
