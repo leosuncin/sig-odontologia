@@ -36,20 +36,14 @@ class ParametrosTactico1
      */
     private $sexo;
 
-
-
-
 /**
      * La enfermedad seleccionada
      * 
-     * @var varchar
+     * @var int
      *
-     *@Assert\Choice(choices = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14}, message = "Escoja una enfermedad valida")
+     *@Assert\Choice(choices = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13}, message = "Escoja una enfermedad valida")
      */
     private $enfermedad;
-
-
-
 
 /**
      * El perfil
@@ -69,8 +63,6 @@ class ParametrosTactico1
      */
     private $tipo;
 
-
-
 /**
      * Los milimetros de la desviacion en mx
      * 
@@ -79,8 +71,6 @@ class ParametrosTactico1
      * @Assert\Choice(choices = {0, 1, 2, 3, 4}, message = "Escoja los milimetros validos")
      */
     private $milimetrosmx;
-
-
 
 
 /**
@@ -93,9 +83,6 @@ class ParametrosTactico1
     private $milimetrosmd;
 
 
-
-
-
 /**
      * La orientacion de la desviacion en mx
      * 
@@ -104,8 +91,6 @@ class ParametrosTactico1
      * @Assert\Choice(choices = {0, 1, 2}, message = "Escoja una orientacion valida valido")
      */
     private $orientacionmx;
-
-
 
 
 /**
@@ -117,12 +102,7 @@ class ParametrosTactico1
      */
     private $orientacionmd;
 
-
-
-
-
-
-
+// SETTERS Y GETTERS
 /**
      * set fecha_inicio
      * @param \DateTime $fecha_inicio
@@ -180,32 +160,12 @@ class ParametrosTactico1
         return $this->sexo;
     }
 
-    /**
-     * Verifica que el periodo sea valido
-     * 
-     * @Assert\Callback
-     */
-    public function validate(ExecutionContextInterface $context)
-    {
-        if($this->fecha_fin < $this->fecha_inicio)
-            $context->addViolationAt(
-                'fecha_fin',
-                'La fecha de finalización debe ser posterior a la de inicio',
-                array(),
-                null
-            );
-    }
-
-
-
-
-
 
 /**
      * set enfermedad
-     * @param \varchar $enfermedad
+     * @param \int $enfermedad
      */
-    public function setEnfermedad(\varchar $enfermedad)
+    public function setEnfermedad($enfermedad)
     {
         $this->enfermedad = $enfermedad;
         return $this;
@@ -213,7 +173,7 @@ class ParametrosTactico1
 
     /**
      * get enfermedad
-     * @return \varchar
+     * @return \int
      */
     public function getEnfermedad()
     {
@@ -221,15 +181,11 @@ class ParametrosTactico1
     }
 
 
-
-
-
-
 /**
      * set perfil
      * @param \int $perfil
      */
-    public function setPerfil(\int $perfil)
+    public function setPerfil($perfil)
     {
         $this->perfil = $perfil;
         return $this;
@@ -244,17 +200,11 @@ class ParametrosTactico1
         return $this->perfil;
     }
 
-
-
-
-
-
-
 /**
      * set tipo
      * @param \int $tipo
      */
-    public function setTipo(\int $perfil)
+    public function setTipo($perfil)
     {
         $this->tipo = $tipo;
         return $this;
@@ -269,14 +219,11 @@ class ParametrosTactico1
         return $this->tipo;
     }
 
-
-
-
 /**
      * set milimetrosmx
      * @param \int $milimetrosmx
      */
-    public function setMilimetrosMx(\int $milimetrosmx)
+    public function setMilimetrosMx($milimetrosmx)
     {
         $this->milimetrosmx = $milimetrosmx;
         return $this;
@@ -291,16 +238,11 @@ class ParametrosTactico1
         return $this->milimetrosmx;
     }
 
-
-
-
-
-
 /**
      * set milimetrosmd
      * @param \int $milimetrosmd
      */
-    public function setMilimetrosMd(\int $milimetrosmd)
+    public function setMilimetrosMd($milimetrosmd)
     {
         $this->milimetrosmd = $milimetrosmd;
         return $this;
@@ -316,15 +258,11 @@ class ParametrosTactico1
     }
 
 
-
-
-
-
 /**
      * set orientacionmx
      * @param \int $orientacionmx
      */
-    public function setOrientacionMx(\int $orientacionmx)
+    public function setOrientacionMx($orientacionmx)
     {
         $this->orientacionmx = $orientacionmx;
         return $this;
@@ -338,15 +276,11 @@ class ParametrosTactico1
     {
         return $this->orientacionmx;
     }
-
-
-
-
 /**
      * set orientacionmd
      * @param \int $orientacionmd
      */
-    public function setOrientacionMd(\int $orientacionmd)
+    public function setOrientacionMd($orientacionmd)
     {
         $this->orientacionmd = $orientacionmd;
         return $this;
@@ -361,8 +295,19 @@ class ParametrosTactico1
         return $this->orientacionmd;
     }
 
-
-
-
-
-}
+    /**
+     * Verifica que el periodo sea valido
+     * 
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context)
+    {
+        if($this->fecha_fin < $this->fecha_inicio)
+            $context->addViolationAt(
+                'fecha_fin',
+                'La fecha de finalización debe ser posterior a la de inicio',
+                array(),
+                null
+            );
+    }
+}// fin de la clase
