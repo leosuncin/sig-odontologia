@@ -62,7 +62,7 @@ class Tactico1Type extends AbstractType
                         11 => 'SIDA',
                         12 => 'Transtornos renales',
                         13 => 'Tuberculosis',
-                        14 => 'Otras',
+                        
                 )))
 
           

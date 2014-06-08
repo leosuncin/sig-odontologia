@@ -16,9 +16,9 @@ use UES\FO\SIGBundle\Form\Tactico2Type;
 use UES\FO\SIGBundle\Form\Tactico3Type;
 use UES\FO\SIGBundle\Form\Util\FormUtils;
 use UES\FO\SIGBundle\Model\ParametrosTactico1;
-use UES\FO\SIGBundle\Form\Tactico4Type; //este es mi vista del 
-use UES\FO\SIGBundle\Form\Tactico5Type; //este es mi vista del 
-use UES\FO\SIGBundle\Form\Tactico6Type; //este es mi vista del 
+use UES\FO\SIGBundle\Form\Tactico4Type;  
+use UES\FO\SIGBundle\Form\Tactico5Type;  
+use UES\FO\SIGBundle\Form\Tactico6Type; 
 /**
  * @Route("/tactico")
  */
@@ -44,10 +44,6 @@ class TacticoController extends Controller
             ));
         // enviar variables a la vista para ser mostrada
         return array('title' => 'Reporte de enfermedades padecidas', 'form'=> $form->createView());
-
-
-
-
     }
 /**
      * @Route(
@@ -61,29 +57,6 @@ class TacticoController extends Controller
 
 public function validateEnfermedadesPadecidasAction(Request $request)
     {
-       // $form = $this->createReportFormEnfermedadesPadecidas();
-
-       // $form->handleRequest($request);
-
-        //if ($form->isValid()) {
-        //    $data = $form->getData();
-        //    $fecha_inicio = $data['fecha_inicio'];
-        //    $fecha_fin = $data['fecha_fin'];
-         //   if($fecha_inicio > $fecha_fin){
-        //        $form->get('fecha_fin')->addError(new \Symfony\Component\Form\FormError('La fecha de finalización debe ser mayor que la de inicio'));
-              //  return new Response(json_encode($this->getFormErrors($form)), 400, array("Content-Type" => "application/json; charset=UTF-8"));
-           // } else {
-              //  $data = $form->getData();
-              //  return $this->redirect($this->generateUrl('reporte-enfermedades-padecidas', array('fecha_inicio' => date_format($data['fecha_inicio'], 'd-m-y'), 'fecha_fin'=>date_format($data['fecha_fin'], 'd-m-y'), '_format'=>'pdf')));
-           // }
-      //  } else {
-          //  return new Response(json_encode($this->getFormErrors($form)), 400, array("Content-Type" => "application/json; charset=UTF-8"));
-       // }
-
-       // return array('form'=> $form->createView());
-
-
-
           $ajax = $request->isXmlHttpRequest();// comprobar si la petición es AJAX
         $data = new ParametrosTactico1();// instancia de clase donde se manejaran los parámetros
         $form = $this->createForm(// crear el formulario
@@ -118,9 +91,6 @@ public function validateEnfermedadesPadecidasAction(Request $request)
             return array('title' => 'Reporte de enfermedades padecidas', 'form'=> $form->createView());// sí no mostrar de nuevo el formulario con los errores
         }
     }
-
-
-
     /**
      * @Route(
      *     "/enfermedades-padecidas.{_format}",
@@ -157,7 +127,7 @@ public function validateEnfermedadesPadecidasAction(Request $request)
         $stmt->bindParam(':enfermedad', $enfermedad, \PDO::PARAM_INT);
         $stmt->execute();// Ejecutar la consulta
         //ESTO LO DEBO DE CAMBIAR
-        $stmt = $conn->query('SELECT @cant_ninios, @cant_ninias, @cant_total');// Consultar el resultado de la ejecución
+        $stmt = $conn->query('SELECT @cantninias4, @cantninias5, @cantninias6, @cantninias7, @cantninias8, @cantninias9, @cantninias10, @cantninias11, @cantninios4, @cantninios5, @cantninios6, @cantninios7, @cantninios8, @cantninios9, @cantninios10, @cantninios11, @cantotal');// Consultar el resultado de la ejecución
         $result = $stmt->fetchAll();// Obtener los valores del resultado
 
         return array(// Pasar las variables a la vista del reporte
@@ -167,10 +137,26 @@ public function validateEnfermedadesPadecidasAction(Request $request)
             'fecha_fin'    => $fecha_fin,
             'enfermedad'    => $enfermedad,
 
-            //ESTO LO DEBO DE CAMBIAR
-            'cant_ninias'  => $result[0]['@cant_ninias'],
-            'cant_ninios'  => $result[0]['@cant_ninios'],
-            'cant_total'   => $result[0]['@cant_total']
+            
+            'cantninias4'  => $result[0]['@cantninias4'],
+            'cantninias5'  => $result[0]['@cantninias5'],
+            'cantninias6'  => $result[0]['@cantninias6'],
+            'cantninias7'  => $result[0]['@cantninias7'],
+            'cantninias8'  => $result[0]['@cantninias8'],
+            'cantninias9'  => $result[0]['@cantninias9'],
+            'cantninias10'  => $result[0]['@cantninias10'],
+            'cantninias11'  => $result[0]['@cantninias11'],
+
+            'cantninios4'  => $result[0]['@cantninios4'],
+            'cantninios5'  => $result[0]['@cantninios5'],
+            'cantninios6'  => $result[0]['@cantninios6'],
+            'cantninios7'  => $result[0]['@cantninios7'],
+            'cantninios8'  => $result[0]['@cantninios8'],
+            'cantninios9'  => $result[0]['@cantninios9'],
+            'cantninios10'  => $result[0]['@cantninios10'],
+            'cantninios11'  => $result[0]['@cantninios11'],
+
+            
         );
 
 }
@@ -206,9 +192,6 @@ public function validateEnfermedadesPadecidasAction(Request $request)
             ));
         // enviar variables a la vista para ser mostrada
         return array('title' => 'Reporte de tipo de perfil', 'form'=> $form->createView());
-
-
-
 
     }
 
@@ -301,8 +284,9 @@ public function validateEnfermedadesPadecidasAction(Request $request)
         $stmt->bindParam(':tipo', $tipo, \PDO::PARAM_INT);
         $stmt->execute();// Ejecutar la consulta
         //ESTO LO DEBO DE CAMBIAR
-        $stmt = $conn->query('SELECT @cant_ninios, @cant_ninias, @cant_total');// Consultar el resultado de la ejecución
+        $stmt = $conn->query('SELECT @cantninias4, @cantninias5, @cantninias6, @cantninias7, @cantninias8, @cantninias9, @cantninias10, @cantninias11, @cantninios4, @cantninios5, @cantninios6, @cantninios7, @cantninios8, @cantninios9, @cantninios10, @cantninios11, @cantotal');// Consultar el resultado de la ejecución
         $result = $stmt->fetchAll();// Obtener los valores del resultado
+
 
         return array(// Pasar las variables a la vista del reporte
             'titulo'       => 'Reporte de tipo de perfil',
@@ -312,10 +296,23 @@ public function validateEnfermedadesPadecidasAction(Request $request)
             'perfil'    => $perfil,
              'tipo'    => $tipo,
 
-            //ESTO LO DEBO DE CAMBIAR
-            'cant_ninias'  => $result[0]['@cant_ninias'],
-            'cant_ninios'  => $result[0]['@cant_ninios'],
-            'cant_total'   => $result[0]['@cant_total']
+            'cantninias4'  => $result[0]['@cantninias4'],
+            'cantninias5'  => $result[0]['@cantninias5'],
+            'cantninias6'  => $result[0]['@cantninias6'],
+            'cantninias7'  => $result[0]['@cantninias7'],
+            'cantninias8'  => $result[0]['@cantninias8'],
+            'cantninias9'  => $result[0]['@cantninias9'],
+            'cantninias10'  => $result[0]['@cantninias10'],
+            'cantninias11'  => $result[0]['@cantninias11'],
+
+            'cantninios4'  => $result[0]['@cantninios4'],
+            'cantninios5'  => $result[0]['@cantninios5'],
+            'cantninios6'  => $result[0]['@cantninios6'],
+            'cantninios7'  => $result[0]['@cantninios7'],
+            'cantninios8'  => $result[0]['@cantninios8'],
+            'cantninios9'  => $result[0]['@cantninios9'],
+            'cantninios10'  => $result[0]['@cantninios10'],
+            'cantninios11'  => $result[0]['@cantninios11'],
         );
     }
 
@@ -439,8 +436,9 @@ public function validateLineasMediasAction(Request $request)
        
         $stmt->execute();// Ejecutar la consulta
         //ESTO LO DEBO DE CAMBIAR
-        $stmt = $conn->query('SELECT @cant_ninios, @cant_ninias, @cant_total');// Consultar el resultado de la ejecución
+         $stmt = $conn->query('SELECT @cantninias4, @cantninias5, @cantninias6, @cantninias7, @cantninias8, @cantninias9, @cantninias10, @cantninias11, @cantninios4, @cantninios5, @cantninios6, @cantninios7, @cantninios8, @cantninios9, @cantninios10, @cantninios11, @cantotal');// Consultar el resultado de la ejecución
         $result = $stmt->fetchAll();// Obtener los valores del resultado
+
 
         return array(// Pasar las variables a la vista del reporte
             'titulo'       => 'Reporte de Lineas Medias',
@@ -453,10 +451,23 @@ public function validateLineasMediasAction(Request $request)
               'milimetrosmd'    => $milimetrosmd,
 
 
-            //ESTO LO DEBO DE CAMBIAR
-            'cant_ninias'  => $result[0]['@cant_ninias'],
-            'cant_ninios'  => $result[0]['@cant_ninios'],
-            'cant_total'   => $result[0]['@cant_total']
+            'cantninias4'  => $result[0]['@cantninias4'],
+            'cantninias5'  => $result[0]['@cantninias5'],
+            'cantninias6'  => $result[0]['@cantninias6'],
+            'cantninias7'  => $result[0]['@cantninias7'],
+            'cantninias8'  => $result[0]['@cantninias8'],
+            'cantninias9'  => $result[0]['@cantninias9'],
+            'cantninias10'  => $result[0]['@cantninias10'],
+            'cantninias11'  => $result[0]['@cantninias11'],
+
+            'cantninios4'  => $result[0]['@cantninios4'],
+            'cantninios5'  => $result[0]['@cantninios5'],
+            'cantninios6'  => $result[0]['@cantninios6'],
+            'cantninios7'  => $result[0]['@cantninios7'],
+            'cantninios8'  => $result[0]['@cantninios8'],
+            'cantninios9'  => $result[0]['@cantninios9'],
+            'cantninios10'  => $result[0]['@cantninios10'],
+            'cantninios11'  => $result[0]['@cantninios11'],
         );
     }
 
@@ -708,9 +719,6 @@ public function validateLineasMediasAction(Request $request)
     {
     }
 
-
-
-
   private function getFormErrors(\Symfony\Component\Form\Form $form) {        
         $result = [];
 
@@ -738,296 +746,4 @@ public function validateLineasMediasAction(Request $request)
 
         return $result;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-private function createReportFormEnfermedadesPadecidas()
-    {
-        $constraints = array(
-            new Assert\NotBlank(array(
-                'message' => 'El campo no puede quedar vacio'
-            )),
-            new Assert\Date(array(
-                'message' => 'Ingrese una fecha valida'
-            ))
-        );
-
-        $formBuilder = $this->createFormBuilder()
-            ->add('fecha_inicio', 'date', array(
-                'label'           => 'Fecha de inicio',
-                'widget'          => 'single_text',
-                'format'          => 'dd/MM/yyyy',
-                'invalid_message' => 'La fecha debe tener el formato dd/mm/yyyy',
-                'attr'            => array(
-                    'placeholder'      => 'Por ejemplo: 17/01/2007',
-                    'class'            => 'datepicker',
-                    'data-provide'     => 'datepicker',
-                    'data-date-format' => 'dd/mm/yyyy',
-                    'data-language'    => 'es'
-                ),
-                'constraints'     => $constraints
-                ))
-            ->add('fecha_fin', 'date', array(
-                'label'           => 'Fecha de fin',
-                'widget'          => 'single_text',
-                'format'          => 'dd/MM/yyyy',
-                'invalid_message' => 'La fecha debe tener el formato dd/mm/yyyy',
-                'attr'            => array(
-                    'placeholder'      => 'Por ejemplo: 17/10/2009',
-                    'class'            => 'datepicker',
-                    'data-provide'     => 'datepicker',
-                    'data-date-format' => 'dd/mm/yyyy',
-                    'data-language'    => 'es'
-                ),
-                'constraints'     => $constraints
-                ))
-            ->add('sexo', 'choice',
-                array(
-                    'label'   => 'Sexo',
-                    'choices' => array(
-                        0 => 'Ambos',
-                        1 => 'Masculino',
-                        2 => 'Femenino'
-                )))
-
-            ->add('enfermedad', 'choice',
-                array(
-                    'label'   => 'Enfermedad',
-                    'choices' => array(
-                        0 => 'Alergias',
-                        1 => 'Desmayos',
-                        2 => 'Presión sanguínea alta',
-                        3 => 'Sinusitis',
-                        4 => 'Hepatitis',
-                        5 => 'Transtornos de la sangre',
-                        6 => 'Asma',
-                        7 => 'Artritis',
-                        8 => 'Enfermedades Venereas',
-                        9 => 'Diabetes',
-                        10 => 'Gastritis',
-                        11 => 'SIDA',
-                        12 => 'Transtornos renales',
-                        13 => 'Tuberculosis',
-                        14 => 'Otras',
-                )));
-
-
-
-
-
-        $formBuilder->add('actions', 'form_actions');
-            $formBuilder->get('actions')
-                ->add('generar', 'submit')
-                ->add('limpiar', 'reset');
-
-        $formBuilder
-                ->setAction($this->generateUrl('validar-enfermedades-padecidas'))
-                ->setMethod('POST');
-
-        return $formBuilder->getForm();
-    }
-
-
-
-
-
-
-private function createReportFormTipoPerfil()
-    {
-        $constraints = array(
-            new Assert\NotBlank(array(
-                'message' => 'El campo no puede quedar vacio'
-            )),
-            new Assert\Date(array(
-                'message' => 'Ingrese una fecha valida'
-            ))
-        );
-
-        $formBuilder = $this->createFormBuilder()
-            ->add('fecha_inicio', 'date', array(
-                'label'           => 'Fecha de inicio',
-                'widget'          => 'single_text',
-                'format'          => 'dd/MM/yyyy',
-                'invalid_message' => 'La fecha debe tener el formato dd/mm/yyyy',
-                'attr'            => array(
-                    'placeholder'      => 'Por ejemplo: 17/01/2007',
-                    'class'            => 'datepicker',
-                    'data-provide'     => 'datepicker',
-                    'data-date-format' => 'dd/mm/yyyy',
-                    'data-language'    => 'es'
-                ),
-                'constraints'     => $constraints
-                ))
-            ->add('fecha_fin', 'date', array(
-                'label'           => 'Fecha de fin',
-                'widget'          => 'single_text',
-                'format'          => 'dd/MM/yyyy',
-                'invalid_message' => 'La fecha debe tener el formato dd/mm/yyyy',
-                'attr'            => array(
-                    'placeholder'      => 'Por ejemplo: 17/10/2009',
-                    'class'            => 'datepicker',
-                    'data-provide'     => 'datepicker',
-                    'data-date-format' => 'dd/mm/yyyy',
-                    'data-language'    => 'es'
-                ),
-                'constraints'     => $constraints
-                ))
-            ->add('sexo', 'choice',
-                array(
-                    'label'   => 'Sexo',
-                    'choices' => array(
-                        0 => 'Ambos',
-                        1 => 'Masculino',
-                        2 => 'Femenino'
-                )))
-
-            ->add('perfil', 'choice',
-                array(
-                    'label'   => 'Perfil',
-                    'choices' => array(
-                        0 => 'Facial Frontal',
-                        1 => 'Perfil Total',
-                        2 => 'Perfil del 1/3 inferior',
-                )))
-
-
-
-           ->add('tipo', 'choice',
-                array(
-                    'label'   => 'Tipo',
-                    'choices' => array(
-                        0 => 'Facial Frontal',
-                        1 => 'Perfil Total',
-                        2 => 'Perfil del 1/3 inferior',
-                )));
-
-
-
-
-
-        $formBuilder->add('actions', 'form_actions');
-            $formBuilder->get('actions')
-                ->add('generar', 'submit')
-                ->add('limpiar', 'reset');
-
-        $formBuilder
-                ->setAction($this->generateUrl('validar-tipo-perfil'))
-                ->setMethod('POST');
-
-        return $formBuilder->getForm();
-    }
-
-
-
-private function createReportFormLineasMedias()
-    {
-        $constraints = array(
-            new Assert\NotBlank(array(
-                'message' => 'El campo no puede quedar vacio'
-            )),
-            new Assert\Date(array(
-                'message' => 'Ingrese una fecha valida'
-            ))
-        );
-
-        $formBuilder = $this->createFormBuilder()
-            ->add('fecha_inicio', 'date', array(
-                'label'           => 'Fecha de inicio',
-                'widget'          => 'single_text',
-                'format'          => 'dd/MM/yyyy',
-                'invalid_message' => 'La fecha debe tener el formato dd/mm/yyyy',
-                'attr'            => array(
-                    'placeholder'      => 'Por ejemplo: 17/01/2007',
-                    'class'            => 'datepicker',
-                    'data-provide'     => 'datepicker',
-                    'data-date-format' => 'dd/mm/yyyy',
-                    'data-language'    => 'es'
-                ),
-                'constraints'     => $constraints
-                ))
-            ->add('fecha_fin', 'date', array(
-                'label'           => 'Fecha de fin',
-                'widget'          => 'single_text',
-                'format'          => 'dd/MM/yyyy',
-                'invalid_message' => 'La fecha debe tener el formato dd/mm/yyyy',
-                'attr'            => array(
-                    'placeholder'      => 'Por ejemplo: 17/10/2009',
-                    'class'            => 'datepicker',
-                    'data-provide'     => 'datepicker',
-                    'data-date-format' => 'dd/mm/yyyy',
-                    'data-language'    => 'es'
-                ),
-                'constraints'     => $constraints
-                ))
-            ->add('sexo', 'choice',
-                array(
-                    'label'   => 'Sexo',
-                    'choices' => array(
-                        0 => 'Ambos',
-                        1 => 'Masculino',
-                        2 => 'Femenino'
-                )))
-
-            ->add('lineamedia', 'choice',
-                array(
-                    'label'   => 'Línea Media',
-                    'choices' => array(
-                        0 => 'Mx',
-                        1 => 'Md',
-                        
-                )))
-
-            ->add('direcciondesviacion', 'choice',
-                array(
-                    'label'   => 'Dirección desviación',
-                    'choices' => array(
-                        0 => 'Izquierda',
-                        1 => 'Central',
-                        2 => 'Derecha',
-                )))
-
-
-
-           ->add('milimetros', 'choice',
-                array(
-                    'label'   => 'Milimetros de la desviación',
-                    'choices' => array(
-                        0 => '1',
-                        1 => '2',
-                        2 => '3',
-                        3 => '4',
-                        4 => '5',
-                )));
-
-
-
-
-
-        $formBuilder->add('actions', 'form_actions');
-            $formBuilder->get('actions')
-                ->add('generar', 'submit')
-                ->add('limpiar', 'reset');
-
-        $formBuilder
-                ->setAction($this->generateUrl('validar-lineas-medias'))
-                ->setMethod('POST');
-
-        return $formBuilder->getForm();
-    }
-
-
-
-
-
-
-}
+}// Fin de la clase
