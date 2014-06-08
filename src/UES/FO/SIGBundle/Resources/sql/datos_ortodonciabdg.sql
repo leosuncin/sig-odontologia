@@ -23,7 +23,7 @@ SET time_zone = "+00:00";
 --
 -- Volcado de datos para la tabla `catalogoenfermedades`
 --
-
+/*
 INSERT INTO `catalogoenfermedades` (`idenfermedad`, `nombreenfermedad`) VALUES
 (1, 'Alergias'),
 (2, 'Desmayos'),
@@ -39,7 +39,7 @@ INSERT INTO `catalogoenfermedades` (`idenfermedad`, `nombreenfermedad`) VALUES
 (12, 'SIDA'),
 (13, 'Transtornos renales'),
 (14, 'Tuberculosis');
-
+*/
 --
 -- Volcado de datos para la tabla `datosgenerales`
 --
@@ -82702,10 +82702,10 @@ INSERT INTO `tipodeperfil` (`idtipodeperfil`, `codexpediente`, `idfacialfrontal`
 --
 -- Volcado de datos para la tabla `usuario`
 --
-
+/*
 INSERT INTO `usuario` (`idusuario`, `nombres`, `apellidos`, `username`, `password`, `salt`, `nivel`, `enabled`, `locked`, `role`) VALUES
 (1, 'Usuario', 'Administrador', 'superadmin', 'jitzJL3isf7ZP2ZhBTLQkrCEbmaQNg/mnlBS8JCt94/2eUP9K5OCtC9UEZujJpz5mYtmHqAm3M7bS/NuTvhQgQ==', 'grdowsemqncog884ok0kwso8gos0g0c', 1, 1, 0, 'a:1:{i:0;s:16:"ROLE_SUPER_ADMIN";}');
-
+*/
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
