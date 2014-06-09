@@ -19,6 +19,7 @@ use UES\FO\SIGBundle\Model\ParametrosTactico2;
 use UES\FO\SIGBundle\Form\Tactico4Type; //este es mi vista del 
 use UES\FO\SIGBundle\Form\Tactico5Type; //este es mi vista del 
 use UES\FO\SIGBundle\Form\Tactico6Type; //este es mi vista del 
+use UES\FO\SIGBundle\Model\ParametrosEstrategico;
 /**
  * @Route("/tactico")
  */
@@ -533,21 +534,23 @@ public function validateLineasMediasAction(Request $request)
      * Genera el reporte de sobre mordida
      *
      * @Route(
-     *     "/{fecha_inicio}/{fecha_fin}/{sexo}/sobre-mordidas.{_format}",
+     *     "/{fecha_inicio}/{fecha_fin}/{sexo}/{milihorizontal}/{milivertical}/reporteSobreMordida.{_format}",
      *     name="reporte-sobre-mordidas",
      *     requirements={
      *         "fecha_inicio"="\d{2}-\d{2}-\d{4}",
      *         "fecha_fin"="\d{2}-\d{2}-\d{4}",
      *         "_format"="pdf|html",
-     *         "sexo"="0|1|2"
+     *         "sexo"="0|1|2",
+     *         "milihorizontal"="0|1|2|3|4",
+     *         "milivertical"="0|1|2|3|4"
      * })
      * @Method("GET")
      * @Template()
      * @Pdf()
      */
-    public function reporteSobreMordidaAction($request)
+    public function reporteSobreMordidaAction()
     {
-
+       
     }
 
     /**
