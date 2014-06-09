@@ -68,4 +68,15 @@ class DefaultController extends Controller
     {
         return array();
     }
+    
+    /**
+     * @Route("/periodo", name="periodo", options={"expose"=true})
+     */
+    public function periodoAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repo = $em->getRepository('SIGBundle:Datosgenerales');
+		$periodo = $repo->periodoRegistro();
+		return new \Symfony\Component\HttpFoundation\Response(json_encode($periodo[0]), 200, array("Content-Type" => "application/json; charset=UTF-8"));
+	}
 }

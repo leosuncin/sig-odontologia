@@ -4,18 +4,20 @@ namespace UES\FO\SIGBundle\Model;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\ExecutionContextInterface;
+use UES\FO\SIGBundle\Validator\Constraints as SigAssert;
 
 class ParametrosEstrategico
 {
     /**
      * La fecha en que empieza el periodo de tiempo
-     * 
+     *
      * @var \DateTime
-     * 
+     *
      * @Assert\NotBlank(message = "El campo no puede quedar vacio")
      * @Assert\Date(message = "Ingrese una fecha valida")
+     * @SigAssert\FechaInicio
      */
-    private $fecha_inicio;
+    protected $fecha_inicio;
 
     /**
      * La fecha en que termina el periodo de tiempo
@@ -24,18 +26,18 @@ class ParametrosEstrategico
      *
      * @Assert\NotBlank(message = "El campo no puede quedar vacio")
      * @Assert\Date(message = "Ingrese una fecha valida")
+     * @SigAssert\FechaFin
      */
-    private $fecha_fin;
+    protected $fecha_fin;
 
     /**
      * El sexo a filtrar
-     * 
+     *
      * @var int
      *
      * @Assert\Choice(choices = {0, 1, 2}, message = "Escoja un sexo valido")
      */
-    private $sexo;
-
+    protected $sexo;
 
     /**
      * set fecha_inicio
@@ -96,7 +98,7 @@ class ParametrosEstrategico
 
     /**
      * Edad a filtrar
-     * 
+     *
      * @var int
      *
      * @Assert\Choice(choices = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, message = "Escoja una edad valida")
@@ -126,7 +128,7 @@ class ParametrosEstrategico
 
     /**
      * Tipo a filtrar
-     * 
+     *
      * @var int
      *
      * @Assert\Choice(choices = {0, 1, 2, 3, 4}, message = "Escoja una tipo valida")
@@ -155,15 +157,15 @@ class ParametrosEstrategico
 
     /**
      * Verifica que el periodo sea valido
-     * 
+     *
      * @Assert\Callback
      */
     public function validate(ExecutionContextInterface $context)
     {
-        if($this->fecha_fin < $this->fecha_inicio)
+        if($this->fecha_fin <= $this->fecha_inicio)
             $context->addViolationAt(
                 'fecha_fin',
-                'La fecha de finalización debe ser posterior a la de inicio',
+                'La fecha de fin debe ser posterior a la de inicio',
                 array(),
                 null
             );
