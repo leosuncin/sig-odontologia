@@ -29,7 +29,8 @@
         "eternicode/bootstrap-datepicker": "1.3.*",
         "needim/noty": "2.2.2",
         "kartik-v/strength-meter": "dev-master",
-        "nostalgiaz/bootstrap-switch": "3.0.0"
+        "nostalgiaz/bootstrap-switch": "3.0.0",
+        "moment/moment": "2.6.0"
     },
     "scripts": {
         "post-install-cmd": [
