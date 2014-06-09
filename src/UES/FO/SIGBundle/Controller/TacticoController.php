@@ -558,9 +558,38 @@ public function validateLineasMediasAction(Request $request)
      * @Template()
      * @Pdf()
      */
-    public function reporteSobreMordidaAction()
+    public function reporteSobreMordidaAction(\DateTime $fecha_inicio, \DateTime $fecha_fin, $sexo=0)
     {
-       
+       $parametros = new ParametrosTactico2();
+        $parametros->setFechaInicio($fecha_inicio);
+        $parametros->setFechaFin($fecha_fin);
+        $parametros->setSexo($sexo);
+
+        $errores = $this->get('validator')->validate($parametros);
+        if (count($errores) > 0) {
+            throw new BadRequestHttpException((string) $errores);
+        }
+
+        $pdo_fecha_inicio = $fecha_inicio->format('Y-m-d');
+        $pdo_fecha_fin = $fecha_fin->format('Y-m-d');
+        $conn = $this->getDoctrine()->getManager()->getConnection();
+        $stmt = $conn->prepare('CALL pr_reporte_tratamiento(:fecha_inicio, :fecha_fin, :sexo, @cant_ninios, @cant_ninias, @cant_total)');
+        $stmt->bindParam(':fecha_inicio', $pdo_fecha_inicio, \PDO::PARAM_STR);
+        $stmt->bindParam(':fecha_fin', $pdo_fecha_fin, \PDO::PARAM_STR);
+        $stmt->bindParam(':sexo', $sexo, \PDO::PARAM_INT);
+        $stmt->execute();
+        $stmt = $conn->query('SELECT @cant_ninios, @cant_ninias, @cant_total');
+        $result = $stmt->fetchAll();
+
+        return array(
+            'titulo'       => 'Reporte de plan de tratamiento',
+            'autor'        => $this->getUser()->getNombreCompleto(),
+            'fecha_inicio' => $fecha_inicio,
+            'fecha_fin'    => $fecha_fin,
+            'cant_ninias'  => $result[0]['@cant_ninias'],
+            'cant_ninios'  => $result[0]['@cant_ninios'],
+            'cant_total'   => $result[0]['@cant_total']
+        );
     }
 
     /**
