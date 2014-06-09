@@ -113,8 +113,17 @@ class Usuario implements AdvancedUserInterface, \Serializable
      */
     private $role = array();
 
-    public function __construct() {
+    /**
+     * Codificador de la contraseña
+     *
+     * @var \Symfony\Component\Security\Core\Encoder\EncoderFactory
+     */
+    private $encoder;
+
+    public function __construct(\Symfony\Component\Security\Core\Encoder\EncoderFactory $factory = null) {
         $this->salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
+        if($factory !== null)
+            $this->encoder = $factory->getEncoder($this);
     }
 
     /**
@@ -211,7 +220,11 @@ class Usuario implements AdvancedUserInterface, \Serializable
      */
     public function setPassword($password)
     {
-        $this->password = $password;
+        if($this->encoder === null)
+            $this->password = $password;
+        else {
+            $this->password = $this->encoder->encodePassword($password, $this->salt);
+        }
 
         return $this;
     }

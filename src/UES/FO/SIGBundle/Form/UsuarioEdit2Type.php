@@ -48,6 +48,6 @@ class UsuarioEdit2Type extends AbstractType
      */
     public function getName()
     {
-        return 'usuario';
+        return 'usuario_edit_simple';
     }
 }
