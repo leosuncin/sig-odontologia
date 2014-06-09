@@ -4,3 +4,9 @@
 <h1>Generacion de Reporte de Mordidas Cruzadas</h1>
 {{ form(form, {'style': 'horizontal'}) }}
 {% endblock %}
+{% block javascript %}
+<script>
+    require(['../bundles/sig/js/mordidacruzada'], function(mordidacruzada) {
+    });
+</script>
+{% endblock %}

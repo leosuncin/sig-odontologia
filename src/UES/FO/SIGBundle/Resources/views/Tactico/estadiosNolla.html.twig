@@ -6,13 +6,7 @@
 
 {% block javascript %}
 <script>
-	require(['bootstrap-datepicker', 'pdf'], function($, pdfjs) {
-		$('.datepicker').datepicker({
-			format: 'dd/mm/yyyy',
-			clearBtn: true,
-			language: 'es'
-		});
-		console.log(pdfjs);
-	});
+    require(['../bundles/sig/js/estadiosdenolla'], function(estadiosdenolla) {
+    });
 </script>
 {% endblock %}
