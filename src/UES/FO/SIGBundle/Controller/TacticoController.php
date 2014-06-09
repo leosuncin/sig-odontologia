@@ -1,7 +1,6 @@
 <?php
 
 namespace UES\FO\SIGBundle\Controller;
-
 use Ps\PdfBundle\Annotation\Pdf;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -16,6 +15,7 @@ use UES\FO\SIGBundle\Form\Tactico2Type;
 use UES\FO\SIGBundle\Form\Tactico3Type;
 use UES\FO\SIGBundle\Form\Util\FormUtils;
 use UES\FO\SIGBundle\Model\ParametrosTactico1;
+use UES\FO\SIGBundle\Model\ParametrosTactico2;
 use UES\FO\SIGBundle\Form\Tactico4Type; //este es mi vista del 
 use UES\FO\SIGBundle\Form\Tactico5Type; //este es mi vista del 
 use UES\FO\SIGBundle\Form\Tactico6Type; //este es mi vista del 
@@ -470,9 +470,9 @@ public function validateLineasMediasAction(Request $request)
         //return array();
         $form = $this->createForm(// crear el formulario a partir de una clase modelo
             new Tactico4Type(), // clase formulario de Symfony
-            //new ParametrosTactico(), // modelo donde se manejaran los parámetros
+            new ParametrosTactico2(), // modelo donde se manejaran los parámetros
             array(
-                'action' => $this->generateUrl('validar-sobremordida'),// a donde va a ser redirigido el formulario
+                'action' => $this->generateUrl('validar-sobre-mordidas'),// a donde va a ser redirigido el formulario
                 'method' => 'POST',// por cual método HTTP
                 'attr' => array('col_size' => 'xs')// el tamaño mínimo del dispositivo
             ));
@@ -484,8 +484,8 @@ public function validateLineasMediasAction(Request $request)
      * Validar la información de los parametros enviados por método POST
      *
      * @Route(
-     *     "/sobremordida",
-     *     name="validar-sobremordida",
+     *     "/sobre-mordidas",
+     *     name="validar-sobre-mordidas",
      *     options={"expose"=true}
      * )
      * @Method("POST")
@@ -495,12 +495,12 @@ public function validateLineasMediasAction(Request $request)
     public function validateSobreMordidaAction(Request $request)
     {
         $ajax = $request->isXmlHttpRequest();
-        //$data = new ParametrosEstrategico();
+        $data = new ParametrosTactico2();
         $form = $this->createForm(
             new Tactico4Type(),
             $data,
             array(
-                'action' => $this->generateUrl('validar-sobremordida'),
+                'action' => $this->generateUrl('validar-sobre-mordidas'),
                 'method' => 'POST',
                 'attr' => array('col_size' => 'xs')
             ));
@@ -512,6 +512,8 @@ public function validateLineasMediasAction(Request $request)
                     'fecha_inicio' => $data->getFechaInicio()->format('d-m-Y'),
                     'fecha_fin'    => $data->getFechaFin()->format('d-m-Y'),
                     'sexo'         => $data->getSexo(),
+                    'milihorizontal' => $data->getMiliHorizontal(),
+                    'milivertical'   => $data->getMiliVertical(),
                     '_format'      =>'pdf'), true);
             if($ajax) {
                 return new JsonResponse(json_encode(array('route' => $route)));
@@ -528,11 +530,11 @@ public function validateLineasMediasAction(Request $request)
     }
 
    /**
-     * Genera el reporte de plan de tratamiento
+     * Genera el reporte de sobre mordida
      *
      * @Route(
-     *     "/{fecha_inicio}/{fecha_fin}/{sexo}/plan-tratamiento.{_format}",
-     *     name="reporte-plan-tratamiento",
+     *     "/{fecha_inicio}/{fecha_fin}/{sexo}/sobre-mordidas.{_format}",
+     *     name="reporte-sobre-mordidas",
      *     requirements={
      *         "fecha_inicio"="\d{2}-\d{2}-\d{4}",
      *         "fecha_fin"="\d{2}-\d{2}-\d{4}",
@@ -558,7 +560,7 @@ public function validateLineasMediasAction(Request $request)
        //return array();
         $form = $this->createForm(// crear el formulario a partir de una clase modelo
             new Tactico5Type(), // clase formulario de Symfony
-            //new ParametrosTactico(), // modelo donde se manejaran los parámetros
+            new ParametrosTactico2(), // modelo donde se manejaran los parámetros
             array(
                 'action' => $this->generateUrl('validar-mordidas-cruzadas'),// a donde va a ser redirigido el formulario
                 'method' => 'POST',// por cual método HTTP
@@ -583,7 +585,7 @@ public function validateLineasMediasAction(Request $request)
     public function validateMordidasCruzadasAction(Request $request)
     {
         $ajax = $request->isXmlHttpRequest();
-        //$data = new ParametrosEstrategico();
+        $data = new ParametrosTactico2();
         $form = $this->createForm(
             new Tactico5Type(),
             $data,
@@ -600,6 +602,8 @@ public function validateLineasMediasAction(Request $request)
                     'fecha_inicio' => $data->getFechaInicio()->format('d-m-Y'),
                     'fecha_fin'    => $data->getFechaFin()->format('d-m-Y'),
                     'sexo'         => $data->getSexo(),
+                    'cuadrante'    => $data->getCuadrante(),
+                    'pieza'        => $data->getPieza(),
                     '_format'      =>'pdf'), true);
             if($ajax) {
                 return new JsonResponse(json_encode(array('route' => $route)));
@@ -626,6 +630,7 @@ public function validateLineasMediasAction(Request $request)
      */
     public function reporteMordidasCruzadasAction($request)
     {
+        
     }
 
     /**
@@ -638,7 +643,7 @@ public function validateLineasMediasAction(Request $request)
         //return array();
         $form = $this->createForm(// crear el formulario a partir de una clase modelo
             new Tactico6Type(), // clase formulario de Symfony
-            //new ParametrosTactico(), // modelo donde se manejaran los parámetros
+            new ParametrosTactico2(), // modelo donde se manejaran los parámetros
             array(
                 'action' => $this->generateUrl('validar-estadios-nolla'),// a donde va a ser redirigido el formulario
                 'method' => 'POST',// por cual método HTTP
@@ -663,9 +668,9 @@ public function validateLineasMediasAction(Request $request)
     public function validateEstadiosDeNolla(Request $request)
     {
         $ajax = $request->isXmlHttpRequest();
-        //$data = new ParametrosEstrategico();
+        $data = new ParametrosTactico2();
         $form = $this->createForm(
-            new Tactico5Type(),
+            new Tactico6Type(),
             $data,
             array(
                 'action' => $this->generateUrl('validar-estadios-nolla'),
@@ -680,6 +685,8 @@ public function validateLineasMediasAction(Request $request)
                     'fecha_inicio' => $data->getFechaInicio()->format('d-m-Y'),
                     'fecha_fin'    => $data->getFechaFin()->format('d-m-Y'),
                     'sexo'         => $data->getSexo(),
+                    'estadio'      => $data->getEstadio(),
+                    'pieza_estadio'=> $data->getPiezaEstadio(),
                     '_format'      =>'pdf'), true);
             if($ajax) {
                 return new JsonResponse(json_encode(array('route' => $route)));
