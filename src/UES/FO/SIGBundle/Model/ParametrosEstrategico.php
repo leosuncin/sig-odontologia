@@ -99,7 +99,7 @@ class ParametrosEstrategico
      * 
      * @var int
      *
-     * @Assert\Choice(choices = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, message = "Escoja una edad valida")
+     * @Assert\Choice(choices = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, message = "Escoja una edad valida")
      */
     private $edad;
 

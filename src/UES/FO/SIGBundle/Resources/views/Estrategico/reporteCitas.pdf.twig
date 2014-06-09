@@ -1,5 +1,72 @@
-{% extends "SIGBundle::reporteMaestro.pdf.twig" %}
+{% extends 'SIGBundle::reporteMaestro.pdf.twig' %}
 
-{% block content %}
-<h1>Welcome to the Estrategico:citas page</h1>
+{% block contenido %}
+<h2 text-align="center">Reporte de Cantidad de Citas</h2>
+<p text-align="center">Desde <b> {{ util.fecha(fecha_inicio) }} </b> hasta el <b>{{ util.fecha(fecha_fin) }}</b></p>
+<br />
+<br />
+<br />
+<br />
+
+<table style="border-color: white; font-size:14px;">
+	<tr style="background-color:#63A1D3; border-color: white;  ">
+		<td colspan="3" style="border-color: white; "><p text-align="center"><b>POR SEXO</b></p></td>
+	</tr>
+	<tr style="background-color:#C5D1DB; border-color: white;">
+		<td style="border-color: white; "><p text-align="center"></p></td>
+		<td style="border-color: white; "><p text-align="center"><b>Masculino</b></p></td>
+		<td style="border-color: white; "><p text-align="center"><b>Femenino</b></p></td>
+	</tr>
+	<tr style="background-color:#C5D1DB; border-color: white;">
+		<td style="border-color: white; "><p text-align="center">Cantidad de Citas</p></td>
+		<td style="border-color: white; "><p text-align="center">{{ totalxmasc }}</p></td>
+		<td style="border-color: white; "><p text-align="center">{{ totalxfem }}</p></td>
+	</tr>
+	
+</table>
+
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+
+<table style="border-color: white; font-size:14px;">
+	<tr style="background-color:#63A1D3; border-color: white;  ">
+		<td colspan="2" style="border-color: white; "><p text-align="center"><b>POR EDAD</b></p></td>
+	</tr>
+	<tr style="background-color:#C5D1DB; border-color: white;">
+		<td style="border-color: white; "><p text-align="center"></p></td>
+		<td style="border-color: white; "><p text-align="center"><b>{{ edad }} años </b></p></td> 
+	</tr>
+	<tr style="background-color:#C5D1DB; border-color: white;">
+		<td style="border-color: white; "><p text-align="center">Cantidad de Citas</p></td>
+		<td style="border-color: white; "><p text-align="center">{{ totalxedad }}</p></td>
+	</tr>
+	
+</table>
+
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+
+<table style="border-color: white; font-size:14px;">
+	<tr style="background-color:#63A1D3; border-color: white;  ">
+		<td colspan="2" style="border-color: white; "><p text-align="center"><b>POR PERIODO</b></p></td>
+	</tr>
+	<tr style="background-color:#C5D1DB; border-color: white;">
+		<td style="border-color: white; "><p text-align="center"></p></td>
+		<td style="border-color: white; "><p text-align="center"><b> del   {{ util.fecha2(fecha_inicio) }}   hasta {{ util.fecha2(fecha_fin) }} </b></p></td> 
+	</tr>
+	<tr style="background-color:#C5D1DB; border-color: white;">
+		<td style="border-color: white; "><p text-align="center">Cantidad de Citas</p></td>
+		<td style="border-color: white; "><p text-align="center">{{ totalxfecha }}</p></td>
+	</tr>
+	
+</table>
+
 {% endblock %}
