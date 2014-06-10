@@ -11,7 +11,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * Usuario
  *
  * @ORM\Table(name="usuario", uniqueConstraints={@ORM\UniqueConstraint(name="username", columns={"username"})})
- * @ORM\Entity(repositoryClass="UES\FO\SIGBundle\Entity\Repository\UsuarioRepository")
+ * @ORM\Entity
  * @UniqueEntity(fields = "username", message = "El nombre de usuario ya esta registrado")
  */
 class Usuario implements AdvancedUserInterface, \Serializable
@@ -120,7 +120,7 @@ class Usuario implements AdvancedUserInterface, \Serializable
     /**
      * Get idusuario
      *
-     * @return integer 
+     * @return integer
      */
     public function getIdusuario()
     {
@@ -143,7 +143,7 @@ class Usuario implements AdvancedUserInterface, \Serializable
     /**
      * Get nombres
      *
-     * @return string 
+     * @return string
      */
     public function getNombres()
     {
@@ -166,7 +166,7 @@ class Usuario implements AdvancedUserInterface, \Serializable
     /**
      * Get apellidos
      *
-     * @return string 
+     * @return string
      */
     public function getApellidos()
     {
@@ -273,7 +273,7 @@ class Usuario implements AdvancedUserInterface, \Serializable
     /**
      * Get nivel
      *
-     * @return integer 
+     * @return integer
      */
     public function getNivel()
     {
@@ -296,7 +296,7 @@ class Usuario implements AdvancedUserInterface, \Serializable
     /**
      * Get enabled
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getEnabled()
     {
@@ -319,7 +319,7 @@ class Usuario implements AdvancedUserInterface, \Serializable
     /**
      * Get locked
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getLocked()
     {
@@ -342,7 +342,7 @@ class Usuario implements AdvancedUserInterface, \Serializable
     /**
      * Get role
      *
-     * @return string 
+     * @return string
      */
     public function getRole()
     {

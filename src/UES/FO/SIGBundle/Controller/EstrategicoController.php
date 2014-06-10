@@ -102,22 +102,105 @@ class EstrategicoController extends Controller
      * @Template("SIGBundle:Estrategico:citas.html.twig")
      * @Pdf()
      */
-    public function validateCitasAction(Request $request){
+    public function validateCitasAction(Request $request)    
+    {
+        $ajax = $request->isXmlHttpRequest();// comprobar si la petición es AJAX
+        $data = new ParametrosEstrategico();// instancia de clase donde se manejaran los parámetros
+        $form = $this->createForm(// crear el formulario
+            new Estrategico2Type(),// a partir de una clase modelo
+            $data,
+            array(
+                'action' => $this->generateUrl('validar-cantidad-citas'),// a donde va a ser redirigido el formulario
+                'method' => 'POST',// por cual método HTTP
+                'attr' => array('col_size' => 'xs')// el tamaño mínimo del dispositivo
+            ));
 
+        $form->handleRequest($request);// manejar la petición con el formulario de Symfony
+
+        if ($form->isValid()) {// Symfony verifica que la información enviada cumpla con las reglas
+            // generar la URL donde se mostrará el PDF
+            $route = $this->generateUrl('pdf_viewer').'?file='.$this->generateUrl('reporte-cantidad-citas', array(
+                    'fecha_inicio' => $data->getFechaInicio()->format('d-m-Y'),
+                    'fecha_fin'    => $data->getFechaFin()->format('d-m-Y'),
+                    'sexo'         => $data->getSexo(),
+                    'edad'         => $data->getEdad(),
+                    '_format'      =>'pdf'), true);
+            if($ajax) {
+                return new JsonResponse(json_encode(array('route' => $route)));// sí la petición es AJAX responder con un JSON con la URL
+            } else {
+                return new RedirectResponse($route);// sí la petición no es AJAX redirigir el navegador al visor
+            }
+        }
+        // en caso de que la información enviada tenga errores
+        if ($ajax) {
+            return new JsonResponse(json_encode(FormUtils::getFormErrors($form)), 400);// sí la petición es AJAX responder con JSON con los errores
+        } else {
+            return array('title' => 'Reporte de Cantidad de Citas', 'form'=> $form->createView());// sí no mostrar de nuevo el formulario con los errores
+        }
+
+      
     }
 
-    /**
+
+     /**
+     * Genera el reporte de cantidad de citas
+     *
      * @Route(
-     *     "/cantidad-citas.{_format}",
+     *     "/{fecha_inicio}/{fecha_fin}/{sexo}/{edad}/reporteCitas.{_format}",
      *     name="reporte-cantidad-citas",
-     *     options={"expose"=true}
-     * )
-     * @Method("POST")
+     *     requirements={
+     *         "fecha_inicio"="\d{2}-\d{2}-\d{4}",
+     *         "fecha_fin"="\d{2}-\d{2}-\d{4}",
+     *         "_format"="pdf|html",
+     *         "sexo"="0|1|2",
+     *         "edad"="0|1|2|3|4|5|6|7|8|9|10"
+     * })
+     * @Method("GET")
      * @Template()
      * @Pdf()
      */
-    public function reporteCitasAction($request)
+
+    public function reporteCitasAction(\DateTime $fecha_inicio, \DateTime $fecha_fin, $sexo, $edad)
     {
+        $parametros = new ParametrosEstrategico();
+        $parametros->setFechaInicio($fecha_inicio);
+        $parametros->setFechaFin($fecha_fin);
+        $parametros->setSexo($sexo);
+        $parametros->setEdad($edad);
+
+        $errores = $this->get('validator')->validate($parametros);
+        if (count($errores) > 0) {
+            throw new BadRequestHttpException((string) $errores);
+        }
+
+        //conversion de parametro edad a la edad propiamente dicha
+        $edad = $edad + 3;
+
+        //********************************************************
+
+        $pdo_fecha_inicio = $fecha_inicio->format('Y-m-d');
+        $pdo_fecha_fin = $fecha_fin->format('Y-m-d');
+        $conn = $this->getDoctrine()->getManager()->getConnection();
+        $stmt = $conn->prepare('CALL pr_reporte_cantidad_citas(:fecha_inicio, :fecha_fin, :sexo, :edad, @totalxmasc, @totalxfem, @totalxedad, @totalxfecha)');
+        $stmt->bindParam(':fecha_inicio', $pdo_fecha_inicio, \PDO::PARAM_STR);
+        $stmt->bindParam(':fecha_fin', $pdo_fecha_fin, \PDO::PARAM_STR);
+        $stmt->bindParam(':sexo', $sexo, \PDO::PARAM_INT);
+        $stmt->bindParam(':edad', $edad, \PDO::PARAM_INT);
+        $stmt->execute();
+        $stmt = $conn->query('SELECT @totalxmasc, @totalxfem, @totalxedad, @totalxfecha');
+        $result = $stmt->fetchAll();
+
+        return array(
+            'titulo'       => 'Reporte Cantidad de Citas',
+            'autor'        => $this->getUser()->getNombreCompleto(),
+            'fecha_inicio' => $fecha_inicio,
+            'fecha_fin'    => $fecha_fin,
+            'edad'         => $edad,
+            'totalxmasc'   => $result[0]['@totalxmasc'],
+            'totalxfem'    => $result[0]['@totalxfem'],
+            'totalxedad'   => $result[0]['@totalxedad'],
+            'totalxfecha'  => $result[0]['@totalxfecha']
+        );
     }
 
     /**
