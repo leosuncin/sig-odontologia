@@ -115,19 +115,27 @@ public function validateEnfermedadesPadecidasAction(Request $request)
         if (count($errores) > 0) {
             throw new BadRequestHttpException((string) $errores);// Si hay un error, no continua con la generación del reporte y muestra el error
         }
+         /*Es Nina, nino o ambos?*/
+        if($sexo==0)
+            $mensaje = "Niños y Niñas";
+        else if($sexo==1)
+            $mensaje = "Niños";
+        else
+            $mensaje = "Niñas";
 
         $pdo_fecha_inicio = $fecha_inicio->format('Y-m-d');// Formatear la fecha al estilo de MySQL
         $pdo_fecha_fin = $fecha_fin->format('Y-m-d');
         $conn = $this->getDoctrine()->getManager()->getConnection();// Obtener la conexión a la base de datos
         //AQUI FALTAN LAS VARIABLES DE SALIDA Y REALIZAR EL PROCESO ALMACENADO EN LA BD
-        $stmt = $conn->prepare('CALL pr_reporte_enfermedades(:fecha_inicio, :fecha_fin, :sexo, :enfermedad)');// Preparar la llamada al procedimiento almacenado
+        $stmt = $conn->prepare('CALL pr_reporte_enfermedades(:fecha_inicio, :fecha_fin, :sexo, :enfermedad, @totalx4, @totalx5, @totalx6, @totalx7, @totalx8, @totalx9, @totalx10, @totalx11, @total2x4, @total2x5, @total2x6, @total2x7, @total2x8, @total2x9, @total2x10, @total2x11)');// Preparar la llamada al procedimiento almacenado
         $stmt->bindParam(':fecha_inicio', $pdo_fecha_inicio, \PDO::PARAM_STR);// Preparar los parámetros de la consulta
         $stmt->bindParam(':fecha_fin', $pdo_fecha_fin, \PDO::PARAM_STR);
         $stmt->bindParam(':sexo', $sexo, \PDO::PARAM_INT);
         $stmt->bindParam(':enfermedad', $enfermedad, \PDO::PARAM_INT);
         $stmt->execute();// Ejecutar la consulta
         //ESTO LO DEBO DE CAMBIAR
-        $stmt = $conn->query('SELECT @cantninias4, @cantninias5, @cantninias6, @cantninias7, @cantninias8, @cantninias9, @cantninias10, @cantninias11, @cantninios4, @cantninios5, @cantninios6, @cantninios7, @cantninios8, @cantninios9, @cantninios10, @cantninios11, @cantotal');// Consultar el resultado de la ejecución
+        $stmt = $conn->query('SELECT @totalx4, @totalx5, @totalx6, @totalx7, @totalx8, @totalx9, @totalx10, @totalx11, @total2x4, @total2x5, @total2x6, @total2x7, @total2x8, @total2x9, @total2x10, @total2x11');
+        //$stmt = $conn->query('SELECT @cantninias4, @cantninias5, @cantninias6, @cantninias7, @cantninias8, @cantninias9, @cantninias10, @cantninias11, @cantninios4, @cantninios5, @cantninios6, @cantninios7, @cantninios8, @cantninios9, @cantninios10, @cantninios11, @cantotal');// Consultar el resultado de la ejecución
         $result = $stmt->fetchAll();// Obtener los valores del resultado
 
         return array(// Pasar las variables a la vista del reporte
@@ -136,26 +144,24 @@ public function validateEnfermedadesPadecidasAction(Request $request)
             'fecha_inicio' => $fecha_inicio,
             'fecha_fin'    => $fecha_fin,
             'enfermedad'    => $enfermedad,
-
+            'mensaje'    => $mensaje,
             
-            'cantninias4'  => $result[0]['@cantninias4'],
-            'cantninias5'  => $result[0]['@cantninias5'],
-            'cantninias6'  => $result[0]['@cantninias6'],
-            'cantninias7'  => $result[0]['@cantninias7'],
-            'cantninias8'  => $result[0]['@cantninias8'],
-            'cantninias9'  => $result[0]['@cantninias9'],
-            'cantninias10'  => $result[0]['@cantninias10'],
-            'cantninias11'  => $result[0]['@cantninias11'],
-
-            'cantninios4'  => $result[0]['@cantninios4'],
-            'cantninios5'  => $result[0]['@cantninios5'],
-            'cantninios6'  => $result[0]['@cantninios6'],
-            'cantninios7'  => $result[0]['@cantninios7'],
-            'cantninios8'  => $result[0]['@cantninios8'],
-            'cantninios9'  => $result[0]['@cantninios9'],
-            'cantninios10'  => $result[0]['@cantninios10'],
-            'cantninios11'  => $result[0]['@cantninios11'],
-
+            'cant4anios'  => $result[0]['@totalx4'],
+            'cant4nina'  => $result[0]['@total2x4'],
+            'cant5anios'  => $result[0]['@totalx5'],
+            'cant5nina'  => $result[0]['@total2x5'],
+            'cant6anios'  => $result[0]['@totalx6'],
+            'cant6nina'  => $result[0]['@total2x6'],
+            'cant7anios'  => $result[0]['@totalx7'],
+            'cant7nina'  => $result[0]['@total2x7'],
+            'cant8anios'  => $result[0]['@totalx8'],
+            'cant8nina'  => $result[0]['@total2x8'],
+            'cant9anios'  => $result[0]['@totalx9'],
+            'cant9nina'  => $result[0]['@total2x9'],
+            'cant10anios'  => $result[0]['@totalx10'],
+            'cant10nina'  => $result[0]['@total2x10'],
+            'cant11anios'  => $result[0]['@totalx11'],
+            'cant11nina'  => $result[0]['@total2x11'],
             
         );
 
@@ -166,22 +172,8 @@ public function validateEnfermedadesPadecidasAction(Request $request)
      * @Method("GET")
      * @Template()
      */
-
-
-
     public function tipoPerfilAction()
     {
-
-
-      //  $form = $this->createReportFormTipoPerfil();
-       // return array('form'=> $form->createView());
-
-//$form = $this->createReportFormEnfermedadesPadecidas();
-        //return array('form'=> $form->createView());
-
-            //$form = $this->createReportFormEnfermedadesPadecidas();
-        //return array('form'=> $form->createView());
-
             $form = $this->createForm(// crear el formulario a partir de una clase modelo
             new Tactico2Type(), // clase formulario de Symfony
             new ParametrosTactico1(), // modelo donde se manejaran los parámetros

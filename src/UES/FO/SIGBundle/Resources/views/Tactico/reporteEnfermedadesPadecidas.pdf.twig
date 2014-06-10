@@ -3,11 +3,66 @@
 {% block content %}
 <h2 text-align="center">Enfermedades Padecidas</h2>
 
-
-<table>
-<tr>
-<td>{{nombrevariable}}</td>
-</tr>
+<p text-align="center">Desde {{ util.fecha(fecha_inicio) }} hasta el {{ util.fecha(fecha_fin) }}</p>
+<br />
+<br />
+<br />
+<p> Sexo Escogido: {{ mensaje }} </p>
+<br />
+<br />
+<br />
+<p text-align="center"> Cantidad de Ninos por Edades </p>
+<table width="100%" text-align="center">
+	<tr>
+		<td>4 anios</td>
+		<td>5 anios</td>
+		<td>6 anios</td>
+		<td>7 anios</td>
+		<td>8 anios</td>
+		<td>9 anios</td>
+		<td>10 anios</td>
+		<td>11 anios</td>
+		<td>12 anios</td>
+	</tr>
+	<tr>
+		<td>{{ cant4anios }}</td>
+		<td>{{ cant5anios }}</td>
+		<td>{{ cant6anios }}</td>
+		<td>{{ cant7anios }}</td>
+		<td>{{ cant8anios }}</td>
+		<td>{{ cant9anios }}</td>
+		<td>{{ cant10anios }}</td>
+		<td>{{ cant11anios }}</td>
+		<td>{{ cant12anios }}</td>
+	</tr>
+</table>
+<br />
+<br />
+<p text-align="center"> Cantidad de Ninas por Edades </p>
+<br />
+<table width="100%" text-align="center">
+	<tr>
+		<td>4 anios</td>
+		<td>5 anios</td>
+		<td>6 anios</td>
+		<td>7 anios</td>
+		<td>8 anios</td>
+		<td>9 anios</td>
+		<td>10 anios</td>
+		<td>11 anios</td>
+		<td>12 anios</td>
+	</tr>
+	<tr>
+		<td>{{ cant4nina }}</td>
+		<td>{{ cant5nina }}</td>
+		<td>{{ cant6nina }}</td>
+		<td>{{ cant7nina }}</td>
+		<td>{{ cant8nina }}</td>
+		<td>{{ cant9nina }}</td>
+		<td>{{ cant10nina }}</td>
+		<td>{{ cant11nina }}</td>
+		<td>{{ cant12nina }}</td>
+	</tr>
 </table>
 
 {% endblock %}
