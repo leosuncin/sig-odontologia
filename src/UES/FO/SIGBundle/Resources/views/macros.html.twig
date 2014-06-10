@@ -6,6 +6,13 @@
 {% endmacro %}
 
 {##
+ # Mostrar la fecha en español
+ #}
+{% macro fecha2(fecha) %}
+{{ fecha|date('d-m-Y') }}
+{% endmacro %}
+
+{##
  # Mostrar el nivel de permisos según el rol
  #}
 {% macro getNivel(rol) %}

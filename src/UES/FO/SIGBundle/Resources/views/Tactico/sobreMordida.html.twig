@@ -1,6 +1,11 @@
 {% extends "SIGBundle:Default:index.html.twig" %}
-
 {% block parameters %}
 <h1>Generacion de Reporte de Sobremordidas</h1>
 {{ form(form, {'style': 'horizontal'}) }}
+{% endblock %}
+{% block javascript %}
+<script>
+    require(['../bundles/sig/js/sobremordida'], function(sobremordida) {
+    });
+</script>
 {% endblock %}

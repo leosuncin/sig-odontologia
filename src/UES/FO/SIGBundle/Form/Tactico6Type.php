@@ -44,9 +44,35 @@ class Tactico6Type extends AbstractType
                         2 => 'Femenino'
                 )))
                
+                ->add('pieza_estadio', 'choice',
+                array(
+                    'label'   => 'Pieza dental de Estudio: ',
+                    'choices' => array(
+                        0 => 'e51',
+                        1 => 'e52',
+                        2 => 'e53',
+                        3 => 'e54',
+                        4 => 'e55',
+                        5 => 'e61',
+                        6 => 'e62',
+                        7 => 'e63',
+                        8 => 'e64',
+                        9 => 'e65',
+                        10 => 'e71',
+                        11 => 'e72',
+                        12 => 'e73',
+                        13 => 'e74',
+                        14 => 'e75',
+                        15 => 'e81',
+                        16 => 'e82',
+                        17 => 'e83',
+                        18 => 'e84',
+                        19 => 'e85',
+                )))
+
                 ->add('estadio', 'choice',
                 array(
-                    'label'   => 'Valor de Estadio de Nolla: ',
+                    'label'   => 'Valor de Estadio de Nolla de Pieza: ',
                     'choices' => array(
                         0 => '0',
                         1 => '1',
@@ -56,7 +82,9 @@ class Tactico6Type extends AbstractType
                         5 => '5',
                         6 => '6',
                         7 => '7',
-                        8 => '8'
+                        8 => '8',
+                        9 => '9',
+                        10=> '10'
                 )))
             ->add('actions', 'form_actions');
             

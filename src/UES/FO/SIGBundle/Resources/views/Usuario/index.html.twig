@@ -15,7 +15,7 @@
         <tbody>
             {% for entity in entities %}
             <tr>
-                <td>{{ entity.nombres ~ ' ' ~ entity.apellidos }}</td>
+                <td>{{ entity.nombrecompleto }}</td>
                 <td>{{ entity.username }}</td>
                 <td>{{ util.estado(entity.enabled) }}</td>
                 <td>
