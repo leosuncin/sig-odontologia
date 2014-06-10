@@ -350,6 +350,7 @@ public function validateEnfermedadesPadecidasAction(Request $request)
 
 public function validateLineasMediasAction(Request $request)
     {
+         $ajax = $request->isXmlHttpRequest();// comprobar si la petición es AJAX
          $data = new ParametrosTactico1();// instancia de clase donde se manejaran los parámetros
         $form = $this->createForm(// crear el formulario
             new Tactico3Type(),// a partir de una clase modelo
@@ -371,12 +372,12 @@ public function validateLineasMediasAction(Request $request)
                     'orientacionmx'   => $data->getOrientacionMx(),
                     'orientacionmd'   => $data->getOrientacionMd(),
                     'milimetrosmx'   => $data->getMilimetrosMx(),
-                    'milimetrosmd'   => $data->getMilimetrosMd(),
-
-                    
+                    'milimetrosmd'   => $data->getMilimetrosMd(),  
                     '_format'      =>'pdf'), true);
             if($ajax) {
                 return new JsonResponse(json_encode(array('route' => $route)));// sí la petición es AJAX responder con un JSON con la URL
+
+
             } else {
                 return new RedirectResponse($route);// sí la petición no es AJAX redirigir el navegador al visor
             }

@@ -204,7 +204,7 @@ class ParametrosTactico1
      * set tipo
      * @param \int $tipo
      */
-    public function setTipo($perfil)
+    public function setTipo($tipo)
     {
         $this->tipo = $tipo;
         return $this;
