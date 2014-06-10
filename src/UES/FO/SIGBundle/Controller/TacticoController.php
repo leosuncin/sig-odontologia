@@ -558,37 +558,63 @@ public function validateLineasMediasAction(Request $request)
      * @Template()
      * @Pdf()
      */
-    public function reporteSobreMordidaAction(\DateTime $fecha_inicio, \DateTime $fecha_fin, $sexo=0)
+    public function reporteSobreMordidaAction(\DateTime $fecha_inicio, \DateTime $fecha_fin, $sexo, $milihorizontal, $milivertical)
     {
-       $parametros = new ParametrosTactico2();
+        $parametros = new ParametrosTactico2();
         $parametros->setFechaInicio($fecha_inicio);
         $parametros->setFechaFin($fecha_fin);
         $parametros->setSexo($sexo);
-
+        $parametros->setMiliHorizontal($milihorizontal);
+        $parametros->setMiliVertical($milivertical);
         $errores = $this->get('validator')->validate($parametros);
         if (count($errores) > 0) {
             throw new BadRequestHttpException((string) $errores);
         }
+        /*Es Nina, nino o ambos?*/
+        if($sexo==0)
+            $mensaje = "Ninos y Ninas";
+        else if($sexo==1)
+            $mensaje = "Ninos";
+        else
+            $mensaje = "Ninas";
 
         $pdo_fecha_inicio = $fecha_inicio->format('Y-m-d');
         $pdo_fecha_fin = $fecha_fin->format('Y-m-d');
         $conn = $this->getDoctrine()->getManager()->getConnection();
-        $stmt = $conn->prepare('CALL pr_reporte_tratamiento(:fecha_inicio, :fecha_fin, :sexo, @cant_ninios, @cant_ninias, @cant_total)');
+        $stmt = $conn->prepare('CALL pr_reporte_sobremordidas(:fecha_inicio, :fecha_fin, :sexo, :milihorizontal, :milivertical, @totalx4, @totalx4nina, @totalx5, @totalx5nina, @totalx6, @totalx6nina, @totalx7, @totalx7nina, @totalx8, @totalx8nina, @totalx9, @totalx9nina, @totalx10, @totalx10nina, @totalx11, @totalx11nina, @totalx12, @totalx12nina)');
         $stmt->bindParam(':fecha_inicio', $pdo_fecha_inicio, \PDO::PARAM_STR);
         $stmt->bindParam(':fecha_fin', $pdo_fecha_fin, \PDO::PARAM_STR);
         $stmt->bindParam(':sexo', $sexo, \PDO::PARAM_INT);
+        $stmt->bindParam(':milihorizontal', $milihorizontal, \PDO::PARAM_INT);
+        $stmt->bindParam(':milivertical', $milivertical, \PDO::PARAM_INT);
         $stmt->execute();
-        $stmt = $conn->query('SELECT @cant_ninios, @cant_ninias, @cant_total');
+        $stmt = $conn->query('SELECT @totalx4,@totalx4nina,@totalx5nina,@totalx6nina,@totalx7nina,@totalx8nina,@totalx9nina,@totalx10nina,@totalx11nina,@totalx12nina, @totalx5, @totalx6, @totalx7, @totalx8, @totalx9, @totalx10, @totalx11, @totalx12');
         $result = $stmt->fetchAll();
 
         return array(
-            'titulo'       => 'Reporte de plan de tratamiento',
+            'titulo'       => 'Reporte de Sobremordidas',
             'autor'        => $this->getUser()->getNombreCompleto(),
             'fecha_inicio' => $fecha_inicio,
             'fecha_fin'    => $fecha_fin,
-            'cant_ninias'  => $result[0]['@cant_ninias'],
-            'cant_ninios'  => $result[0]['@cant_ninios'],
-            'cant_total'   => $result[0]['@cant_total']
+            'mensaje'      => $mensaje,
+            'cant4anios'  => $result[0]['@totalx4'],
+            'cant4nina'  => $result[0]['@totalx4nina'],
+            'cant5anios'  => $result[0]['@totalx5'],
+            'cant5nina'  => $result[0]['@totalx5nina'],
+            'cant6anios'  => $result[0]['@totalx6'],
+            'cant6nina'  => $result[0]['@totalx6nina'],
+            'cant7anios'  => $result[0]['@totalx7'],
+            'cant7nina'  => $result[0]['@totalx7nina'],
+            'cant8anios'  => $result[0]['@totalx8'],
+            'cant8nina'  => $result[0]['@totalx8nina'],
+            'cant9anios'  => $result[0]['@totalx9'],
+            'cant9nina'  => $result[0]['@totalx9nina'],
+            'cant10anios'  => $result[0]['@totalx10'],
+            'cant10nina'  => $result[0]['@totalx10nina'],
+            'cant11anios'  => $result[0]['@totalx11'],
+            'cant11nina'  => $result[0]['@totalx11nina'],
+            'cant12anios'  => $result[0]['@totalx12'],
+            'cant12nina'  => $result[0]['@totalx12nina']
         );
     }
 
