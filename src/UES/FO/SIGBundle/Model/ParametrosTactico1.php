@@ -41,7 +41,7 @@ class ParametrosTactico1
      * 
      * @var int
      *
-     *@Assert\Choice(choices = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13}, message = "Escoja una enfermedad valida")
+     *@Assert\Choice(choices = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14}, message = "Escoja una enfermedad valida")
      */
     private $enfermedad;
 
