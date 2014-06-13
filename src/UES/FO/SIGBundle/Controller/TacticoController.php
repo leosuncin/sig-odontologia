@@ -92,16 +92,23 @@ public function validateEnfermedadesPadecidasAction(Request $request)
         }
     }
     /**
-     * @Route(
-     *     "/enfermedades-padecidas.{_format}",
-     *     name="reporte-enfermedades-padecidas",
-     *     options={"expose"=true}
-     * )
      * 
+     * @Route(
+     *     "/{fecha_inicio}/{fecha_fin}/{sexo}/{enfermedad}/reporteEnfermedadesPadecidas.{_format}",
+     *     name="reporte-enfermedades-padecidas",
+     *     requirements={
+     *         "fecha_inicio"="\d{2}-\d{2}-\d{4}",
+     *         "fecha_fin"="\d{2}-\d{2}-\d{4}",
+     *         "_format"="pdf|html",
+     *         "sexo"="0|1|2",
+     *         "enfermedad"="0|1|2|3|4|5|6|7|8|9|10|11|12|13",
+     *       
+     * })
+     * @Method("GET")
      * @Template()
      * @Pdf()
      */
-    public function reporteEnfermedadesPadecidasAction(\DateTime $fecha_inicio, \DateTime $fecha_fin, $sexo, \varchar $enfermedad)
+    public function reporteEnfermedadesPadecidasAction(\DateTime $fecha_inicio, \DateTime $fecha_fin, $sexo, $enfermedad)
     { 
     
 
@@ -133,9 +140,9 @@ public function validateEnfermedadesPadecidasAction(Request $request)
         $stmt->bindParam(':sexo', $sexo, \PDO::PARAM_INT);
         $stmt->bindParam(':enfermedad', $enfermedad, \PDO::PARAM_INT);
         $stmt->execute();// Ejecutar la consulta
-        //ESTO LO DEBO DE CAMBIAR
+       
         $stmt = $conn->query('SELECT @totalx4, @totalx5, @totalx6, @totalx7, @totalx8, @totalx9, @totalx10, @totalx11, @total2x4, @total2x5, @total2x6, @total2x7, @total2x8, @total2x9, @total2x10, @total2x11');
-        //$stmt = $conn->query('SELECT @cantninias4, @cantninias5, @cantninias6, @cantninias7, @cantninias8, @cantninias9, @cantninias10, @cantninias11, @cantninios4, @cantninios5, @cantninios6, @cantninios7, @cantninios8, @cantninios9, @cantninios10, @cantninios11, @cantotal');// Consultar el resultado de la ejecución
+    
         $result = $stmt->fetchAll();// Obtener los valores del resultado
 
         return array(// Pasar las variables a la vista del reporte
