@@ -6,7 +6,7 @@
 <canvas id="preview"></canvas>
 {% endblock %}
 
-{% block javascript %}
+
 <script>
 	require(['bootstrap-datepicker', 'pdf'], function($, pdfjs) {
 		$('.datepicker').datepicker({
@@ -16,5 +16,12 @@
 		});
 		console.log(pdfjs);
 	});
+</script>
+
+
+{% block javascript %}
+<script>
+    require(['../bundles/sig/js/tipoperfil'], function(tipoperfil) {
+    });
 </script>
 {% endblock %}
