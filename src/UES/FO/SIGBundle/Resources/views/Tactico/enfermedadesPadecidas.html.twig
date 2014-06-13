@@ -2,12 +2,8 @@
 
 {% block parameters %}
 <h1>Generación de reporte de Enfermedades Padecidas</h1>
-<div id="parametros" class="row">{{ form(form, {'style': 'horizontal', 'col_size': 'xs'}) }}</div>
-<canvas id="preview"></canvas>
+{{ form(form, {'style': 'horizontal'}) }}
 {% endblock %}
-
-
-
 
 {% block javascript %}
 <script>

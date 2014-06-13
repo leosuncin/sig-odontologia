@@ -168,8 +168,7 @@ public function validateEnfermedadesPadecidasAction(Request $request)
             'cant10anios'  => $result[0]['@totalx10'],
             'cant10nina'  => $result[0]['@total2x10'],
             'cant11anios'  => $result[0]['@totalx11'],
-            'cant11nina'  => $result[0]['@total2x11'],
-            
+            'cant11nina'  => $result[0]['@total2x11']            
         );
 
 }
