@@ -6,12 +6,17 @@
 
     <parameters>
         <parameter key="periodo_validator.class">UES\FO\SIGBundle\Validator\PeriodoValidator</parameter>
+        <parameter key="bitacora.class">UES\FO\SIGBundle\Service\BitacoraService</parameter>
     </parameters>
 
     <services>
         <service id="periodo_validator" class="%periodo_validator.class%">
-			<argument type="service" id="doctrine.orm.default_entity_manager" />
-			<tag name="validator.constraint_validator" alias="periodo_validator" />
-		</service>
+            <argument type="service" id="doctrine.orm.default_entity_manager" />
+            <tag name="validator.constraint_validator" alias="periodo_validator" />
+        </service>
+        <service id="bitacora" class="%bitacora.class%">
+            <argument type="service" id="doctrine.orm.default_entity_manager" />
+            <argument type="service" id="security.context" />
+        </service>
     </services>
 </container>
