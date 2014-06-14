@@ -8,22 +8,55 @@
 <br />
 <br />
 
-<table style="border-color: white; font-size:14px;">
-	<tr style="background-color:#63A1D3; border-color: white;  ">
-		<td colspan="3" style="border-color: white; "><p text-align="center"><b>POR SEXO</b></p></td>
-	</tr>
-	<tr style="background-color:#C5D1DB; border-color: white;">
-		<td style="border-color: white; "><p text-align="center"></p></td>
-		<td style="border-color: white; "><p text-align="center"><b>Masculino</b></p></td>
-		<td style="border-color: white; "><p text-align="center"><b>Femenino</b></p></td>
-	</tr>
-	<tr style="background-color:#C5D1DB; border-color: white;">
-		<td style="border-color: white; "><p text-align="center">Cantidad de Citas</p></td>
-		<td style="border-color: white; "><p text-align="center">{{ totalxmasc }}</p></td>
-		<td style="border-color: white; "><p text-align="center">{{ totalxfem }}</p></td>
-	</tr>
-	
-</table>
+{% if sexo == 0 %}
+	<table style="border-color: white; font-size:14px;">
+		<tr style="background-color:#63A1D3; border-color: white;  ">
+			<td colspan="3" style="border-color: white; "><p text-align="center"><b>POR SEXO</b></p></td>
+		</tr>
+		<tr style="background-color:#C5D1DB; border-color: white;">
+			<td style="border-color: white; "><p text-align="center"></p></td>
+			<td style="border-color: white; "><p text-align="center"><b>Masculino</b></p></td>
+			<td style="border-color: white; "><p text-align="center"><b>Femenino</b></p></td>
+		</tr>
+		<tr style="background-color:#C5D1DB; border-color: white;">
+			<td style="border-color: white; "><p text-align="center">Cantidad de Citas</p></td>
+			<td style="border-color: white; "><p text-align="center">{{ totalxmasc }}</p></td>
+			<td style="border-color: white; "><p text-align="center">{{ totalxfem }}</p></td>
+		</tr>
+	</table>
+{% endif %}
+
+{% if sexo == 1 %}
+	<table style="border-color: white; font-size:14px;">
+		<tr style="background-color:#63A1D3; border-color: white;  ">
+			<td colspan="2" style="border-color: white; "><p text-align="center"><b>POR SEXO</b></p></td>
+		</tr>
+		<tr style="background-color:#C5D1DB; border-color: white;">
+			<td style="border-color: white; "><p text-align="center"></p></td>
+			<td style="border-color: white; "><p text-align="center"><b>Masculino</b></p></td>
+		</tr>
+		<tr style="background-color:#C5D1DB; border-color: white;">
+			<td style="border-color: white; "><p text-align="center">Cantidad de Citas</p></td>
+			<td style="border-color: white; "><p text-align="center">{{ totalxmasc }}</p></td>
+		</tr>
+	</table>
+{% endif %}
+
+{% if sexo == 2 %}
+	<table style="border-color: white; font-size:14px;">
+		<tr style="background-color:#63A1D3; border-color: white;  ">
+			<td colspan="2" style="border-color: white; "><p text-align="center"><b>POR SEXO</b></p></td>
+		</tr>
+		<tr style="background-color:#C5D1DB; border-color: white;">
+			<td style="border-color: white; "><p text-align="center"></p></td>
+			<td style="border-color: white; "><p text-align="center"><b>Femenino</b></p></td>
+		</tr>
+		<tr style="background-color:#C5D1DB; border-color: white;">
+			<td style="border-color: white; "><p text-align="center">Cantidad de Citas</p></td>
+			<td style="border-color: white; "><p text-align="center">{{ totalxfem }}</p></td>
+		</tr>
+	</table>
+{% endif %}
 
 <br/>
 <br/>
@@ -36,15 +69,23 @@
 	<tr style="background-color:#63A1D3; border-color: white;  ">
 		<td colspan="2" style="border-color: white; "><p text-align="center"><b>POR EDAD</b></p></td>
 	</tr>
-	<tr style="background-color:#C5D1DB; border-color: white;">
-		<td style="border-color: white; "><p text-align="center"></p></td>
-		<td style="border-color: white; "><p text-align="center"><b>{{ edad }} años </b></p></td> 
-	</tr>
+
+	{% if edad == 3 %}
+		<tr style="background-color:#C5D1DB; border-color: white;">
+			<td style="border-color: white; "><p text-align="center"></p></td>
+			<td style="border-color: white; "><p text-align="center"> <b> Todas las edades </b></p></td> 
+		</tr>
+	{% else %}
+		<tr style="background-color:#C5D1DB; border-color: white;">
+			<td style="border-color: white; "><p text-align="center"></p></td>
+			<td style="border-color: white; "><p text-align="center"> <b> {{ edad }} años </b></p></td> 
+		</tr>
+	{% endif %}
+
 	<tr style="background-color:#C5D1DB; border-color: white;">
 		<td style="border-color: white; "><p text-align="center">Cantidad de Citas</p></td>
 		<td style="border-color: white; "><p text-align="center">{{ totalxedad }}</p></td>
 	</tr>
-	
 </table>
 
 <br/>

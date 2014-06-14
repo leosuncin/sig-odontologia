@@ -341,6 +341,7 @@ END$$
 
 DELIMITER ;
 
+
 -- -----------------------------------------------------
 -- procedure pr_reporte_cantidad_citas
 -- -----------------------------------------------------
@@ -369,7 +370,6 @@ IF sexo=0 THEN
 #niño
 ELSEIF sexo=1 THEN
     SELECT COUNT(*) FROM citas, datosgenerales WHERE citas.fechacita between  fecha_inicio AND fecha_fin AND citas.codexpediente = datosgenerales.codexpediente AND datosgenerales.genero = 0 INTO totalxmasc;
-    
     SET totalxfem=0;
 
 #niña
@@ -378,10 +378,12 @@ ELSE
     SET totalxmasc=0;    
 END IF;
 
-  
-
 #por edad
-SELECT COUNT(*) FROM citas, datosgenerales WHERE citas.fechacita between fecha_inicio AND fecha_fin AND citas.codexpediente = datosgenerales.codexpediente AND datosgenerales.edadregistro = edad INTO totalxedad;
+IF edad = 3 THEN
+     SELECT COUNT(*) FROM citas, datosgenerales WHERE citas.fechacita between fecha_inicio AND fecha_fin AND citas.codexpediente = datosgenerales.codexpediente INTO totalxedad; 
+ELSE
+     SELECT COUNT(*) FROM citas, datosgenerales WHERE citas.fechacita between fecha_inicio AND fecha_fin AND citas.codexpediente = datosgenerales.codexpediente AND datosgenerales.edadregistro = edad INTO totalxedad;
+END IF;
 
 END$$
 

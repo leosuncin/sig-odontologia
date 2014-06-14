@@ -196,6 +196,7 @@ class EstrategicoController extends Controller
             'fecha_inicio' => $fecha_inicio,
             'fecha_fin'    => $fecha_fin,
             'edad'         => $edad,
+            'sexo'         => $sexo,
             'totalxmasc'   => $result[0]['@totalxmasc'],
             'totalxfem'    => $result[0]['@totalxfem'],
             'totalxedad'   => $result[0]['@totalxedad'],

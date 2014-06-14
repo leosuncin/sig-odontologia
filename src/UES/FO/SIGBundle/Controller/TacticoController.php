@@ -101,8 +101,7 @@ public function validateEnfermedadesPadecidasAction(Request $request)
      *         "fecha_fin"="\d{2}-\d{2}-\d{4}",
      *         "_format"="pdf|html",
      *         "sexo"="0|1|2",
-     *         "enfermedad"="0|1|2|3|4|5|6|7|8|9|10|11|12|13",
-     *       
+     *         "enfermedad"="0|1|2|3|4|5|6|7|8|9|10|11|12|13"
      * })
      * @Method("GET")
      * @Template()
@@ -123,6 +122,8 @@ public function validateEnfermedadesPadecidasAction(Request $request)
             throw new BadRequestHttpException((string) $errores);// Si hay un error, no continua con la generación del reporte y muestra el error
         }
          /*Es Nina, nino o ambos?*/
+         $mensaje = "vacia";
+
         if($sexo==0)
             $mensaje = "Niños y Niñas";
         else if($sexo==1)
@@ -152,7 +153,6 @@ public function validateEnfermedadesPadecidasAction(Request $request)
             'fecha_fin'    => $fecha_fin,
             'enfermedad'    => $enfermedad,
             'mensaje'    => $mensaje,
-            
             'cant4anios'  => $result[0]['@totalx4'],
             'cant4nina'  => $result[0]['@total2x4'],
             'cant5anios'  => $result[0]['@totalx5'],
@@ -171,7 +171,7 @@ public function validateEnfermedadesPadecidasAction(Request $request)
             'cant11nina'  => $result[0]['@total2x11']            
         );
 
-}
+    }   
 
     /**
      * @Route("/tipo-perfil", name="tipo-perfil")
