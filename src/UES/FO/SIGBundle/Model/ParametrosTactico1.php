@@ -4,6 +4,7 @@ namespace UES\FO\SIGBundle\Model;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\ExecutionContextInterface;
+use UES\FO\SIGBundle\Validator\Constraints as SigAssert;
 
 class ParametrosTactico1
 {
@@ -14,6 +15,7 @@ class ParametrosTactico1
      * 
      * @Assert\NotBlank(message = "El campo no puede quedar vacio")
      * @Assert\Date(message = "Ingrese una fecha valida")
+     *@SigAssert\FechaInicio
      */
     private $fecha_inicio;
 
@@ -24,6 +26,7 @@ class ParametrosTactico1
      *
      * @Assert\NotBlank(message = "El campo no puede quedar vacio")
      * @Assert\Date(message = "Ingrese una fecha valida")
+     *@SigAssert\FechaFin
      */
     private $fecha_fin;
 
@@ -50,7 +53,7 @@ class ParametrosTactico1
      * 
      * @var int
      *
-     *
+     *@Assert\Choice(choices = {1, 2, 3}, message = "Escoja un perfil valido")
      */
     private $perfil;
 
@@ -59,7 +62,7 @@ class ParametrosTactico1
      * 
      * @var int
      *
-     * 
+     * @Assert\Choice(choices = {1, 2, 3}, message = "Escoja un tipo valido")
      */
     private $tipo;
 
