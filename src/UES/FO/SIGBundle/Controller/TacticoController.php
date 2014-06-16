@@ -188,6 +188,8 @@ public function validateEnfermedadesPadecidasAction(Request $request)
                 'attr' => array('col_size' => 'xs')// el tamaño mínimo del dispositivo
             ));
         // enviar variables a la vista para ser mostrada
+        $bitacora = $this->get('bitacora');
+        $bitacora->actividad('Mostrar generacion tipo perfil');
         return array('title' => 'Reporte de tipo de perfil', 'form'=> $form->createView());
 
     }
@@ -602,6 +604,7 @@ public function validateLineasMediasAction(Request $request)
             'fecha_inicio' => $fecha_inicio,
             'fecha_fin'    => $fecha_fin,
             'mensaje'      => $mensaje,
+            'sexo'         => $sexo,
             'cant4anios'  => $result[0]['@totalx4'],
             'cant4nina'  => $result[0]['@totalx4nina'],
             'cant5anios'  => $result[0]['@totalx5'],
