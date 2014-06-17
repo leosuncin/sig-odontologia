@@ -134,20 +134,18 @@ public function validateEnfermedadesPadecidasAction(Request $request)
         $pdo_fecha_inicio = $fecha_inicio->format('Y-m-d');// Formatear la fecha al estilo de MySQL
         $pdo_fecha_fin = $fecha_fin->format('Y-m-d');
         $conn = $this->getDoctrine()->getManager()->getConnection();// Obtener la conexión a la base de datos
-        //AQUI FALTAN LAS VARIABLES DE SALIDA Y REALIZAR EL PROCESO ALMACENADO EN LA BD
         $stmt = $conn->prepare('CALL pr_reporte_enfermedades(:fecha_inicio, :fecha_fin, :sexo, :enfermedad, @totalx4, @totalx5, @totalx6, @totalx7, @totalx8, @totalx9, @totalx10, @totalx11, @total2x4, @total2x5, @total2x6, @total2x7, @total2x8, @total2x9, @total2x10, @total2x11)');// Preparar la llamada al procedimiento almacenado
         $stmt->bindParam(':fecha_inicio', $pdo_fecha_inicio, \PDO::PARAM_STR);// Preparar los parámetros de la consulta
         $stmt->bindParam(':fecha_fin', $pdo_fecha_fin, \PDO::PARAM_STR);
         $stmt->bindParam(':sexo', $sexo, \PDO::PARAM_INT);
         $stmt->bindParam(':enfermedad', $enfermedad, \PDO::PARAM_INT);
         $stmt->execute();// Ejecutar la consulta
-       
         $stmt = $conn->query('SELECT @totalx4, @totalx5, @totalx6, @totalx7, @totalx8, @totalx9, @totalx10, @totalx11, @total2x4, @total2x5, @total2x6, @total2x7, @total2x8, @total2x9, @total2x10, @total2x11');
-    
         $result = $stmt->fetchAll();// Obtener los valores del resultado
+      
 
         return array(// Pasar las variables a la vista del reporte
-            'titulo'       => 'Reporte de Enfermedades Padecidas',
+           'titulo'       => "Reporte de Enfermedades Padecidas",
             'autor'        => $this->getUser()->getNombreCompleto(),
             'fecha_inicio' => $fecha_inicio,
             'fecha_fin'    => $fecha_fin,
@@ -238,7 +236,7 @@ public function validateEnfermedadesPadecidasAction(Request $request)
         if ($ajax) {
             return new JsonResponse(json_encode(FormUtils::getFormErrors($form)), 400);// sí la petición es AJAX responder con JSON con los errores
         } else {
-            return array('title' => 'Reporte de tipo de perfil', 'form'=> $form->createView());// sí no mostrar de nuevo el formulario con los errores
+            return array('title' => 'Reporte de Tipo de Perfil', 'form'=> $form->createView());// sí no mostrar de nuevo el formulario con los errores
         }
     }
 
@@ -259,7 +257,7 @@ public function validateEnfermedadesPadecidasAction(Request $request)
      * @Template()
      * @Pdf()
      */
-    public function reporteTipoPerfilAction($request)
+    public function reporteTipoPerfilAction(\DateTime $fecha_inicio, \DateTime $fecha_fin, $sexo, $perfil, $tipo)
     {
         
         $parametros = new ParametrosTactico1();// Crear una instancia del modelo de parámetros
@@ -286,7 +284,7 @@ public function validateEnfermedadesPadecidasAction(Request $request)
         $pdo_fecha_inicio = $fecha_inicio->format('Y-m-d');// Formatear la fecha al estilo de MySQL
         $pdo_fecha_fin = $fecha_fin->format('Y-m-d');
         $conn = $this->getDoctrine()->getManager()->getConnection();// Obtener la conexión a la base de datos
-        $stmt = $conn->prepare('CALL pr_reporte_tipo_perfil(:fecha_inicio, :fecha_fin, :sexo, :perfil, :tipo, @totalx4, @totalx5, @totalx6, @totalx7, @totalx8, @totalx9, @totalx10, @totalx11, @total2x4, @total2x5, @total2x6, @total2x7, @total2x8, @total2x9, @total2x10, @total2x11)');// Preparar la llamada al procedimiento almacenado
+        $stmt = $conn->prepare('CALL pr_reporte_tipos_perfil(:fecha_inicio, :fecha_fin, :sexo, :perfil, :tipo, @totalx4, @totalx5, @totalx6, @totalx7, @totalx8, @totalx9, @totalx10, @totalx11, @total2x4, @total2x5, @total2x6, @total2x7, @total2x8, @total2x9, @total2x10, @total2x11)');// Preparar la llamada al procedimiento almacenado
         $stmt->bindParam(':fecha_inicio', $pdo_fecha_inicio, \PDO::PARAM_STR);// Preparar los parámetros de la consulta
         $stmt->bindParam(':fecha_fin', $pdo_fecha_fin, \PDO::PARAM_STR);
         $stmt->bindParam(':sexo', $sexo, \PDO::PARAM_INT);
@@ -298,7 +296,7 @@ public function validateEnfermedadesPadecidasAction(Request $request)
 
 
         return array(// Pasar las variables a la vista del reporte
-            'titulo'       => 'Reporte de Tipo de Perfil',
+            'titulo'       => "Reporte de Tipo de Perfil",
             'autor'        => $this->getUser()->getNombreCompleto(),
             'fecha_inicio' => $fecha_inicio,
             'fecha_fin'    => $fecha_fin,
@@ -458,7 +456,7 @@ public function validateLineasMediasAction(Request $request)
 
 
         return array(// Pasar las variables a la vista del reporte
-            'titulo'       => 'Reporte de Lineas Medias',
+            'titulo'       => "Reporte de Lineas Medias",
             'autor'        => $this->getUser()->getNombreCompleto(),
             'fecha_inicio' => $fecha_inicio,
             'fecha_fin'    => $fecha_fin,
