@@ -23,6 +23,7 @@
         "braincrafted/bootstrap-bundle": "dev-master",
         "friendsofsymfony/jsrouting-bundle": "~1.1",
         "psliwa/pdf-bundle": "dev-master",
+        "gregwar/captcha-bundle": "dev-master",
         "components/jquery": "1.9.*",
         "twbs/bootstrap": "3.*",
         "jzaefferer/jquery-validation": "1.12.*",
@@ -30,6 +31,9 @@
         "needim/noty": "2.2.2",
         "kartik-v/strength-meter": "dev-master",
         "nostalgiaz/bootstrap-switch": "3.0.0"
+    },
+    "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "2.2.*"
     },
     "scripts": {
         "post-install-cmd": [
