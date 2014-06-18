@@ -599,7 +599,7 @@ class EstrategicoController extends Controller
         $stmt->execute();
         $stmt = $conn->query('SELECT @cant_ninios, @cant_ninias, @cant_total');
         $result = $stmt->fetchAll();
-
+        $this->get('bitacora')->actividad('Creo el reporte de plan de tratamiento');
         return array(
             'titulo'       => 'Reporte de plan de tratamiento',
             'autor'        => $this->getUser()->getNombreCompleto(),
@@ -717,7 +717,7 @@ class EstrategicoController extends Controller
         $stmt->execute();// Ejecutar la consulta
         $stmt = $conn->query('SELECT @cant_ninios, @cant_ninias, @cant_total');// Consultar el resultado de la ejecución
         $result = $stmt->fetchAll();// Obtener los valores del resultado
-
+        $this->get('bitacora')->actividad('Creo el reporte de asistencias generales');
         return array(// Pasar las variables a la vista del reporte
             'titulo'       => 'Reporte de asistencias generales',
             'autor'        => $this->getUser()->getNombreCompleto(),
@@ -830,7 +830,7 @@ class EstrategicoController extends Controller
         $stmt->execute();
         $stmt = $conn->query('SELECT @cant_ninios, @cant_ninias, @cant_total');
         $result = $stmt->fetchAll();
-
+        $this->get('bitacora')->actividad('Creo el reporte de casos referidos');
         return array(
             'titulo'       => 'Reporte de casos referidos',
             'autor'        => $this->getUser()->getNombreCompleto(),
