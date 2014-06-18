@@ -46,42 +46,42 @@ class Tactico3Type extends AbstractType
 
             ->add('orientacionmx', 'choice',
                 array(
-                    'label'   => 'Orientacion Mx',
+                    'label'   => 'Desviación Mx',
                     'choices' => array(
-                         0 => 'Izquierda',
-                        1 => 'Central',
-                        2 => 'Derecha',
+                        1 => 'Izquierda',
+                        2 => 'Central',
+                        3 => 'Derecha',
                         
                 )))
 
             ->add('orientacionmd', 'choice',
                 array(
-                    'label'   => 'Orientacion Md',
+                    'label'   => 'Desviación Md',
                     'choices' => array(
-                         0 => 'Izquierda',
-                        1 => 'Central',
-                        2 => 'Derecha',
+                        1 => 'Izquierda',
+                        2 => 'Centro',
+                        3 => 'Derecha',
                         
                 )))
            ->add('milimetrosmx', 'choice',
                 array(
                     'label'   => 'Milimetros desviación en Mx',
                     'choices' => array(
-                        0 => '1',
-                        1 => '2',
-                        2 => '3',
-                        3 => '4',
-                        4 => '5',
+                        1 => '1',
+                        2 => '2',
+                        3 => '3',
+                        4 => '4',
+                        5 => '5',
                 )))
            ->add('milimetrosmd', 'choice',
                 array(
                     'label'   => 'Milimetros desviación en Md',
                     'choices' => array(
-                        0 => '1',
-                        1 => '2',
-                        2 => '3',
-                        3 => '4',
-                        4 => '5',
+                        1 => '1',
+                        2 => '2',
+                        3 => '3',
+                        4 => '4',
+                        5 => '5',
                 )))
 ->add('actions', 'form_actions');
             
