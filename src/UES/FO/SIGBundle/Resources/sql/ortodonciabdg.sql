@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS `ortodonciabdg`.`usuario` (
   `enabled` BOOLEAN NOT NULL DEFAULT 1,
   `locked` BOOLEAN NOT NULL DEFAULT 0,
   `role` MEDIUMTEXT NOT NULL,
+  `recover` BOOLEAN NULL DEFAULT 0,
   PRIMARY KEY (`idusuario`),
   UNIQUE INDEX `username_UNIQUE` (`username` ASC))
 ENGINE = InnoDB;
@@ -785,7 +786,7 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `ortodonciabdg`;
-INSERT INTO `ortodonciabdg`.`usuario` (`idusuario`, `nombres`, `apellidos`, `username`, `password`, `salt`, `nivel`, `enabled`, `locked`, `role`) VALUES (0, 'Usuario', 'Administrador', 'superadmin', 'jitzJL3isf7ZP2ZhBTLQkrCEbmaQNg/mnlBS8JCt94/2eUP9K5OCtC9UEZujJpz5mYtmHqAm3M7bS/NuTvhQgQ==', 'grdowsemqncog884ok0kwso8gos0g0c', 1, 1, 0, 'a:1:{i:0;s:16:\"ROLE_SUPER_ADMIN\";}');
+INSERT INTO `ortodonciabdg`.`usuario` (`idusuario`, `nombres`, `apellidos`, `username`, `password`, `salt`, `nivel`, `enabled`, `locked`, `role`, `recover`) VALUES (0, 'Usuario', 'Administrador', 'superadmin', 'jitzJL3isf7ZP2ZhBTLQkrCEbmaQNg/mnlBS8JCt94/2eUP9K5OCtC9UEZujJpz5mYtmHqAm3M7bS/NuTvhQgQ==', 'grdowsemqncog884ok0kwso8gos0g0c', 1, 1, 0, 'a:1:{i:0;s:16:\"ROLE_SUPER_ADMIN\";}', NULL);
 
 COMMIT;
 

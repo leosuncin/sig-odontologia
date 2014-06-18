@@ -1,10 +1,11 @@
 define(['bootstrap-datepicker', 'moment'], function($, moment) {
-    var inicio, fin;
+    'use strict';
     $.ajax({
         url: Routing.generate('periodo'),
         type: 'GET',
         dataType: 'json'
     }).done(function(response) {
+        var inicio, fin;
         inicio = moment(response.inicio, 'YYYY-MM-DD');
         fin = moment(response.fin, 'YYYY-MM-DD');
         $('.datepicker').datepicker('setStartDate', inicio.toDate()).datepicker('setEndDate', fin.toDate());

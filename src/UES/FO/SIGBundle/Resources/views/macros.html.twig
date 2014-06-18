@@ -40,6 +40,11 @@
 
 {##
  # Generar el código para crear un modal de Bootstrap
+ #
+ # @param string      id    El identificador unico del modal
+ # @param string      type  El tamaño del modal, posibles valores sm, lg
+ # @param string      title El titulo del modal
+ # @param string|html body  El contenido del modal
  #}
 {% macro modal(id, type, title, body) %}
 <div class="modal fade" id="{{id}}" tabindex="-1" role="dialog" aria-hidden="true" style="width: 100%">
@@ -68,5 +73,6 @@
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
             </div>
         </div>
+    </div>
 </div>
 {% endmacro %}

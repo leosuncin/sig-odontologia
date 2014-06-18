@@ -1,0 +1,14 @@
+{% extends 'SIGBundle:Default:index.html.twig' %}
+{% import 'SIGBundle::macros.html.twig' as util %}
+{% block content %}
+<h1>{{ title }}</h1>
+{% include 'SIGBundle:Usuario:recoverPwdAjax.html.twig' %}
+{% endblock %}
+
+{% block javascript %}
+<script>
+    require(['../bundles/sig/js/usuario_pwd_recover'], function(usuario_pwd_recover) {
+        usuario_pwd_recover();
+    })
+</script>
+{% endblock %}

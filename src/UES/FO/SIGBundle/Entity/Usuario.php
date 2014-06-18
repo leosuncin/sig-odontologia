@@ -67,7 +67,7 @@ class Usuario implements AdvancedUserInterface, \Serializable
      *     message="El nombre de usuario solo puede ser una combinación letras mayúscula y minúsculas, números, _, - sin espacios en blanco"
      * )
      *
-     * @ORM\Column(name="username", type="string", length=16, nullable=false)
+     * @ORM\Column(name="username", type="string", length=16, unique=true, nullable=false)
      */
     private $username;
 
@@ -113,8 +113,24 @@ class Usuario implements AdvancedUserInterface, \Serializable
      */
     private $role = array();
 
-    public function __construct() {
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="recover", type="boolean", nullable=true)
+     */
+    private $recover = false;
+
+    /**
+     * Codificador de la contraseña
+     *
+     * @var \Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface
+     */
+    private $encoder;
+
+    public function __construct(\Symfony\Component\Security\Core\Encoder\EncoderFactory $factory = null) {
         $this->salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
+        if($factory !== null)
+            $this->encoder = $factory->getEncoder($this);
     }
 
     /**
@@ -209,9 +225,15 @@ class Usuario implements AdvancedUserInterface, \Serializable
      * @param string $password
      * @return Usuario
      */
-    public function setPassword($password)
+    public function setPassword($password, \Symfony\Component\Security\Core\Encoder\EncoderFactory $factory = null)
     {
-        $this->password = $password;
+        if($factory !== null && $this->encoder === null)
+            $this->encoder = $factory->getEncoder($this);
+        if($this->encoder === null)
+            $this->password = $password;
+        else {
+            $this->password = $this->encoder->encodePassword($password, $this->salt);
+        }
 
         return $this;
     }
@@ -329,7 +351,7 @@ class Usuario implements AdvancedUserInterface, \Serializable
     /**
      * Set role
      *
-     * @param string $role
+     * @param array $role
      * @return Usuario
      */
     public function setRole($role = array())
@@ -342,7 +364,7 @@ class Usuario implements AdvancedUserInterface, \Serializable
     /**
      * Get role
      *
-     * @return string
+     * @return array
      */
     public function getRole()
     {
@@ -368,6 +390,27 @@ class Usuario implements AdvancedUserInterface, \Serializable
     public function getRoles()
     {
         return $this->role;
+    }
+
+    /**
+     * Set recover
+     *
+     * @param boolean $recover
+     */
+    public function setRecover($recover = true)
+    {
+    	$this->recover = $recover;
+    	return $this;
+    }
+
+    /**
+     * Is recover
+     *
+     * @return boolean
+     */
+    public function isRecover()
+    {
+    	return $this->recover;
     }
 
     /**
@@ -429,4 +472,8 @@ class Usuario implements AdvancedUserInterface, \Serializable
         ) = unserialize($serialized);
     }
 
+    public function __toString()
+    {
+        return $this->nombres.' '.$this->apellidos;
+    }
 }
