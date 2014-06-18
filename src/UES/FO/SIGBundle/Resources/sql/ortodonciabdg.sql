@@ -47,7 +47,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `ortodonciabdg`.`bitacora` (
   `idaccion` INT NOT NULL AUTO_INCREMENT,
   `idusuario` INT NOT NULL,
-  `accion` VARCHAR(50) NOT NULL,
+  `accion` VARCHAR(200) NOT NULL,
   `fechayhora` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`idaccion`),
   INDEX `fk_bitacora_usuario_idx` (`idusuario` ASC),

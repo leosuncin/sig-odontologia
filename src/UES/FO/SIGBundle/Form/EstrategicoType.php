@@ -22,7 +22,7 @@ class EstrategicoType extends AbstractType
                 'invalid_message' => 'La fecha debe tener el formato dd/mm/yyyy',
                 'attr'            => array(
                     'placeholder' => 'dd/mm/yyyy',
-                    'help_text' => 'Por ejemplo: 17/01/2007',
+                    'help_text'   => 'Por ejemplo: 17/01/2007',
                     'class'       => 'datepicker'
                 )
                 ))
@@ -33,7 +33,7 @@ class EstrategicoType extends AbstractType
                 'invalid_message' => 'La fecha debe tener el formato dd/mm/yyyy',
                 'attr'            => array(
                     'placeholder' => 'dd/mm/yyyy',
-                    'help_text' => 'Por ejemplo: 17/10/2009',
+                    'help_text'   => 'Por ejemplo: 17/10/2009',
                     'class'       => 'datepicker'
                 )
                 ))

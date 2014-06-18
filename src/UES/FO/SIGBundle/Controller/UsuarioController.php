@@ -34,6 +34,8 @@ class UsuarioController extends Controller
 
         $entities = $em->getRepository('SIGBundle:Usuario')->findAll();
 
+        $this->get('bitacora')->actividad('Acceso a la consulta de usuarios');
+
         return array(
             'title'    => 'Consultar usuarios',
             'entities' => $entities,
@@ -61,10 +63,9 @@ class UsuarioController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
-
             return $this->redirect($this->generateUrl('usuario_show', array('username' => $entity->getUsername())));
         }
-
+        $this->get('bitacora')->actividad('Se ingreso un nuevo usuario «'.$entity->getUsername().'»');
         return array(
             'title'  => 'Ingresar usuario',
             'form'   => $form->createView(),
@@ -104,6 +105,7 @@ class UsuarioController extends Controller
         if($this->getUser()->getUsername() != $entity->getUsername() && !$this->get('security.context')->isGranted('ROLE_OPERATIVE')) {
             throw $this->createAccessDeniedException();
         }
+        $this->get('bitacora')->actividad('Consulto la información del usuario «'.$entity->getUsername().'»');
         return array(
             'title'  => 'Mostrar información del usuario',
             'entity' => $entity
@@ -150,7 +152,7 @@ class UsuarioController extends Controller
 
         if ($editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
+            $this->get('bitacora')->actividad('Modifico la información del usuario «'.$entity->getUsername().'»');
             return $this->redirect($this->generateUrl('usuario_show', array('username' => $entity->getUsername())));
         }
 
@@ -177,6 +179,7 @@ class UsuarioController extends Controller
             return new Response(json_encode($result), 400, array("Content-Type" => "application/json; charset=UTF-8"));
         }
 
+        $this->get('bitacora')->actividad('Se elimino el usuario «'.$entity->getUsername().'»');
         $em = $this->getDoctrine()->getManager();
         $em->remove($entity);
         $em->flush();
@@ -242,9 +245,10 @@ class UsuarioController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity->setPassword($model->getNewPassword());
+            $entity->setPassword($model->getNewPassword(), $this->get('security.encoder_factory'));
             $em->flush();
 
+            $this->get('bitacora')->actividad('Se cambio la contraseña del usuario «'.$entity->getUsername().'»');
             if ($ajax) {
                 $result['message'] = 'Se cambio exitosamente la contraseña del usuario <i>'.$entity->getUsername().'</i>';
                 return new Response(json_encode($result), 200, array("Content-Type" => "application/json; charset=UTF-8"));
@@ -323,6 +327,7 @@ class UsuarioController extends Controller
             $entity->setPassword($data['password'], $this->get('security.encoder_factory'));
             $entity->setRecover(false);
             $this->getDoctrine()->getManager()->flush();
+            $this->get('bitacora')->actividad('Se forzo el cambio de contraseña del usuario «'.$entity->getUsername().'»');
             if ($ajax) {
                 $result['message'] = 'Se establecio exitosamente la contraseña del usuario <i>'.$entity->getUsername().'</i>';
                 return new Response(json_encode($result), 200, array("Content-Type" => "application/json; charset=UTF-8"));
@@ -332,6 +337,7 @@ class UsuarioController extends Controller
                 return $this->redirect($this->generateUrl('usuario_index'));
             }
         }
+
         if ($ajax) {
             $result = array(
                 'message' => 'La información enviada tiene errores',
