@@ -44,26 +44,43 @@ class Tactico5Type extends AbstractType
                         2 => 'Femenino'
                 )))
                
-                ->add('cuadrante', 'choice',
+                ->add('cuadrantesup', 'choice',
                 array(
-                    'label'   => 'Cuadrante: ',
+                    'label'   => 'Cuadrante Superior: ',
                     'choices' => array(
-                        0 => '5',
-                        1 => '6',
-                        2 => '7',
-                        3 => '8',
+                        5 => '5',
+                        6 => '6',
                 )))
 
 
-                ->add('pieza', 'choice',
+                ->add('piezasup', 'choice',/*Esta proiedad no esta en el modelo ParamaetrosTactico2.php*/
                 array(
-                    'label'   => 'Pieza del Cuadrante Seleccionado',
+                    'label'   => 'Pieza del Cuadrante Superior',
                     'choices' => array(
-                        0 => '1',
-                        1 => '2',
-                        2 => '3',
-                        3 => '4',
-                        4 => '5',
+                        1 => '1',
+                        2 => '2',
+                        3 => '3',
+                        4 => '4',
+                        5 => '5',
+                )))
+                ->add('cuadranteinf', 'choice',
+                array(
+                    'label'   => 'Cuadrante Inferior: ',
+                    'choices' => array(
+                        7 => '7',
+                        8 => '8',
+                )))
+
+
+                ->add('piezainf', 'choice',
+                array(
+                    'label'   => 'Pieza del Cuadrante Inferior',
+                    'choices' => array(
+                        1 => '1',
+                        2 => '2',
+                        3 => '3',
+                        4 => '4',
+                        5 => '5',
                 )))
             ->add('actions', 'form_actions');
             

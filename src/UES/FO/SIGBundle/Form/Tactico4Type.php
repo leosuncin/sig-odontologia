@@ -53,6 +53,7 @@ class Tactico4Type extends AbstractType
                         2 => '2',
                         3 => '3',
                         4 => '4',
+                        5 => '5'
                 )))
 
 
@@ -65,6 +66,7 @@ class Tactico4Type extends AbstractType
                         2 => '2',
                         3 => '3',
                         4 => '4',
+                        5 => '5'
                 )))
 
             ->add('actions', 'form_actions');

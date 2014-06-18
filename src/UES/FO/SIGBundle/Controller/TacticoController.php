@@ -506,6 +506,8 @@ public function validateLineasMediasAction(Request $request)
                 'attr' => array('col_size' => 'xs')// el tamaño mínimo del dispositivo
             ));
         // enviar variables a la vista para ser mostrada
+        $bitacora = $this->get('bitacora');
+        $bitacora->actividad('Mostrar generacion Sobremordidas');
         return array('title' => 'Reporte de Sobre Mordida', 'form'=> $form->createView());
     }
 
@@ -569,8 +571,8 @@ public function validateLineasMediasAction(Request $request)
      *         "fecha_fin"="\d{2}-\d{2}-\d{4}",
      *         "_format"="pdf|html",
      *         "sexo"="0|1|2",
-     *         "milihorizontal"="0|1|2|3|4",
-     *         "milivertical"="0|1|2|3|4"
+     *         "milihorizontal"="0|1|2|3|4|5",
+     *         "milivertical"="0|1|2|3|4|5"
      * })
      * @Method("GET")
      * @Template()
@@ -654,6 +656,8 @@ public function validateLineasMediasAction(Request $request)
                 'attr' => array('col_size' => 'xs')// el tamaño mínimo del dispositivo
             ));
         // enviar variables a la vista para ser mostrada
+        $bitacora = $this->get('bitacora');
+        $bitacora->actividad('Mostrar generacion Mordidas Cruzadas');
         return array('title' => 'Reporte de Mordidas Cruzadas', 'form'=> $form->createView());
     }
 
@@ -661,7 +665,7 @@ public function validateLineasMediasAction(Request $request)
      * Validar la información de los parametros enviados por método POST
      *
      * @Route(
-     *     "/mordidasCruzadas",
+     *     "/mordidas-cruzadas",
      *     name="validar-mordidas-cruzadas",
      *     options={"expose"=true}
      * )
@@ -689,8 +693,10 @@ public function validateLineasMediasAction(Request $request)
                     'fecha_inicio' => $data->getFechaInicio()->format('d-m-Y'),
                     'fecha_fin'    => $data->getFechaFin()->format('d-m-Y'),
                     'sexo'         => $data->getSexo(),
-                    'cuadrante'    => $data->getCuadrante(),
-                    'pieza'        => $data->getPieza(),
+                    'cuadrantesup'    => $data->getCuadranteSup(),
+                    'piezasup'        => $data->getPiezaSup(),
+                    'cuadranteinf'    => $data->getCuadranteInf(),
+                    'piezainf'        => $data->getPiezaInf(),
                     '_format'      =>'pdf'), true);
             if($ajax) {
                 return new JsonResponse(json_encode(array('route' => $route)));
@@ -706,18 +712,88 @@ public function validateLineasMediasAction(Request $request)
         }
     }
     /**
+     * Genera el reporte de mordida Cruzada
+     *
      * @Route(
-     *     "/mordidas-cruzadas.{_format}",
+     *     "/{fecha_inicio}/{fecha_fin}/{sexo}/{cuadrantesup}/{piezasup}/{cuadranteinf}/{piezainf}/reporteMordidasCruzadas.{_format}",
      *     name="reporte-mordidas-cruzadas",
-     *     options={"expose"=true}
-     * )
-     * @Method("POST")
+     *     requirements={
+     *         "fecha_inicio"="\d{2}-\d{2}-\d{4}",
+     *         "fecha_fin"="\d{2}-\d{2}-\d{4}",
+     *         "_format"="pdf|html",
+     *         "sexo"="0|1|2",
+     *         "cuadrantesup"="5|6",
+     *         "piezasup"="1|2|3|4|5",
+     *         "cuadranteinf"="7|8",
+     *         "piezainf"="1|2|3|4|5"
+     * })
+     * @Method("GET")
      * @Template()
      * @Pdf()
      */
-    public function reporteMordidasCruzadasAction($request)
+    public function reporteMordidasCruzadasAction(\DateTime $fecha_inicio, \DateTime $fecha_fin, $sexo, $cuadrantesup, $piezasup, $cuadranteinf, $piezainf)
     {
-        
+        $parametros = new ParametrosTactico2();
+        $parametros->setFechaInicio($fecha_inicio);
+        $parametros->setFechaFin($fecha_fin);
+        $parametros->setSexo($sexo);
+        $parametros->setCuadranteSup($cuadrantesup);
+        $parametros->setPiezaSup($piezasup);
+        $parametros->setCuadranteInf($cuadranteinf);
+        $parametros->setPiezaInf($piezainf);
+        $errores = $this->get('validator')->validate($parametros);
+        if (count($errores) > 0) {
+            throw new BadRequestHttpException((string) $errores);
+        }
+        /*Es Nina, nino o ambos?*/
+        if($sexo==0)
+            $mensaje = "Ninos y Ninas";
+        else if($sexo==1)
+            $mensaje = "Ninos";
+        else
+            $mensaje = "Ninas";
+
+        $pdo_fecha_inicio = $fecha_inicio->format('Y-m-d');
+        $pdo_fecha_fin = $fecha_fin->format('Y-m-d');
+        $conn = $this->getDoctrine()->getManager()->getConnection();
+        $stmt = $conn->prepare('CALL pr_reporte_mordidacruzadas(:fecha_inicio, :fecha_fin, :sexo, :cuadrantesup, :piezasup, :cuadranteinf, :piezainf, @totalx4, @totalx4nina, @totalx5, @totalx5nina, @totalx6, @totalx6nina, @totalx7, @totalx7nina, @totalx8, @totalx8nina, @totalx9, @totalx9nina, @totalx10, @totalx10nina, @totalx11, @totalx11nina, @totalx12, @totalx12nina)');
+        $stmt->bindParam(':fecha_inicio', $pdo_fecha_inicio, \PDO::PARAM_STR);
+        $stmt->bindParam(':fecha_fin', $pdo_fecha_fin, \PDO::PARAM_STR);
+        $stmt->bindParam(':sexo', $sexo, \PDO::PARAM_INT);
+        $stmt->bindParam(':cuadrantesup', $cuadrantesup, \PDO::PARAM_INT);
+        $stmt->bindParam(':piezasup', $piezasup, \PDO::PARAM_INT);
+        $stmt->bindParam(':cuadranteinf', $cuadranteinf, \PDO::PARAM_INT);
+        $stmt->bindParam(':piezainf', $piezainf, \PDO::PARAM_INT);
+        $stmt->execute();
+        $stmt = $conn->query('SELECT @totalx4, @totalx4nina, @totalx5, @totalx5nina, @totalx6, @totalx6nina, @totalx7, @totalx7nina, @totalx8, @totalx8nina, @totalx9, @totalx9nina, @totalx10, @totalx10nina, @totalx11, @totalx11nina, @totalx12, @totalx12nina');
+        $result = $stmt->fetchAll();
+
+        return array(
+            'titulo'       => 'Reporte de Mordidas Cruzadas',
+            'autor'        => $this->getUser()->getNombreCompleto(),
+            'fecha_inicio' => $fecha_inicio,
+            'fecha_fin'    => $fecha_fin,
+            'mensaje'      => $mensaje,
+            'sexo'         => $sexo,
+            'cant4anios'  => $result[0]['@totalx4'],
+            'cant4nina'  => $result[0]['@totalx4nina'],
+            'cant5anios'  => $result[0]['@totalx5'],
+            'cant5nina'  => $result[0]['@totalx5nina'],
+            'cant6anios'  => $result[0]['@totalx6'],
+            'cant6nina'  => $result[0]['@totalx6nina'],
+            'cant7anios'  => $result[0]['@totalx7'],
+            'cant7nina'  => $result[0]['@totalx7nina'],
+            'cant8anios'  => $result[0]['@totalx8'],
+            'cant8nina'  => $result[0]['@totalx8nina'],
+            'cant9anios'  => $result[0]['@totalx9'],
+            'cant9nina'  => $result[0]['@totalx9nina'],
+            'cant10anios'  => $result[0]['@totalx10'],
+            'cant10nina'  => $result[0]['@totalx10nina'],
+            'cant11anios'  => $result[0]['@totalx11'],
+            'cant11nina'  => $result[0]['@totalx11nina'],
+            'cant12anios'  => $result[0]['@totalx12'],
+            'cant12nina'  => $result[0]['@totalx12nina']
+        );
     }
 
     /**
