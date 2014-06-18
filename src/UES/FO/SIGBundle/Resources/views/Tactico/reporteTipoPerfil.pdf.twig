@@ -11,10 +11,10 @@
 <br />
 <br />
 <br />
+{% if sexo == 0 %}
 <p text-align="center"> Cantidad de Niños por Edades </p>
-<table width="100%" text-align="center" style="border-color: white; font-size:14px;">
-
-	<tr style="background-color:#63A1D3; border-color: white;  ">
+<table width="100%" text-align="center">
+	<tr>
 		<td style="border-color: white; ">4 años</td>
 		<td style="border-color: white; ">5 años</td>
 		<td style="border-color: white; ">6 años</td>
@@ -40,8 +40,6 @@
 <br />
 <br />
 <p text-align="center"> Cantidad de Niñas por Edades </p>
-<br />
-
 <table width="100%" text-align="center">
 	<tr>
 		<td style="border-color: white; ">4 años</td>
@@ -66,5 +64,67 @@
 	
 	</tr>
 </table>
+{% endif %}
+
+
+{% if sexo == 1 %}
+<p text-align="center"> Cantidad de Niños por Edades </p>
+<table width="100%" text-align="center">
+
+	<tr>
+		<td style="border-color: white; ">4 años</td>
+		<td style="border-color: white; ">5 años</td>
+		<td style="border-color: white; ">6 años</td>
+		<td style="border-color: white; ">7 años</td>
+		<td style="border-color: white; ">8 años</td>
+		<td style="border-color: white; ">9 años</td>
+		<td style="border-color: white; ">10 años</td>
+		<td style="border-color: white; ">11 años</td>
+		
+	</tr>
+	<tr>
+		<td style="border-color: white; ">{{ cant4anios }}</td>
+		<td style="border-color: white; ">{{ cant5anios }}</td>
+		<td style="border-color: white; ">{{ cant6anios }}</td>
+		<td style="border-color: white; ">{{ cant7anios }}</td>
+		<td style="border-color: white; ">{{ cant8anios }}</td>
+		<td style="border-color: white; ">{{ cant9anios }}</td>
+		<td style="border-color: white; ">{{ cant10anios }}</td>
+		<td style="border-color: white; ">{{ cant11anios }}</td>
+		
+	</tr>
+</table>
+{% endif %}
+
+
+{% if sexo == 2 %}
+<p text-align="center"> Cantidad de Niñas por Edades </p>
+<table width="100%" text-align="center">
+	<tr>
+		<td style="border-color: white; ">4 años</td>
+		<td style="border-color: white; ">5 años</td>
+		<td style="border-color: white; ">6 años</td>
+		<td style="border-color: white; ">7 años</td>
+		<td style="border-color: white; ">8 años</td>
+		<td style="border-color: white; ">9 años</td>
+		<td style="border-color: white; ">10 años</td>
+		<td style="border-color: white; ">11 años</td>
+		
+	</tr>
+	<tr>
+		<td style="border-color: white; ">{{ cant4nina }}</td>
+		<td style="border-color: white; ">{{ cant5nina }}</td>
+		<td style="border-color: white; ">{{ cant6nina }}</td>
+		<td style="border-color: white; ">{{ cant7nina }}</td>
+		<td style="border-color: white; ">{{ cant8nina }}</td>
+		<td style="border-color: white; ">{{ cant9nina }}</td>
+		<td style="border-color: white; ">{{ cant10nina }}</td>
+		<td style="border-color: white; ">{{ cant11nina }}</td>
+	
+	</tr>
+</table>
+{% endif %}
+
 
 {% endblock %}
+

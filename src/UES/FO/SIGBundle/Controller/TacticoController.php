@@ -131,10 +131,13 @@ public function validateEnfermedadesPadecidasAction(Request $request)
         else
             $mensaje = "Niñas";
 
+
+
+
         $pdo_fecha_inicio = $fecha_inicio->format('Y-m-d');// Formatear la fecha al estilo de MySQL
         $pdo_fecha_fin = $fecha_fin->format('Y-m-d');
         $conn = $this->getDoctrine()->getManager()->getConnection();// Obtener la conexión a la base de datos
-        $stmt = $conn->prepare('CALL pr_reporte_enfermedades(:fecha_inicio, :fecha_fin, :sexo, :enfermedad, @totalx4, @totalx5, @totalx6, @totalx7, @totalx8, @totalx9, @totalx10, @totalx11, @total2x4, @total2x5, @total2x6, @total2x7, @total2x8, @total2x9, @total2x10, @total2x11)');// Preparar la llamada al procedimiento almacenado
+        $stmt = $conn->prepare('CALL pr_reporte_enfermedades2(:fecha_inicio, :fecha_fin, :sexo, :enfermedad, @totalx4, @totalx5, @totalx6, @totalx7, @totalx8, @totalx9, @totalx10, @totalx11, @total2x4, @total2x5, @total2x6, @total2x7, @total2x8, @total2x9, @total2x10, @total2x11)');// Preparar la llamada al procedimiento almacenado
         $stmt->bindParam(':fecha_inicio', $pdo_fecha_inicio, \PDO::PARAM_STR);// Preparar los parámetros de la consulta
         $stmt->bindParam(':fecha_fin', $pdo_fecha_fin, \PDO::PARAM_STR);
         $stmt->bindParam(':sexo', $sexo, \PDO::PARAM_INT);
@@ -150,6 +153,7 @@ public function validateEnfermedadesPadecidasAction(Request $request)
             'fecha_inicio' => $fecha_inicio,
             'fecha_fin'    => $fecha_fin,
             'enfermedad'    => $enfermedad,
+            'sexo'     =>$sexo,
             'mensaje'    => $mensaje,
             'cant4anios'  => $result[0]['@totalx4'],
             'cant4nina'  => $result[0]['@total2x4'],
@@ -284,7 +288,7 @@ public function validateEnfermedadesPadecidasAction(Request $request)
         $pdo_fecha_inicio = $fecha_inicio->format('Y-m-d');// Formatear la fecha al estilo de MySQL
         $pdo_fecha_fin = $fecha_fin->format('Y-m-d');
         $conn = $this->getDoctrine()->getManager()->getConnection();// Obtener la conexión a la base de datos
-        $stmt = $conn->prepare('CALL pr_reporte_tipos_perfil(:fecha_inicio, :fecha_fin, :sexo, :perfil, :tipo, @totalx4, @totalx5, @totalx6, @totalx7, @totalx8, @totalx9, @totalx10, @totalx11, @total2x4, @total2x5, @total2x6, @total2x7, @total2x8, @total2x9, @total2x10, @total2x11)');// Preparar la llamada al procedimiento almacenado
+        $stmt = $conn->prepare('CALL pr_reporte_tipos_perfil2(:fecha_inicio, :fecha_fin, :sexo, :perfil, :tipo, @totalx4, @totalx5, @totalx6, @totalx7, @totalx8, @totalx9, @totalx10, @totalx11, @total2x4, @total2x5, @total2x6, @total2x7, @total2x8, @total2x9, @total2x10, @total2x11)');// Preparar la llamada al procedimiento almacenado
         $stmt->bindParam(':fecha_inicio', $pdo_fecha_inicio, \PDO::PARAM_STR);// Preparar los parámetros de la consulta
         $stmt->bindParam(':fecha_fin', $pdo_fecha_fin, \PDO::PARAM_STR);
         $stmt->bindParam(':sexo', $sexo, \PDO::PARAM_INT);
@@ -302,6 +306,7 @@ public function validateEnfermedadesPadecidasAction(Request $request)
             'fecha_fin'    => $fecha_fin,
             'perfil'    => $perfil,
              'tipo'    => $tipo,
+             'sexo'     =>$sexo,
              'mensaje'    => $mensaje,
             'cant4anios'  => $result[0]['@totalx4'],
             'cant4nina'  => $result[0]['@total2x4'],
@@ -441,7 +446,7 @@ public function validateLineasMediasAction(Request $request)
         $pdo_fecha_inicio = $fecha_inicio->format('Y-m-d');// Formatear la fecha al estilo de MySQL
         $pdo_fecha_fin = $fecha_fin->format('Y-m-d');
         $conn = $this->getDoctrine()->getManager()->getConnection();// Obtener la conexión a la base de datos
-        $stmt = $conn->prepare('CALL pr_reporte_lineas_medias(:fecha_inicio, :fecha_fin, :sexo, :orientacionmx, :orientacionmd, :milimetrosmx, :milimetrosmd, @totalx4, @totalx5, @totalx6, @totalx7, @totalx8, @totalx9, @totalx10, @totalx11, @total2x4, @total2x5, @total2x6, @total2x7, @total2x8, @total2x9, @total2x10, @total2x11)');// Preparar la llamada al procedimiento almacenado
+        $stmt = $conn->prepare('CALL pr_reporte_lineas_medias2(:fecha_inicio, :fecha_fin, :sexo, :orientacionmx, :orientacionmd, :milimetrosmx, :milimetrosmd, @totalx4, @totalx5, @totalx6, @totalx7, @totalx8, @totalx9, @totalx10, @totalx11, @total2x4, @total2x5, @total2x6, @total2x7, @total2x8, @total2x9, @total2x10, @total2x11)');// Preparar la llamada al procedimiento almacenado
         $stmt->bindParam(':fecha_inicio', $pdo_fecha_inicio, \PDO::PARAM_STR);// Preparar los parámetros de la consulta
         $stmt->bindParam(':fecha_fin', $pdo_fecha_fin, \PDO::PARAM_STR);
         $stmt->bindParam(':sexo', $sexo, \PDO::PARAM_INT);
@@ -464,6 +469,7 @@ public function validateLineasMediasAction(Request $request)
              'orientacionmd'    => $orientacionmd,
               'milimetrosmx'    => $milimetrosmx,
               'milimetrosmd'    => $milimetrosmd,
+              'sexo'     =>$sexo,
                'mensaje'    => $mensaje,
             
             'cant4anios'  => $result[0]['@totalx4'],
