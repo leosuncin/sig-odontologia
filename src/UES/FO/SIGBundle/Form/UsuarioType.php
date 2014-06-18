@@ -32,7 +32,7 @@ class UsuarioType extends AbstractType
                 'max_length' => 16,
                 'attr'       => array(
                     'placeholder' => 'Escriba una contraseña segura',
-                    'help_text'   => 'Utilice mayusculas, minusculas, numeros y otros caracteres intercalados'
+                    'help_text'   => 'Utilice mayúsculas, minúsculas, números y otros caracteres intercalados'
                 )))
             ->add('nivel', 'choice', array(
                 'empty_value' => 'Asigne un nivel',

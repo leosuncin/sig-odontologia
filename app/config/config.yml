@@ -63,3 +63,5 @@ doctrine:
 
 braincrafted_bootstrap:
     less_filter: none
+
+gregwar_captcha: ~

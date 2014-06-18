@@ -1,4 +1,5 @@
 define(['jquery-validation'], function($, add) {
+    'use strict';
     $.validator.addMethod("password", function(value) {
         return /(^(?=.*[a-z])(?=.*[A-Z])(?=.*\d){8,16}.+$)/.test(value);
     }, function(params, element) {
@@ -22,7 +23,7 @@ define(['jquery-validation'], function($, add) {
     }, 'El nombre solo debe contener letras');
 
     $.validator.addMethod("confirm_password", function(value) {
-        return $('#form_new_password_first').val() == $('#form_new_password_second').val();
+        return $('[name$="[first]"]').val() == $('[name$="[second]"]').val();
     }, 'Debe repetir la nueva contraseña');
 
     return function(form, reglas) {

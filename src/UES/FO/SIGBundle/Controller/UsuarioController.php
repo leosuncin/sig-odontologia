@@ -8,7 +8,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\Security\Core\Util\StringUtils;
 use UES\FO\SIGBundle\Entity\Usuario;
 use UES\FO\SIGBundle\Model\PasswordUpdate;
 /**
@@ -29,7 +28,7 @@ class UsuarioController extends Controller
     public function indexAction()
     {
         if(!$this->get('security.context')->isGranted('ROLE_OPERATIVE')) {
-            $this->createAccessDeniedException();
+            throw $this->createAccessDeniedException();
         }
         $em = $this->getDoctrine()->getManager();
 
@@ -51,17 +50,10 @@ class UsuarioController extends Controller
     public function createAction(Request $request)
     {
         if(!$this->get('security.context')->isGranted('ROLE_OPERATIVE')) {
-            $this->createAccessDeniedException();
+            throw $this->createAccessDeniedException();
         }
         $entity = new Usuario($this->get('security.encoder_factory'));
-        $form   = $this->createForm(
-            'usuario_new',
-            $entity,
-            array(
-                'action' => $this->generateUrl('usuario_create'),
-                'method' => 'POST',
-                'attr' => array('col_size' => 'xs')
-            ));
+        $form   = $this->createCreateForm($entity);
 
         $form->handleRequest($request);
 
@@ -75,7 +67,6 @@ class UsuarioController extends Controller
 
         return array(
             'title'  => 'Ingresar usuario',
-            'entity' => $entity,
             'form'   => $form->createView(),
         );
     }
@@ -90,21 +81,13 @@ class UsuarioController extends Controller
     public function newAction()
     {
         if(!$this->get('security.context')->isGranted('ROLE_OPERATIVE')) {
-            $this->createAccessDeniedException();
+            throw $this->createAccessDeniedException();
         }
-        $entity = new Usuario();
-        $form   = $this->createForm(
-            'usuario_new',
-            $entity,
-            array(
-                'action' => $this->generateUrl('usuario_create'),
-                'method' => 'POST',
-                'attr' => array('col_size' => 'xs')
-            ));
+
+        $form = $this->createCreateForm(new Usuario());
 
         return array(
             'title'  => 'Ingresar usuario',
-            'entity' => $entity,
             'form'   => $form->createView(),
         );
     }
@@ -118,8 +101,8 @@ class UsuarioController extends Controller
      */
     public function showAction(Usuario $entity)
     {
-        if(!StringUtils::equals($this->getUser()->getUsername(), $entity->getUsername()) && !$this->get('security.context')->isGranted('ROLE_OPERATIVE')) {
-            $this->createAccessDeniedException();
+        if($this->getUser()->getUsername() != $entity->getUsername() && !$this->get('security.context')->isGranted('ROLE_OPERATIVE')) {
+            throw $this->createAccessDeniedException();
         }
         return array(
             'title'  => 'Mostrar información del usuario',
@@ -136,26 +119,11 @@ class UsuarioController extends Controller
      */
     public function editAction(Usuario $entity)
     {
-        if(!StringUtils::equals($this->getUser()->getUsername(), $entity->getUsername()) && !$this->get('security.context')->isGranted('ROLE_OPERATIVE')) {
-            $this->createAccessDeniedException();
+        if($this->getUser()->getUsername() != $entity->getUsername() && !$this->get('security.context')->isGranted('ROLE_OPERATIVE')) {
+            throw $this->createAccessDeniedException();
         }
 
-        $editForm = $this->createForm(
-            $this->get('security.context')->isGranted('ROLE_OPERATIVE') ? 'usuario_edit' : 'usuario_edit_simple',
-            $entity,
-            array(
-                'action' => $this->generateUrl('usuario_update', array('username' => $entity->getUsername())),
-                'method' => 'PUT',
-                'attr' => array('col_size' => 'xs')
-            ));
-        if($this->get('security.context')->isGranted('ROLE_OPERATIVE') && !StringUtils::equals($this->getUser()->getUsername(), $entity->getUsername())) {
-            $editForm->get('actions')
-                ->add('eliminar', 'button', array(
-                    'attr' => array(
-                        'data-toggle' => 'modal',
-                        'data-target' => '#modal-confirm-del'
-                )));
-        }
+        $editForm = $this->createEditForm($entity);
 
         return array(
             'title'     => 'Modificar información del usuario',
@@ -172,32 +140,16 @@ class UsuarioController extends Controller
      */
     public function updateAction(Request $request, Usuario $entity)
     {
-        if(!StringUtils::equals($this->getUser()->getUsername(), $entity->getUsername()) && !$this->get('security.context')->isGranted('ROLE_OPERATIVE')) {
-            $this->createAccessDeniedException();
+        if($this->getUser()->getUsername() != $entity->getUsername() && !$this->get('security.context')->isGranted('ROLE_OPERATIVE')) {
+            throw $this->createAccessDeniedException();
         }
-        $em = $this->getDoctrine()->getManager();
 
-        $editForm = $this->createForm(
-            $this->get('security.context')->isGranted('ROLE_OPERATIVE') ? 'usuario_edit' : 'usuario_edit_simple',
-            $entity,
-            array(
-                'action' => $this->generateUrl('usuario_update', array('username' => $entity->getUsername())),
-                'method' => 'PUT',
-                'attr' => array('col_size' => 'xs')
-            ));
-        if($this->get('security.context')->isGranted('ROLE_OPERATIVE') && !StringUtils::equals($this->getUser()->getUsername(), $entity->getUsername())) {
-            $editForm->get('actions')
-                ->add('eliminar', 'button', array(
-                    'attr' => array(
-                        'data-toggle' => 'modal',
-                        'data-target' => '#modal-confirm-del'
-                )));
-        }
+        $editForm = $this->createEditForm($entity);
 
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
-            $em->flush();
+            $this->getDoctrine()->getManager()->flush();
 
             return $this->redirect($this->generateUrl('usuario_show', array('username' => $entity->getUsername())));
         }
@@ -217,7 +169,7 @@ class UsuarioController extends Controller
     public function deleteAction(Usuario $entity)
     {
         if(!$this->get('security.context')->isGranted('ROLE_OPERATIVE')) {
-            $this->createAccessDeniedException();
+            throw $this->createAccessDeniedException();
         }
 
         if($this->getUser()->getUsername() == $entity->getUsername()) {
@@ -232,7 +184,7 @@ class UsuarioController extends Controller
         if ($this->getRequest()->isXmlHttpRequest()) {
             $result = array(
                 'message' => 'Se elimino exitosamente al usuario <i>'.$entity->getUsername().'</i>',
-                'url' => $this->generateUrl('usuario_index')
+                'url'     => $this->generateUrl('usuario_index')
             );
             return new Response(json_encode($result), 200, array("Content-Type" => "application/json; charset=UTF-8"));
         } else {
@@ -247,25 +199,11 @@ class UsuarioController extends Controller
      */
     public function pwdAction(Usuario $entity)
     {
-        if(!StringUtils::equals($this->getUser()->getUsername(), $entity->getUsername()) && !$this->get('security.context')->isGranted('ROLE_OPERATIVE')) {
-            $this->createAccessDeniedException();
+        if($this->getUser()->getUsername() != $entity->getUsername() && !$this->get('security.context')->isGranted('ROLE_OPERATIVE')) {
+            throw $this->createAccessDeniedException();
         }
 
-        $ajax = $this->getRequest()->isXmlHttpRequest();
-
-        $form = $this->createForm(
-            'usuario_pwd',
-            new PasswordUpdate(),
-            array(
-                'action' => $this->generateUrl('usuario_pwd_update', array('username' => $entity->getUsername())),
-                'method' => 'PUT',
-                'attr' => array('col_size' => 'xs')
-        ));
-        if(!$ajax)
-            $form->add('actions', 'form_actions')
-                ->get('actions')
-                    ->add('cambiar', 'submit')
-                    ->add('limpiar', 'reset');
+        $form = $this->createPwdForm(new PasswordUpdate(), $entity->getUsername());
 
         if ($this->getRequest()->isXmlHttpRequest()) {
             return $this->render(
@@ -273,8 +211,7 @@ class UsuarioController extends Controller
                 array(
                     'entity'   => $entity,
                     'pwd_form' => $form->createView()
-                )
-            );
+            ));
         } else {
             return array(
                 'title'    => 'Cambiar contraseña de acceso',
@@ -293,47 +230,38 @@ class UsuarioController extends Controller
      */
     public function updatePwdAction(Request $request, Usuario $entity)
     {
-        if(!StringUtils::equals($this->getUser()->getUsername(), $entity->getUsername()) && !$this->get('security.context')->isGranted('ROLE_OPERATIVE')) {
-            $this->createAccessDeniedException();
+        if($this->getUser()->getUsername() != $entity->getUsername() && !$this->get('security.context')->isGranted('ROLE_OPERATIVE')) {
+            throw $this->createAccessDeniedException();
         }
-        $result = array(
-            'message' => 'La información enviada tiene errores'
-        );
-        $flash = $this->get('braincrafted_bootstrap.flash');
-        $ajax = $request->isXmlHttpRequest();
+
+        $ajax  = $request->isXmlHttpRequest();
         $model = new PasswordUpdate($entity, $this->get('security.encoder_factory'));
-        $form = $this->createForm(
-            'usuario_pwd',
-            $model,
-            array(
-                'action' => $this->generateUrl('usuario_pwd_update', array('username' => $entity->getUsername())),
-                'method' => 'PUT',
-                'attr' => array('col_size' => 'xs')
-        ));
-        if(!$ajax)
-            $form->add('actions', 'form_actions')
-                ->get('actions')
-                    ->add('cambiar', 'submit')
-                    ->add('limpiar', 'reset');
+        $form  = $this->createPwdForm($model, $entity->getUsername());
+
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $entity->setPassword($model->getNewPassword());
             $em->flush();
+
             if ($ajax) {
                 $result['message'] = 'Se cambio exitosamente la contraseña del usuario <i>'.$entity->getUsername().'</i>';
                 return new Response(json_encode($result), 200, array("Content-Type" => "application/json; charset=UTF-8"));
             } else {
+                $flash = $this->get('braincrafted_bootstrap.flash');
                 $flash->success('Se cambio exitosamente la contraseña del usuario: '.$entity->getUsername());
                 return $this->redirect($this->generateUrl('usuario_show', array('username' => $entity->getUsername())));
             }
         }
 
         if ($ajax) {
-            $result['view'] = $this->renderView(
-                'SIGBundle:Usuario:pwdAjax.html.twig',
-                array('pwd_form' => $form->createView())
+            $result = array(
+                'message' => 'La información enviada tiene errores',
+                'view'    => $this->renderView(
+                    'SIGBundle:Usuario:pwdAjax.html.twig',
+                    array('pwd_form' => $form->createView()
+                ))
             );
             return new Response(json_encode($result), 400, array("Content-Type" => "application/json; charset=UTF-8"));
         } else {
@@ -346,11 +274,181 @@ class UsuarioController extends Controller
     }
 
     /**
-     * @Route("/recover", name="usuario_recover")
+     * @Route("/{username}/pwd/recover", name="usuario_recover_pwd", options={"expose"=true})
+     * @Method("GET")
      * @Template()
      */
-    public function recoverAction()
+    public function recoverPwdAction(Usuario $entity)
     {
-        return array();
+        //die(var_dump(!$entity->isRecover() && !$this->get('security.context')->isGranted('ROLE_OPERATIVE')));
+        if (!$entity->isRecover()) {
+            throw $this->createNotFoundException();
+        }
+        if(!$this->get('security.context')->isGranted('ROLE_OPERATIVE')) {
+            throw $this->createAccessDeniedException();
+        }
+        $form  = $this->createRecoverForm($entity);
+        $param = array(
+            'title'    => 'Restablecer contraseña',
+            'username' => $entity->getUsername(),
+            'form'     => $form->createView()
+        );
+        if($this->getRequest()->isXmlHttpRequest())
+            return $this->render('SIGBundle:Usuario:recoverPwdAjax.html.twig', $param);
+        else
+            return $param;
+    }
+
+    /**
+     * @Route("/{username}/pwd/restore", name="usuario_restore_pwd", options={"expose"=true})
+     * @Method("POST")
+     * @Template("SIGBundle:Usuario:recoverPwd.html.twig")
+     */
+    public function restorePwdAction(Request $request, Usuario $entity)
+    {
+        if (!$entity->isRecover()) {
+            throw $this->createNotFoundException();
+        }
+        if(!$this->get('security.context')->isGranted('ROLE_OPERATIVE')) {
+            throw $this->createAccessDeniedException();
+        }
+
+        $form = $this->createRecoverForm($entity);
+        $ajax = $request->isXmlHttpRequest();
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $data = $form->getData();
+            $entity->setPassword($data['password'], $this->get('security.encoder_factory'));
+            $entity->setRecover(false);
+            $this->getDoctrine()->getManager()->flush();
+            if ($ajax) {
+                $result['message'] = 'Se establecio exitosamente la contraseña del usuario <i>'.$entity->getUsername().'</i>';
+                return new Response(json_encode($result), 200, array("Content-Type" => "application/json; charset=UTF-8"));
+            } else {
+                $flash = $this->get('braincrafted_bootstrap.flash');
+                $flash->success('Se establecio exitosamente la contraseña del usuario: '.$entity->getUsername());
+                return $this->redirect($this->generateUrl('usuario_index'));
+            }
+        }
+        if ($ajax) {
+            $result = array(
+                'message' => 'La información enviada tiene errores',
+                'view'    => $this->renderView(
+                    'SIGBundle:Usuario:recoverPwdAjax.html.twig',
+                    array(
+                    'title'    => 'Restablecer contraseña',
+                    'username' => $entity->getUsername(),
+                    'form'     => $form->createView()
+                ))
+            );
+            return new Response(json_encode($result), 400, array("Content-Type" => "application/json; charset=UTF-8"));
+        }
+        return array(
+            'title'    => 'Restablecer contraseña',
+            'username' => $entity->getUsername(),
+            'form'     => $form->createView()
+        );
+    }
+
+    private function createCreateForm(Usuario $entity)
+    {
+        return $this->createForm(
+            'usuario_new',
+            $entity,
+            array(
+                'action' => $this->generateUrl('usuario_create'),
+                'method' => 'POST'
+            ));
+    }
+
+    private function createEditForm(Usuario $entity)
+    {
+        $granted = $this->get('security.context')->isGranted('ROLE_OPERATIVE');
+
+        $form = $this->createForm(
+            $granted ? 'usuario_edit' : 'usuario_edit_simple',
+            $entity,
+            array(
+                'action' => $this->generateUrl('usuario_update', array('username' => $entity->getUsername())),
+                'method' => 'PUT'
+            ));
+        if($granted && $this->getUser()->getUsername() != $entity->getUsername())
+            $form->get('actions')
+                ->add('eliminar', 'button', array(
+                    'attr' => array(
+                        'data-toggle' => 'modal',
+                        'data-target' => '#modal-confirm-del'
+                )));
+        return $form;
+    }
+
+    private function createPwdForm(PasswordUpdate $model, $username)
+    {
+        $ajax = $this->getRequest()->isXmlHttpRequest();
+
+        $form = $this->createForm(
+            'usuario_pwd',
+            $model,
+            array(
+                'action' => $this->generateUrl('usuario_pwd_update', array('username' => $username)),
+                'method' => 'PUT'
+        ));
+
+        if(!$ajax)
+            $form->add('actions', 'form_actions')
+                ->get('actions')
+                    ->add('cambiar', 'submit')
+                    ->add('limpiar', 'reset');
+        return $form;
+    }
+
+    private function createRecoverForm(Usuario $entity = null)
+    {
+        $form = $this->createFormBuilder()
+            ->add('password', 'repeated', array(
+                'type'            => 'password',
+                'max_length'      => 16,
+                'required'        => true,
+                'invalid_message' => 'Debe repetir la nueva contraseña para confirmar',
+                'first_options'   => array(
+                    'label' => 'Contraseña',
+                    'attr'  => array(
+                        'placeholder' => 'Escriba la nueva contraseña',
+                        'help_text'   => 'Utilice mayúsculas, minúsculas, números y otros caracteres intercalados'
+                )),
+                'second_options'  => array(
+                    'label' => 'Confirmar contraseña',
+                    'attr'  => array(
+                        'placeholder' => 'Repita la nueva contraseña',
+                        'help_text'   => 'Utilice mayúsculas, minúsculas, números y otros caracteres intercalados. Debe ser igual que la primera'
+                )),
+                'constraints'     => array(
+                    new \Symfony\Component\Validator\Constraints\Length(array(
+                        'min'        => "8",
+                        'max'        => "16",
+                        'minMessage' => "La contraseña por lo menos debe tener {{ limit }} caracteres de largo",
+                        'maxMessage' => "La contraseña no puede tener más de {{ limit }} caracteres de largo"
+                )))
+            ))
+            ->add('captcha', 'captcha', array(
+                'width'           => 250,
+                'height'          => 70,
+                'length'          => 6,
+                'invalid_message' => 'Texto incorrecto',
+                'attr'            => array(
+                    'help_text' => 'Escriba el texto que aparece en la imagen'
+                )
+            ));
+        if (!$this->getRequest()->isXmlHttpRequest()) {
+            $form->add('actions', 'form_actions')
+                ->get('actions')
+                    ->add('cambiar', 'submit');
+        }
+        $form
+            ->setAction($this->generateUrl('usuario_restore_pwd', array('username' => $entity->getUsername())))
+            ->setMethod('POST');
+        return $form->getForm();
     }
 }

@@ -14,7 +14,7 @@
         </thead>
         <tbody>
             {% for entity in entities %}
-            <tr>
+            <tr {% if entity.recover or not entity.enabled %}class="danger" {% endif %}{% if entity.locked %}class="warning"{% endif %}>
                 <td>{{ entity.nombrecompleto }}</td>
                 <td>{{ entity.username }}</td>
                 <td>{{ util.estado(entity.enabled) }}</td>
@@ -22,6 +22,9 @@
                     <div class="btn-group btn-group-vertical">
                         <a href="{{ path('usuario_show', { 'username': entity.username }) }}" class="btn btn-info btn-xs"><i class="glyphicon glyphicon-eye-open"></i> Consultar</a>
                         <a href="{{ path('usuario_edit', { 'username': entity.username }) }}" class="btn btn-info btn-xs"><i class="glyphicon glyphicon-pencil"></i> Modificar</a>
+                        {% if entity.recover %}
+                        <a href="{{ path('usuario_recover_pwd', {'username': entity.username}) }}" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modal-recover-pwd"><i class="glyphicon glyphicon-lock"></i> Recuperar</a>
+                        {% endif %}
                     </div>
                 </td>
             </tr>
@@ -30,4 +33,13 @@
     </table>
 </div>
 <a class="btn btn-primary" href="{{ path('usuario_new') }}"><i class="glyphicon glyphicon-plus"></i> Ingresar nuevo usuario</a>
+{{ util.modal('modal-recover-pwd', 'lg', 'Reestablecer contraseña', null) }}
+{% endblock %}
+
+{% block javascript %}
+<script>
+    require(['../bundles/sig/js/usuario_index'], function(usuario_index) {
+    })
+</script>
+</script>
 {% endblock %}

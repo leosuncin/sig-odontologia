@@ -26,8 +26,11 @@
         <!-- Require.js loader -->
         <script src="{{ asset('js/require.js') }}"></script>
     </head>
+    {{ bootstrap_set_style('horizontal') }}
+    {{ bootstrap_set_col_size('xs') }}
+    {{ bootstrap_set_label_col(4) }}
+    {{ bootstrap_set_widget_col(8) }}
     <body>
-        {{ bootstrap_set_widget_col(8) }}{{ bootstrap_set_label_col(4) }}{{ bootstrap_set_style('horizontal') }}
         <noscript>Para el correcto funcionamiento del sistema debe tener habilitado el uso de Javascript en su navegador</noscript>
         {% block layout %}
         <nav id="navbar-menu" class="navbar navbar-default" role="navigation">
@@ -109,7 +112,7 @@
                     </ul>
                     {% endif %}
                     <div class="nav navbar-nav navbar-right">
-                        <p id="ayuda" class="navbar-text"><i class="glyphicon glyphicon-question-sign"></i> Ayuda</p>
+                        <a id="ayuda" class="navbar-text" href="#ayuda"><i class="glyphicon glyphicon-question-sign"></i> Ayuda</a>
                     </div>
                 </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->
@@ -135,7 +138,7 @@
         {% endblock %}
         <script>
             //IE outdate friendly warning if you don't want remove it
-            var sig = {vs: {i:6,f:2,o:9.63,s:2,c:10}};
+            var sig = {vs: {i:8,f:28,o:22,s:7,c:33}};
             sig.ol = window.onload; 
             window.onload = function() {
                 try {
