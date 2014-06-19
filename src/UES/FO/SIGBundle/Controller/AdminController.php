@@ -76,11 +76,22 @@ class AdminController extends Controller
         $form->handleRequest($request);// manejar la petición con el formulario de Symfony
 
         if ($form->isValid()) {// Symfony verifica que la información enviada cumpla con las reglas
-            $tipoAccion = $data->getTipo();
-
-            echo $tipoAccion;
+            // generar la URL donde se mostrará el PDF
+            if($data->getTipo() == 0) {
+                $factory = $container->get('backup_restore.factory');
+                $backupInstance = $factory->getBackupInstance($myConnectionServiceId);
+                $backupInstance->backupDatabase('/home/xscharlie', 'new_bak.sql');
+            }
         }
-        return array();
+        // en caso de que la información enviada tenga errores
+        if ($ajax) {
+            return new JsonResponse(json_encode(FormUtils::getFormErrors($form)), 400);// sí la petición es AJAX responder con JSON con los errores
+        } else {
+            return array('title' => 'Reporte de Cantidad de Citas', 'form'=> $form->createView());// sí no mostrar de nuevo el formulario con los errores
+        }
+
     }
 
 }
+
+
