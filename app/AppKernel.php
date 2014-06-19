@@ -19,8 +19,7 @@ class AppKernel extends Kernel
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new Ps\PdfBundle\PsPdfBundle(),
             new Gregwar\CaptchaBundle\GregwarCaptchaBundle(),
-            new UES\FO\SIGBundle\SIGBundle(),
-            new ENC\Bundle\BackupRestoreBundle\BackupRestoreBundle()
+            new UES\FO\SIGBundle\SIGBundle()
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
