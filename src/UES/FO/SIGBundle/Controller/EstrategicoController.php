@@ -178,6 +178,25 @@ class EstrategicoController extends Controller
                     break;
             }
     }//del for 
+
+    //******************* Registro de actividad ******************
+    if ($sexo == 0) {
+        $sex = 'Ambos';
+    }elseif ($sexo == 1) {
+        $sex = 'Masculino';
+    }else{
+        $sex = 'Femenino';
+    }
+
+    if ($edad == 3) {
+        $years = 'Todas';
+    }else{
+        $years = $edad;
+    }
+
+    $log = 'Generacón del reporte de relaciones sagitales, parametros: fecha inicio: '.$pdo_fecha_inicio.' fecha fin: '.$pdo_fecha_fin.' edad: '.$years.' sexo: '.$sex;
+    $this->get('bitacora')->actividad($log);
+    //******************* Registro de actividad ******************
      return array(
             'titulo'       => 'Reporte Cantidad de Citas',
             'autor'        => $this->getUser()->getNombreCompleto(),
@@ -311,6 +330,25 @@ class EstrategicoController extends Controller
         $stmt->execute();
         $stmt = $conn->query('SELECT @totalxmasc, @totalxfem, @totalxedad, @totalxfecha');
         $result = $stmt->fetchAll();
+
+        //******************* Registro de actividad ******************
+        if ($sexo == 0) {
+            $sex = 'Ambos';
+        }elseif ($sexo == 1) {
+            $sex = 'Masculino';
+        }else{
+            $sex = 'Femenino';
+        }
+
+        if ($edad == 3) {
+            $years = 'Todas';
+        }else{
+            $years = $edad;
+        }
+
+        $log = 'Generacón del reporte de Cantidad de Citas, parametros: fecha inicio: '.$pdo_fecha_inicio.' fecha fin: '.$pdo_fecha_fin.' edad: '.$years.' sexo: '.$sex;
+        $this->get('bitacora')->actividad($log);
+        //******************* Registro de actividad ******************
 
         return array(
             'titulo'       => 'Reporte Cantidad de Citas',
