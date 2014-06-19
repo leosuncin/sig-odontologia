@@ -35,57 +35,68 @@ class Tactico6Type extends AbstractType
                     'class'       => 'datepicker'
                 )
                 ))
-            ->add('sexo', 'choice',
+            // ->add('sexo', 'choice',
+            //     array(
+            //         'label'   => 'Sexo',
+            //         'choices' => array(
+            //             0 => 'Ambos',
+            //             1 => 'Masculino',
+            //             2 => 'Femenino'
+            //     )))
+            ->add('pieza_estadio', 'choice',
                 array(
-                    'label'   => 'Sexo',
+                    'label'   => 'Seleccione la Pieza:',
                     'choices' => array(
-                        0 => 'Ambos',
-                        1 => 'Masculino',
-                        2 => 'Femenino'
-                )))
-               
-                ->add('pieza_estadio', 'choice',
-                array(
-                    'label'   => 'Pieza dental de Estudio: ',
-                    'choices' => array(
-                        0 => 'e51',
-                        1 => 'e52',
-                        2 => 'e53',
-                        3 => 'e54',
-                        4 => 'e55',
-                        5 => 'e61',
-                        6 => 'e62',
-                        7 => 'e63',
-                        8 => 'e64',
-                        9 => 'e65',
-                        10 => 'e71',
-                        11 => 'e72',
-                        12 => 'e73',
-                        13 => 'e74',
-                        14 => 'e75',
-                        15 => 'e81',
-                        16 => 'e82',
-                        17 => 'e83',
-                        18 => 'e84',
-                        19 => 'e85',
+                        1 => '1-1',
+                        2 => '1-2',
+                        3 => '1-3',
+                        4 => '1-4',
+                        5 => '1-5',
+                        6 => '1-6',
+                        7 => '1-7',
+                        8 => '1-8',
+                        9 => '2-1',
+                        10 => '2-2',
+                        11 => '2-3',
+                        12 => '2-4',
+                        13 => '2-5',
+                        14 => '2-6',
+                        15 => '2-7',
+                        16 => '2-8',
+                        17 => '3-1',
+                        18 => '3-2',
+                        19 => '3-3',
+                        20 => '3-4',
+                        21 => '3-5',
+                        22 => '3-6',
+                        23 => '3-7',
+                        24 => '3-8',
+                        25 => '4-1',
+                        26 => '4-2',
+                        27 => '4-3',
+                        28 => '4-4',
+                        29 => '4-5',
+                        30 => '4-6',
+                        31 => '4-7',
+                        32 => '4-8'
                 )))
 
-                ->add('estadio', 'choice',
-                array(
-                    'label'   => 'Valor de Estadio de Nolla de Pieza: ',
-                    'choices' => array(
-                        0 => '0',
-                        1 => '1',
-                        2 => '2',
-                        3 => '3',
-                        4 => '4',
-                        5 => '5',
-                        6 => '6',
-                        7 => '7',
-                        8 => '8',
-                        9 => '9',
-                        10=> '10'
-                )))
+                // ->add('estadio', 'choice',
+                // array(
+                //     'label'   => 'Valor de Estadio de Nolla de Pieza: ',
+                //     'choices' => array(
+                //         0 => '0',
+                //         1 => '1',
+                //         2 => '2',
+                //         3 => '3',
+                //         4 => '4',
+                //         5 => '5',
+                //         6 => '6',
+                //         7 => '7',
+                //         8 => '8',
+                //         9 => '9',
+                //         10=> '10'
+                // )))
             ->add('actions', 'form_actions');
             
             $builder->get('actions')
