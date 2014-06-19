@@ -32,7 +32,7 @@ BEGIN
 	   and horizontal=mmHorizontal and vertical=mmVertical INTO totalx5;
 
 	   SELECT count( * ) from datosgenerales JOIN sobremordida where datosgenerales.codexpediente=sobremordida.codexpediente 
-	   and fecharegistro between fecha_inicio and fecha_fin and genero=2 and edadregistro=4
+	   and fecharegistro between fecha_inicio and fecha_fin and genero=2 and edadregistro=5
 	   and horizontal=mmHorizontal and vertical=mmVertical INTO totalx5nina;
    ELSE
 	   #Calcula numero de nin@s de 5 anios poseem sobremordida
@@ -108,11 +108,11 @@ BEGIN
 	#Calcula numero de Ninos y Ninas de 10 anios que poseen sobremordida.
    IF sexo = 0 THEN
 	   SELECT count( * ) from datosgenerales JOIN sobremordida where datosgenerales.codexpediente=sobremordida.codexpediente 
-	   and fecharegistro between fecha_inicio and fecha_fin and genero=1 and edadregistro=4
+	   and fecharegistro between fecha_inicio and fecha_fin and genero=1 and edadregistro=10
 	   and horizontal=mmHorizontal and vertical=mmVertical INTO totalx10;
 
 	   SELECT count( * ) from datosgenerales JOIN sobremordida where datosgenerales.codexpediente=sobremordida.codexpediente 
-	   and fecharegistro between fecha_inicio and fecha_fin and genero=2 and edadregistro=4
+	   and fecharegistro between fecha_inicio and fecha_fin and genero=2 and edadregistro=10
 	   and horizontal=mmHorizontal and vertical=mmVertical INTO totalx10nina;
    ELSE
 	   #Calcula numero de nin@s de 10 anios poseem sobremordida
