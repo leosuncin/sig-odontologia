@@ -48,10 +48,10 @@ class Estrategico3Type extends AbstractType
                     'label'   => 'Tipo',
                     'choices' => array(
                         0 => 'Todas',
-                        1 => 'Molar Izquierda',
-                        2 => 'Molar Derecha',
-                        3 => 'Canina Izquierda',
-                        4 => 'Canina Derecha'
+                        1 => 'Molar Derecha',
+                        2 => 'Molar Izquierda',
+                        3 => 'Canina Derecha',
+                        4 => 'Canina Izquierda'
                 )))
 
             ->add('edad', 'choice',

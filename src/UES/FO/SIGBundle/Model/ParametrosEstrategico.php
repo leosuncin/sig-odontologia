@@ -128,34 +128,6 @@ class ParametrosEstrategico
     }
 
 
-    /**
-     * Tipo a filtrar
-     *
-     * @var int
-     *
-     * @Assert\Choice(choices = {0, 1, 2, 3, 4}, message = "Escoja una tipo valida")
-     */
-    private $tipo;
-
-
-    /**
-     * set tipo
-     * @param int $tipo
-     */
-    public function setTipo($tipo)
-    {
-        $this->tipo = $tipo;
-        return $this;
-    }
-
-    /**
-     * get tipo
-     * @return int
-     */
-    public function getTipo()
-    {
-        return $this->tipo;
-    }
 
     /**
      * Verifica que el periodo sea valido

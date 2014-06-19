@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use UES\FO\SIGBundle\Form\EstrategicoType;
 use UES\FO\SIGBundle\Form\Estrategico2Type;
-use UES\FO\SIGBundle\Form\Estrategico3Type;
 use UES\FO\SIGBundle\Form\Util\FormUtils;
 use UES\FO\SIGBundle\Model\ParametrosEstrategico;
 
@@ -30,7 +29,7 @@ class EstrategicoController extends Controller
     public function relacionSagitalAction()
     {
         $form = $this->createForm(// crear el formulario a partir de una clase modelo
-            new Estrategico3Type(), // clase formulario de Symfony
+            new Estrategico2Type(), // clase formulario de Symfony
             new ParametrosEstrategico(), // modelo donde se manejaran los parámetros
             array(
                 'action' => $this->generateUrl('validar-relacion-sagital'),// a donde va a ser redirigido el formulario
@@ -59,7 +58,7 @@ class EstrategicoController extends Controller
         $ajax = $request->isXmlHttpRequest();// comprobar si la petición es AJAX
         $data = new ParametrosEstrategico();// instancia de clase donde se manejaran los parámetros
         $form = $this->createForm(// crear el formulario
-            new Estrategico3Type(),// a partir de una clase modelo
+            new Estrategico2Type(),// a partir de una clase modelo
             $data,
             array(
                 'action' => $this->generateUrl('validar-relacion-sagital'),// a donde va a ser redirigido el formulario
@@ -76,7 +75,6 @@ class EstrategicoController extends Controller
                     'fecha_fin'    => $data->getFechaFin()->format('d-m-Y'),
                     'sexo'         => $data->getSexo(),
                     'edad'         => $data->getEdad(),
-                    'tipo'         => $data->getTipo(),
                     '_format'      =>'pdf'), true);
             if($ajax) {
                 return new JsonResponse(json_encode(array('route' => $route)));// sí la petición es AJAX responder con un JSON con la URL
@@ -98,34 +96,31 @@ class EstrategicoController extends Controller
      *Genera el reporte de relaciones sagitales
      *
      * @Route(
-     *     "/{fecha_inicio}/{fecha_fin}/{sexo}/{edad}/{tipo}/reporteRelacionSagital.{_format}",
+     *     "/{fecha_inicio}/{fecha_fin}/{sexo}/{edad}/reporteRelacionSagital.{_format}",
      *     name="reporte-relacion-sagital",
      *     requirements={
      *         "fecha_inicio"="\d{2}-\d{2}-\d{4}",
      *         "fecha_fin"="\d{2}-\d{2}-\d{4}",
      *         "_format"="pdf|html",
      *         "sexo"="0|1|2",
-     *         "edad"="0|1|2|3|4|5|6|7|8|9|10",
-     *         "tipo"="0|1|2|3|4"
+     *         "edad"="0|1|2|3|4|5|6|7|8|9|10"
      * })
      * @Method("GET")
      * @Template()
      * @Pdf()
      */
 
-    public function reporteRelacionSagitalAction(\DateTime $fecha_inicio, \DateTime $fecha_fin, $sexo, $edad, $tipo)
+    public function reporteRelacionSagitalAction(\DateTime $fecha_inicio, \DateTime $fecha_fin, $sexo, $edad)
     {
         $parametros = new ParametrosEstrategico();
         $parametros->setFechaInicio($fecha_inicio);
         $parametros->setFechaFin($fecha_fin);
         $parametros->setSexo($sexo);
         $parametros->setEdad($edad);
-        $parametros->setEdad($tipo);
         $molarDerecha = 0;
         $molarIzquierda = 0;
         $caninaDerecha = 0;
         $caninaIzquierda = 0;
-        $fechas = 0;
 
         $errores = $this->get('validator')->validate($parametros);
         if (count($errores) > 0) {
@@ -139,213 +134,51 @@ class EstrategicoController extends Controller
         //      AMBOS SEXOS 
         
         //      Todos los dientes
-        switch ($tipo) {
-
-            //Todos los dientes
-            case 0:{
-                    for ($i=0; $i < 4; $i++) { 
-                        $pdo_fecha_inicio = $fecha_inicio->format('Y-m-d');
-                        $pdo_fecha_fin = $fecha_fin->format('Y-m-d');
-                        $conn = $this->getDoctrine()->getManager()->getConnection();
-                        $stmt = $conn->prepare('CALL pr_reporte_relaciones_sagitales(:fecha_inicio, :fecha_fin, :sexo, :edad, :diente, @masC1, @masC2, @masC3, @masCC, @masNE, @femC1, @femC2, @femC3, @femCC, @femNE, @edadC1, @edadC2, @edadC3, @edadCC, @edadNE)');
-                        $stmt->bindParam(':fecha_inicio', $pdo_fecha_inicio, \PDO::PARAM_STR);
-                        $stmt->bindParam(':fecha_fin', $pdo_fecha_fin, \PDO::PARAM_STR);
-                        $stmt->bindParam(':sexo', $sexo, \PDO::PARAM_INT);
-                        $stmt->bindParam(':edad', $edad, \PDO::PARAM_INT);
-                        $stmt->bindParam(':diente', $i, \PDO::PARAM_INT);
-                        $stmt->execute();
-                        $stmt = $conn->query('SELECT @masC1, @masC2, @masC3, @masCC, @masNE, @femC1, @femC2, @femC3, @femCC, @femNE, @edadC1, @edadC2, @edadC3, @edadCC, @edadNE');
-                        $result = $stmt->fetchAll();
-                        $datos = array('valor1' => $result[0]['@masC1'], 
-                                       'valor2' => $result[0]['@masC2'],
-                                       'valor3' => $result[0]['@masC3'],
-                                       'valor4' => $result[0]['@masCC'],
-                                       'valor5' => $result[0]['@masNE'],
-                                       'valor6' => $result[0]['@femC1'], 
-                                       'valor7' => $result[0]['@femC2'],
-                                       'valor8' => $result[0]['@femC3'],
-                                       'valor9' => $result[0]['@femCC'],
-                                       'valor10' => $result[0]['@femNE']
-                                      );
-                        switch ($i) {
-                            case 0:
-                                $molarDerecha=$datos;
-                                break;
-                            case 1:
-                                $molarIzquierda=$datos;
-                                break;
-                            case 2:
-                                $caninaDerecha=$datos;
-                                break;
-                            case 3:
-                                $caninaIzquierda=$datos;
-                                break;
-                        }
-                }//del for
-
-                $fechas = array('valor1' => $result[0]['@edadC1'], 
-                                'valor2' => $result[0]['@edadC2'],
-                                'valor3' => $result[0]['@edadC3'],
-                                'valor4' => $result[0]['@edadCC'],
-                                'valor5' => $result[0]['@edadNE']
-                                );   
-                break;
-            }//case
-            //molar derecha
-            case 1:{
-                $diente = 0;
-                $pdo_fecha_inicio = $fecha_inicio->format('Y-m-d');
-                $pdo_fecha_fin = $fecha_fin->format('Y-m-d');
-                $conn = $this->getDoctrine()->getManager()->getConnection();
-                $stmt = $conn->prepare('CALL pr_reporte_relaciones_sagitales(:fecha_inicio, :fecha_fin, :sexo, :edad, :diente, @masC1, @masC2, @masC3, @masCC, @masNE, @femC1, @femC2, @femC3, @femCC, @femNE, @edadC1, @edadC2, @edadC3, @edadCC, @edadNE)');
-                $stmt->bindParam(':fecha_inicio', $pdo_fecha_inicio, \PDO::PARAM_STR);
-                $stmt->bindParam(':fecha_fin', $pdo_fecha_fin, \PDO::PARAM_STR);
-                $stmt->bindParam(':sexo', $sexo, \PDO::PARAM_INT);
-                $stmt->bindParam(':edad', $edad, \PDO::PARAM_INT);
-                $stmt->bindParam(':diente', $diente, \PDO::PARAM_INT);
-                $stmt->execute();
-                $stmt = $conn->query('SELECT @masC1, @masC2, @masC3, @masCC, @masNE, @femC1, @femC2, @femC3, @femCC, @femNE, @edadC1, @edadC2, @edadC3, @edadCC, @edadNE');
-                $result = $stmt->fetchAll();
-                $datos = array('valor1' => $result[0]['@masC1'], 
-                               'valor2' => $result[0]['@masC2'],
-                               'valor3' => $result[0]['@masC3'],
-                               'valor4' => $result[0]['@masCC'],
-                               'valor5' => $result[0]['@masNE'],
-                               'valor6' => $result[0]['@femC1'], 
-                               'valor7' => $result[0]['@femC2'],
-                               'valor8' => $result[0]['@femC3'],
-                               'valor9' => $result[0]['@femCC'],
-                               'valor10' => $result[0]['@femNE']
-                              );
-
-                $molarDerecha=$datos;
-                $fechas = array('valor1' => $result[0]['@edadC1'], 
-                                'valor2' => $result[0]['@edadC2'],
-                                'valor3' => $result[0]['@edadC3'],
-                                'valor4' => $result[0]['@edadCC'],
-                                'valor5' => $result[0]['@edadNE']
-                                );  
-                break;
-            }//case
-            //molar izquierda
-            case 2:{
-                $diente = 1;
-                $pdo_fecha_inicio = $fecha_inicio->format('Y-m-d');
-                $pdo_fecha_fin = $fecha_fin->format('Y-m-d');
-                $conn = $this->getDoctrine()->getManager()->getConnection();
-                $stmt = $conn->prepare('CALL pr_reporte_relaciones_sagitales(:fecha_inicio, :fecha_fin, :sexo, :edad, :diente, @masC1, @masC2, @masC3, @masCC, @masNE, @femC1, @femC2, @femC3, @femCC, @femNE, @edadC1, @edadC2, @edadC3, @edadCC, @edadNE)');
-                $stmt->bindParam(':fecha_inicio', $pdo_fecha_inicio, \PDO::PARAM_STR);
-                $stmt->bindParam(':fecha_fin', $pdo_fecha_fin, \PDO::PARAM_STR);
-                $stmt->bindParam(':sexo', $sexo, \PDO::PARAM_INT);
-                $stmt->bindParam(':edad', $edad, \PDO::PARAM_INT);
-                $stmt->bindParam(':diente', $diente, \PDO::PARAM_INT);
-                $stmt->execute();
-                $stmt = $conn->query('SELECT @masC1, @masC2, @masC3, @masCC, @masNE, @femC1, @femC2, @femC3, @femCC, @femNE, @edadC1, @edadC2, @edadC3, @edadCC, @edadNE');
-                $result = $stmt->fetchAll();
-                $datos = array('valor1' => $result[0]['@masC1'], 
-                               'valor2' => $result[0]['@masC2'],
-                               'valor3' => $result[0]['@masC3'],
-                               'valor4' => $result[0]['@masCC'],
-                               'valor5' => $result[0]['@masNE'],
-                               'valor6' => $result[0]['@femC1'], 
-                               'valor7' => $result[0]['@femC2'],
-                               'valor8' => $result[0]['@femC3'],
-                               'valor9' => $result[0]['@femCC'],
-                               'valor10' => $result[0]['@femNE']
-                              );
-
-                $molarIzquierda=$datos;
-                $fechas = array('valor1' => $result[0]['@edadC1'], 
-                                'valor2' => $result[0]['@edadC2'],
-                                'valor3' => $result[0]['@edadC3'],
-                                'valor4' => $result[0]['@edadCC'],
-                                'valor5' => $result[0]['@edadNE']
-                                );  
-                break;
-            }//case
-            //canina derecha
-            case 3:{
-                $diente = 2;
-                $pdo_fecha_inicio = $fecha_inicio->format('Y-m-d');
-                $pdo_fecha_fin = $fecha_fin->format('Y-m-d');
-                $conn = $this->getDoctrine()->getManager()->getConnection();
-                $stmt = $conn->prepare('CALL pr_reporte_relaciones_sagitales(:fecha_inicio, :fecha_fin, :sexo, :edad, :diente, @masC1, @masC2, @masC3, @masCC, @masNE, @femC1, @femC2, @femC3, @femCC, @femNE, @edadC1, @edadC2, @edadC3, @edadCC, @edadNE)');
-                $stmt->bindParam(':fecha_inicio', $pdo_fecha_inicio, \PDO::PARAM_STR);
-                $stmt->bindParam(':fecha_fin', $pdo_fecha_fin, \PDO::PARAM_STR);
-                $stmt->bindParam(':sexo', $sexo, \PDO::PARAM_INT);
-                $stmt->bindParam(':edad', $edad, \PDO::PARAM_INT);
-                $stmt->bindParam(':diente', $diente, \PDO::PARAM_INT);
-                $stmt->execute();
-                $stmt = $conn->query('SELECT @masC1, @masC2, @masC3, @masCC, @masNE, @femC1, @femC2, @femC3, @femCC, @femNE, @edadC1, @edadC2, @edadC3, @edadCC, @edadNE');
-                $result = $stmt->fetchAll();
-                $datos = array('valor1' => $result[0]['@masC1'], 
-                               'valor2' => $result[0]['@masC2'],
-                               'valor3' => $result[0]['@masC3'],
-                               'valor4' => $result[0]['@masCC'],
-                               'valor5' => $result[0]['@masNE'],
-                               'valor6' => $result[0]['@femC1'], 
-                               'valor7' => $result[0]['@femC2'],
-                               'valor8' => $result[0]['@femC3'],
-                               'valor9' => $result[0]['@femCC'],
-                               'valor10' => $result[0]['@femNE']
-                              );
-
-                $caninaDerecha=$datos;
-                $fechas = array('valor1' => $result[0]['@edadC1'], 
-                                'valor2' => $result[0]['@edadC2'],
-                                'valor3' => $result[0]['@edadC3'],
-                                'valor4' => $result[0]['@edadCC'],
-                                'valor5' => $result[0]['@edadNE']
-                                );  
-                break;
-            }//case
-            //canina izquierda
-            case 4:{
-                $diente = 3;
-                $pdo_fecha_inicio = $fecha_inicio->format('Y-m-d');
-                $pdo_fecha_fin = $fecha_fin->format('Y-m-d');
-                $conn = $this->getDoctrine()->getManager()->getConnection();
-                $stmt = $conn->prepare('CALL pr_reporte_relaciones_sagitales(:fecha_inicio, :fecha_fin, :sexo, :edad, :diente, @masC1, @masC2, @masC3, @masCC, @masNE, @femC1, @femC2, @femC3, @femCC, @femNE, @edadC1, @edadC2, @edadC3, @edadCC, @edadNE)');
-                $stmt->bindParam(':fecha_inicio', $pdo_fecha_inicio, \PDO::PARAM_STR);
-                $stmt->bindParam(':fecha_fin', $pdo_fecha_fin, \PDO::PARAM_STR);
-                $stmt->bindParam(':sexo', $sexo, \PDO::PARAM_INT);
-                $stmt->bindParam(':edad', $edad, \PDO::PARAM_INT);
-                $stmt->bindParam(':diente', $diente, \PDO::PARAM_INT);
-                $stmt->execute();
-                $stmt = $conn->query('SELECT @masC1, @masC2, @masC3, @masCC, @masNE, @femC1, @femC2, @femC3, @femCC, @femNE, @edadC1, @edadC2, @edadC3, @edadCC, @edadNE');
-                $result = $stmt->fetchAll();
-                $datos = array('valor1' => $result[0]['@masC1'], 
-                               'valor2' => $result[0]['@masC2'],
-                               'valor3' => $result[0]['@masC3'],
-                               'valor4' => $result[0]['@masCC'],
-                               'valor5' => $result[0]['@masNE'],
-                               'valor6' => $result[0]['@femC1'], 
-                               'valor7' => $result[0]['@femC2'],
-                               'valor8' => $result[0]['@femC3'],
-                               'valor9' => $result[0]['@femCC'],
-                               'valor10' => $result[0]['@femNE']
-                              );
-
-                $caninaIzquierda=$datos;
-                $fechas = array('valor1' => $result[0]['@edadC1'], 
-                                'valor2' => $result[0]['@edadC2'],
-                                'valor3' => $result[0]['@edadC3'],
-                                'valor4' => $result[0]['@edadCC'],
-                                'valor5' => $result[0]['@edadNE']
-                                );  
-                break;
-            }//case
-        }
-
-
-
-
-
-
-
-
-        
-        return array(
+        for ($i=0; $i < 4; $i++) { 
+            $pdo_fecha_inicio = $fecha_inicio->format('Y-m-d');
+            $pdo_fecha_fin = $fecha_fin->format('Y-m-d');
+            $conn = $this->getDoctrine()->getManager()->getConnection();
+            $stmt = $conn->prepare('CALL pr_reporte_relaciones_sagitales(:fecha_inicio, :fecha_fin, :sexo, :edad, :diente, @masC1, @masC2, @masC3, @masCC, @masNE, @femC1, @femC2, @femC3, @femCC, @femNE, @edadC1, @edadC2, @edadC3, @edadCC, @edadNE)');
+            $stmt->bindParam(':fecha_inicio', $pdo_fecha_inicio, \PDO::PARAM_STR);
+            $stmt->bindParam(':fecha_fin', $pdo_fecha_fin, \PDO::PARAM_STR);
+            $stmt->bindParam(':sexo', $sexo, \PDO::PARAM_INT);
+            $stmt->bindParam(':edad', $edad, \PDO::PARAM_INT);
+            $stmt->bindParam(':diente', $i, \PDO::PARAM_INT);
+            $stmt->execute();
+            $stmt = $conn->query('SELECT @masC1, @masC2, @masC3, @masCC, @masNE, @femC1, @femC2, @femC3, @femCC, @femNE, @edadC1, @edadC2, @edadC3, @edadCC, @edadNE');
+            $result = $stmt->fetchAll();
+            $datos = array('valor1' => $result[0]['@masC1'], 
+                           'valor2' => $result[0]['@masC2'],
+                           'valor3' => $result[0]['@masC3'],
+                           'valor4' => $result[0]['@masCC'],
+                           'valor5' => $result[0]['@masNE'],
+                           'valor6' => $result[0]['@femC1'], 
+                           'valor7' => $result[0]['@femC2'],
+                           'valor8' => $result[0]['@femC3'],
+                           'valor9' => $result[0]['@femCC'],
+                           'valor10' => $result[0]['@femNE'],
+                           'valor11' => $result[0]['@edadC1'], 
+                           'valor12' => $result[0]['@edadC2'],
+                           'valor13' => $result[0]['@edadC3'],
+                           'valor14' => $result[0]['@edadCC'],
+                           'valor15' => $result[0]['@edadNE']
+                          );
+            switch ($i) {
+                case 0:
+                    $molarDerecha=$datos;
+                    break;
+                case 1:
+                    $molarIzquierda=$datos;
+                    break;
+                case 2:
+                    $caninaDerecha=$datos;
+                    break;
+                case 3:
+                    $caninaIzquierda=$datos;
+                    break;
+            }
+    }//del for 
+     return array(
             'titulo'       => 'Reporte Cantidad de Citas',
             'autor'        => $this->getUser()->getNombreCompleto(),
             'fecha_inicio' => $fecha_inicio,
@@ -355,8 +188,7 @@ class EstrategicoController extends Controller
             'molarDerecha' => $molarDerecha,
             'molarIzquierda' => $molarIzquierda,
             'caninaDerecha' => $caninaDerecha,
-            'caninaIzquierda' => $caninaIzquierda,
-            'fechas' => $fechas
+            'caninaIzquierda' => $caninaIzquierda
         );
 
     }//fin
