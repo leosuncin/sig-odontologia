@@ -3,7 +3,7 @@
 {% block contenido %}
 <h2 text-align="center">Tipos de Perfil</h2>
 
-<p text-align="center">Desde {{ util.fecha(fecha_inicio) }} hasta el {{ util.fecha(fecha_fin) }}</p>
+<p text-align="center">Desde <b> {{ util.fecha(fecha_inicio) }} </b> hasta el <b> {{ util.fecha(fecha_fin) }} </b> </p>
 <br />
 <br />
 <br />
@@ -11,56 +11,78 @@
 <br />
 <br />
 <br />
+<br />
+<br />
+<br />
 {% if sexo == 0 %}
-<p text-align="center"> Cantidad de Niños por Edades </p>
-<table width="100%" text-align="center">
-	<tr>
-		<td style="border-color: white; ">4 años</td>
-		<td style="border-color: white; ">5 años</td>
-		<td style="border-color: white; ">6 años</td>
-		<td style="border-color: white; ">7 años</td>
-		<td style="border-color: white; ">8 años</td>
-		<td style="border-color: white; ">9 años</td>
-		<td style="border-color: white; ">10 años</td>
-		<td style="border-color: white; ">11 años</td>
+
+<br />
+<br />
+<table width="100%" text-align="center" style="border-color: white; font-size:14px;">
+	<tr style="background-color:#B0C4DE; border-color: white;  ">
+			<td colspan="9" style="border-color: white; "><p text-align="center"><b>Niños que presentaron {{ p }}  {{ t }} </b></p></td>
+
+		</tr>
+	<tr style="background-color: #FFE4E1; ">
+		<td style="border-color: white; "><p text-align="center">Edades</p></td>
+		<td style="border-color: white; "><p text-align="center">4 años</p></td>
+		<td style="border-color: white; "><p text-align="center">5 años</p></td>
+		<td style="border-color: white; "><p text-align="center">6 años</p></td>
+		<td style="border-color: white; "><p text-align="center">7 años</p></td>
+		<td style="border-color: white; "><p text-align="center">8 años</p></td>
+		<td style="border-color: white; "><p text-align="center">9 años</p></td>
+		<td style="border-color: white; "><p text-align="center">10 años</p></td>
+		<td style="border-color: white; "><p text-align="center">11 años</p></td>
 		
 	</tr>
-	<tr>
-		<td style="border-color: white; ">{{ cant4anios }}</td>
-		<td style="border-color: white; ">{{ cant5anios }}</td>
-		<td style="border-color: white; ">{{ cant6anios }}</td>
-		<td style="border-color: white; ">{{ cant7anios }}</td>
-		<td style="border-color: white; ">{{ cant8anios }}</td>
-		<td style="border-color: white; ">{{ cant9anios }}</td>
-		<td style="border-color: white; ">{{ cant10anios }}</td>
-		<td style="border-color: white; ">{{ cant11anios }}</td>
+	<tr style="background-color: #FFE4E1; ">
+		<td style="border-color: white; "><p text-align="center">Cantidad</p></td>
+		<td style="border-color: white; "><p text-align="center">{{ cant4anios }}</p></td>
+		<td style="border-color: white; "><p text-align="center">{{ cant5anios }}</p></td>
+		<td style="border-color: white; "><p text-align="center">{{ cant6anios }}</p></td>
+		<td style="border-color: white; "><p text-align="center">{{ cant7anios }}</p></td>
+		<td style="border-color: white; "><p text-align="center">{{ cant8anios }}</p></td>
+		<td style="border-color: white; "><p text-align="center">{{ cant9anios }}</p></td>
+		<td style="border-color: white; "><p text-align="center">{{ cant10anios }}</p></td>
+		<td style="border-color: white; "><p text-align="center">{{ cant11anios }}</p></td>
 		
 	</tr>
 </table>
 <br />
 <br />
-<p text-align="center"> Cantidad de Niñas por Edades </p>
-<table width="100%" text-align="center">
-	<tr>
-		<td style="border-color: white; ">4 años</td>
-		<td style="border-color: white; ">5 años</td>
-		<td style="border-color: white; ">6 años</td>
-		<td style="border-color: white; ">7 años</td>
-		<td style="border-color: white; ">8 años</td>
-		<td style="border-color: white; ">9 años</td>
-		<td style="border-color: white; ">10 años</td>
-		<td style="border-color: white; ">11 años</td>
+<br />
+<br />
+
+<br />
+<br />
+<table width="100%" text-align="center" style="border-color: white; font-size:14px;">
+
+<tr style="background-color:#B0C4DE; border-color: white;  ">
+			<td colspan="9" style="border-color: white; "><p text-align="center"><b>Niñas que presentaron {{ p }}  {{ t }} </b></p></td>
+		</tr>
+
+	<tr style="border-color: white; background-color: #FFE4E1;  ">
+		<td style="border-color: white; "><p text-align="center">Edades</p></td>
+		<td style="border-color: white; "><p text-align="center">4 años</p></td>
+		<td style="border-color: white; "><p text-align="center">5 años</p></td>
+		<td style="border-color: white; "><p text-align="center">6 años</p></td>
+		<td style="border-color: white; "><p text-align="center">7 años</p></td>
+		<td style="border-color: white; "><p text-align="center">8 años</p></td>
+		<td style="border-color: white; "><p text-align="center">9 años</p></td>
+		<td style="border-color: white; "><p text-align="center">10 años</p></td>
+		<td style="border-color: white; "><p text-align="center">11 años</p></td>
 		
 	</tr>
-	<tr>
-		<td style="border-color: white; ">{{ cant4nina }}</td>
-		<td style="border-color: white; ">{{ cant5nina }}</td>
-		<td style="border-color: white; ">{{ cant6nina }}</td>
-		<td style="border-color: white; ">{{ cant7nina }}</td>
-		<td style="border-color: white; ">{{ cant8nina }}</td>
-		<td style="border-color: white; ">{{ cant9nina }}</td>
-		<td style="border-color: white; ">{{ cant10nina }}</td>
-		<td style="border-color: white; ">{{ cant11nina }}</td>
+	<tr style=" border-color: white;  background-color: #FFE4E1;">
+		<td style="border-color: white; "><p text-align="center">Cantidad</p></td>
+		<td style="border-color: white; "><p text-align="center">{{ cant4nina }}</p></td>
+		<td style="border-color: white; "><p text-align="center">{{ cant5nina }}</p></td>
+		<td style="border-color: white; "><p text-align="center">{{ cant6nina }}</p></td>
+		<td style="border-color: white; "><p text-align="center">{{ cant7nina }}</p></td>
+		<td style="border-color: white; "><p text-align="center">{{ cant8nina }}</p></td>
+		<td style="border-color: white; "><p text-align="center">{{ cant9nina }}</p></td>
+		<td style="border-color: white; "><p text-align="center">{{ cant10nina }}</p></td>
+		<td style="border-color: white; "><p text-align="center">{{ cant11nina }}</p></td>
 	
 	</tr>
 </table>
@@ -68,29 +90,32 @@
 
 
 {% if sexo == 1 %}
-<p text-align="center"> Cantidad de Niños por Edades </p>
-<table width="100%" text-align="center">
 
-	<tr>
-		<td style="border-color: white; ">4 años</td>
-		<td style="border-color: white; ">5 años</td>
-		<td style="border-color: white; ">6 años</td>
-		<td style="border-color: white; ">7 años</td>
-		<td style="border-color: white; ">8 años</td>
-		<td style="border-color: white; ">9 años</td>
-		<td style="border-color: white; ">10 años</td>
-		<td style="border-color: white; ">11 años</td>
-		
+<table width="100%" text-align="center" style="border-color: white; font-size:14px;">
+<tr style="background-color:#B0C4DE; border-color: white;  ">
+			<td colspan="9" style="border-color: white; "><p text-align="center"><b>Niños que presentaron {{ p }}  {{ t }} </b></p></td>
+		</tr>
+	<tr style="background-color: #FFE4E1; ">
+		<td style="border-color: white; "><p text-align="center">Edades</p></td>
+		<td style="border-color: white; "><p text-align="center">4 años</p></td>
+		<td style="border-color: white; "><p text-align="center">5 años</p></td>
+		<td style="border-color: white; "><p text-align="center">6 años</p></td>
+		<td style="border-color: white; "><p text-align="center">7 años</p></td>
+		<td style="border-color: white; "><p text-align="center">8 años</p></td>
+		<td style="border-color: white; "><p text-align="center">9 años</p></td>
+		<td style="border-color: white; "><p text-align="center">10 años</p></td>
+		<td style="border-color: white; "><p text-align="center">11 años</p></td>
 	</tr>
-	<tr>
-		<td style="border-color: white; ">{{ cant4anios }}</td>
-		<td style="border-color: white; ">{{ cant5anios }}</td>
-		<td style="border-color: white; ">{{ cant6anios }}</td>
-		<td style="border-color: white; ">{{ cant7anios }}</td>
-		<td style="border-color: white; ">{{ cant8anios }}</td>
-		<td style="border-color: white; ">{{ cant9anios }}</td>
-		<td style="border-color: white; ">{{ cant10anios }}</td>
-		<td style="border-color: white; ">{{ cant11anios }}</td>
+	<tr style="background-color: #FFE4E1; border-color: white;  ">
+		<td style="border-color: white; "><p text-align="center">Cantidad</p></td>
+		<td style="border-color: white; "><p text-align="center">{{ cant4anios }}</p></td>
+		<td style="border-color: white; "><p text-align="center">{{ cant5anios }}</p></td>
+		<td style="border-color: white; "><p text-align="center">{{ cant6anios }}</p></td>
+		<td style="border-color: white; "><p text-align="center">{{ cant7anios }}</p></td>
+		<td style="border-color: white; "><p text-align="center">{{ cant8anios }}</p></td>
+		<td style="border-color: white; "><p text-align="center">{{ cant9anios }}</p></td>
+		<td style="border-color: white; "><p text-align="center">{{ cant10anios }}</p></td>
+		<td style="border-color: white; "><p text-align="center">{{ cant11anios }}</p></td>
 		
 	</tr>
 </table>
@@ -98,28 +123,33 @@
 
 
 {% if sexo == 2 %}
-<p text-align="center"> Cantidad de Niñas por Edades </p>
-<table width="100%" text-align="center">
-	<tr>
-		<td style="border-color: white; ">4 años</td>
-		<td style="border-color: white; ">5 años</td>
-		<td style="border-color: white; ">6 años</td>
-		<td style="border-color: white; ">7 años</td>
-		<td style="border-color: white; ">8 años</td>
-		<td style="border-color: white; ">9 años</td>
-		<td style="border-color: white; ">10 años</td>
-		<td style="border-color: white; ">11 años</td>
+
+<table width="100%" text-align="center" style="border-color: white; font-size:14px;">
+	<tr style="background-color:#B0C4DE; border-color: white;  ">
+			<td colspan="9" style="border-color: white; "><p text-align="center"><b>Niñas que presentaron {{ p }}  {{ t }}</b></p></td>
+		</tr>
+	<tr style="background-color: #FFE4E1; ">
+		<td style="border-color: white; "><p text-align="center">Edades</p></td>
+		<td style="border-color: white; "><p text-align="center">4 años</p></td>
+		<td style="border-color: white; "><p text-align="center">5 años</p></td>
+		<td style="border-color: white; "><p text-align="center">6 años</p></td>
+		<td style="border-color: white; "><p text-align="center">7 años</p></td>
+		<td style="border-color: white; "><p text-align="center">8 años</p></td>
+		<td style="border-color: white; "><p text-align="center">9 años</p></td>
+		<td style="border-color: white; "><p text-align="center">10 años</p></td>
+		<td style="border-color: white; "><p text-align="center">11 años</p></td>
 		
 	</tr>
-	<tr>
-		<td style="border-color: white; ">{{ cant4nina }}</td>
-		<td style="border-color: white; ">{{ cant5nina }}</td>
-		<td style="border-color: white; ">{{ cant6nina }}</td>
-		<td style="border-color: white; ">{{ cant7nina }}</td>
-		<td style="border-color: white; ">{{ cant8nina }}</td>
-		<td style="border-color: white; ">{{ cant9nina }}</td>
-		<td style="border-color: white; ">{{ cant10nina }}</td>
-		<td style="border-color: white; ">{{ cant11nina }}</td>
+	<tr style="background-color:#FFE4E1; border-color: white;  ">
+		<td style="border-color: white; "><p text-align="center">Cantidad</p></td>
+		<td style="border-color: white; "><p text-align="center">{{ cant4nina }}</p></td>
+		<td style="border-color: white; "><p text-align="center">{{ cant5nina }}</p></td>
+		<td style="border-color: white; "><p text-align="center">{{ cant6nina }}</p></td>
+		<td style="border-color: white; "><p text-align="center">{{ cant7nina }}</p></td>
+		<td style="border-color: white; "><p text-align="center">{{ cant8nina }}</p></td>
+		<td style="border-color: white; "><p text-align="center">{{ cant9nina }}</p></td>
+		<td style="border-color: white; "><p text-align="center">{{ cant10nina }}</p></td>
+		<td style="border-color: white; "><p text-align="center">{{ cant11nina }}</p></td>
 	
 	</tr>
 </table>
@@ -127,4 +157,3 @@
 
 
 {% endblock %}
-

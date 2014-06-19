@@ -71,7 +71,7 @@ class ParametrosTactico1
      * 
      * @var int
      *
-     * @Assert\Choice(choices = {0, 1, 2, 3, 4}, message = "Escoja los milimetros validos")
+     * @Assert\Choice(choices = {1, 2, 3, 4, 5}, message = "Escoja los milimetros validos")
      */
     private $milimetrosmx;
 
@@ -81,7 +81,7 @@ class ParametrosTactico1
      * 
      * @var int
      *
-     * @Assert\Choice(choices = {0, 1, 2, 3, 4}, message = "Escoja los milimetros validos")
+     * @Assert\Choice(choices = {1, 2, 3, 4, 5}, message = "Escoja los milimetros validos")
      */
     private $milimetrosmd;
 
@@ -91,7 +91,7 @@ class ParametrosTactico1
      * 
      * @var int
      *
-     * @Assert\Choice(choices = {0, 1, 2}, message = "Escoja una orientacion valida valido")
+     * @Assert\Choice(choices = {1, 2, 3}, message = "Escoja una orientacion valida valido")
      */
     private $orientacionmx;
 
@@ -101,7 +101,7 @@ class ParametrosTactico1
      * 
      * @var int
      *
-     * @Assert\Choice(choices = {0, 1, 2}, message = "Escoja una orientacion valida valido")
+     * @Assert\Choice(choices = {1, 2, 3}, message = "Escoja una orientacion valida valido")
      */
     private $orientacionmd;
 

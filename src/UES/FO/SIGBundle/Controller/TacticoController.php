@@ -123,6 +123,7 @@ public function validateEnfermedadesPadecidasAction(Request $request)
         }
          /*Es Nina, nino o ambos?*/
          $mensaje = "vacia";
+         $e="vacio";
 
         if($sexo==0)
             $mensaje = "Niños y Niñas";
@@ -131,19 +132,47 @@ public function validateEnfermedadesPadecidasAction(Request $request)
         else
             $mensaje = "Niñas";
 
-
+       
+       if ($enfermedad==1)
+        $e="Alergias"; 
+       if ($enfermedad==2)
+        $e="Desmayos"; 
+       if ($enfermedad==3)
+        $e="Presión Sanguínea Alta"; 
+       if ($enfermedad==4)
+        $e="Sinusitis"; 
+       if ($enfermedad==5)
+       $e="Hepatitis"; 
+       if ($enfermedad==6)
+        $e="Transtornos de la Sangre"; 
+       if ($enfermedad==7)
+        $e="Asma"; 
+       if ($enfermedad==8)
+        $e="Artritis"; 
+       if ($enfermedad==9)
+        $e="Enfermedades Venéreas"; 
+       if ($enfermedad==10)
+        $e="Diabetes"; 
+       if ($enfermedad==11)
+        $e="Gastritis"; 
+       if ($enfermedad==12)
+        $e="SIDA"; 
+       if ($enfermedad==13)
+        $e="Transtornos Renales"; 
+       if ($enfermedad==14)
+        $e="Tuberculosis"; 
 
 
         $pdo_fecha_inicio = $fecha_inicio->format('Y-m-d');// Formatear la fecha al estilo de MySQL
         $pdo_fecha_fin = $fecha_fin->format('Y-m-d');
         $conn = $this->getDoctrine()->getManager()->getConnection();// Obtener la conexión a la base de datos
-        $stmt = $conn->prepare('CALL pr_reporte_enfermedades2(:fecha_inicio, :fecha_fin, :sexo, :enfermedad, @totalx4, @totalx5, @totalx6, @totalx7, @totalx8, @totalx9, @totalx10, @totalx11, @total2x4, @total2x5, @total2x6, @total2x7, @total2x8, @total2x9, @total2x10, @total2x11)');// Preparar la llamada al procedimiento almacenado
+        $stmt = $conn->prepare('CALL pr_reporte_enfermedades2(:fecha_inicio, :fecha_fin, :sexo, :enfermedad, @total4, @total5, @total6, @total7, @total8, @total9, @total10, @total11, @totalf4, @totalf5, @totalf6, @totalf7, @totalf8, @totalf9, @totalf10, @totalf11)');// Preparar la llamada al procedimiento almacenado
         $stmt->bindParam(':fecha_inicio', $pdo_fecha_inicio, \PDO::PARAM_STR);// Preparar los parámetros de la consulta
         $stmt->bindParam(':fecha_fin', $pdo_fecha_fin, \PDO::PARAM_STR);
         $stmt->bindParam(':sexo', $sexo, \PDO::PARAM_INT);
         $stmt->bindParam(':enfermedad', $enfermedad, \PDO::PARAM_INT);
         $stmt->execute();// Ejecutar la consulta
-        $stmt = $conn->query('SELECT @totalx4, @totalx5, @totalx6, @totalx7, @totalx8, @totalx9, @totalx10, @totalx11, @total2x4, @total2x5, @total2x6, @total2x7, @total2x8, @total2x9, @total2x10, @total2x11');
+        $stmt = $conn->query('SELECT @total4, @total5, @total6, @total7, @total8, @total9, @total10, @total11, @totalf4, @totalf5, @totalf6, @totalf7, @totalf8, @totalf9, @totalf10, @totalf11');
         $result = $stmt->fetchAll();// Obtener los valores del resultado
       
 
@@ -152,25 +181,26 @@ public function validateEnfermedadesPadecidasAction(Request $request)
             'autor'        => $this->getUser()->getNombreCompleto(),
             'fecha_inicio' => $fecha_inicio,
             'fecha_fin'    => $fecha_fin,
-            'enfermedad'    => $enfermedad,
-            'sexo'     =>$sexo,
-            'mensaje'    => $mensaje,
-            'cant4anios'  => $result[0]['@totalx4'],
-            'cant4nina'  => $result[0]['@total2x4'],
-            'cant5anios'  => $result[0]['@totalx5'],
-            'cant5nina'  => $result[0]['@total2x5'],
-            'cant6anios'  => $result[0]['@totalx6'],
-            'cant6nina'  => $result[0]['@total2x6'],
-            'cant7anios'  => $result[0]['@totalx7'],
-            'cant7nina'  => $result[0]['@total2x7'],
-            'cant8anios'  => $result[0]['@totalx8'],
-            'cant8nina'  => $result[0]['@total2x8'],
-            'cant9anios'  => $result[0]['@totalx9'],
-            'cant9nina'  => $result[0]['@total2x9'],
-            'cant10anios'  => $result[0]['@totalx10'],
-            'cant10nina'  => $result[0]['@total2x10'],
-            'cant11anios'  => $result[0]['@totalx11'],
-            'cant11nina'  => $result[0]['@total2x11']            
+            'enfermedad'   => $enfermedad,
+            'sexo'         => $sexo,
+            'mensaje'      => $mensaje,
+            'e'            => $e,
+            'cant4anios'  => $result[0]['@total4'],
+            'cant4nina'  => $result[0]['@totalf4'],
+            'cant5anios'  => $result[0]['@total5'],
+            'cant5nina'  => $result[0]['@totalf5'],
+            'cant6anios'  => $result[0]['@total6'],
+            'cant6nina'  => $result[0]['@totalf6'],
+            'cant7anios'  => $result[0]['@total7'],
+            'cant7nina'  => $result[0]['@totalf7'],
+            'cant8anios'  => $result[0]['@total8'],
+            'cant8nina'  => $result[0]['@totalf8'],
+            'cant9anios'  => $result[0]['@total9'],
+            'cant9nina'  => $result[0]['@totalf9'],
+            'cant10anios'  => $result[0]['@total10'],
+            'cant10nina'  => $result[0]['@totalf10'],
+            'cant11anios'  => $result[0]['@total11'],
+            'cant11nina'  => $result[0]['@totalf11']            
         );
 
     }   
@@ -287,6 +317,37 @@ public function validateEnfermedadesPadecidasAction(Request $request)
         else
             $mensaje = "Niñas";
 
+         if ($perfil==1)
+        $p="Facial Frontal";
+         if ($perfil==2)
+        $p="Perfil Total";
+         if ($perfil==3)
+        $p="Perfil 1/3 Inferior";
+
+          if ($perfil==1 and $tipo==1)
+          $t="Dolicofacial";
+          if ($perfil==1 and $tipo==2)
+          $t="  Mesofacial";
+          if ($perfil==1 and $tipo==3)
+          $t="Braquifacial";
+
+          if ($perfil==2 and $tipo==1)
+          $t="Ortonatico";
+          if ($perfil==2 and $tipo==2)
+          $t=" Divergente Anterior";
+          if ($perfil==2 and $tipo==3)
+          $t="Divergente Posterior";
+
+
+          if ($perfil==3 and $tipo==1)
+          $t="Recto";
+          if ($perfil==3 and $tipo==2)
+          $t="Cóncavo";
+          if ($perfil==3 and $tipo==3)
+          $t="Convexo";
+
+
+
         $pdo_fecha_inicio = $fecha_inicio->format('Y-m-d');// Formatear la fecha al estilo de MySQL
         $pdo_fecha_fin = $fecha_fin->format('Y-m-d');
         $conn = $this->getDoctrine()->getManager()->getConnection();// Obtener la conexión a la base de datos
@@ -306,10 +367,12 @@ public function validateEnfermedadesPadecidasAction(Request $request)
             'autor'        => $this->getUser()->getNombreCompleto(),
             'fecha_inicio' => $fecha_inicio,
             'fecha_fin'    => $fecha_fin,
-            'perfil'    => $perfil,
-             'tipo'    => $tipo,
-             'sexo'     =>$sexo,
-             'mensaje'    => $mensaje,
+            'perfil'       => $perfil,
+             'tipo'        => $tipo,
+             'sexo'        =>$sexo,
+             'mensaje'     => $mensaje,
+             't'           => $t,
+             'p'           => $p,
             'cant4anios'  => $result[0]['@totalx4'],
             'cant4nina'  => $result[0]['@total2x4'],
             'cant5anios'  => $result[0]['@totalx5'],
@@ -411,10 +474,10 @@ public function validateLineasMediasAction(Request $request)
      *         "fecha_fin"="\d{2}-\d{2}-\d{4}",
      *         "_format"="pdf|html",
      *         "sexo"="0|1|2",
-     *         "orientacionmx"="0|1|2",
-     *         "orientacionmd"="0|1|2",
-     *         "milimetrosmx"="0|1|2|3|4",
-     *         "milimetrosmd"="0|1|2|3|4",
+     *         "orientacionmx"="1|2|3",
+     *         "orientacionmd"="1|2|3",
+     *         "milimetrosmx"="1|2|3|4|5",
+     *         "milimetrosmd"="1|2|3|4|5",
      * })
      * @Method("GET")
      * @Template()
@@ -445,6 +508,45 @@ public function validateLineasMediasAction(Request $request)
         else
             $mensaje = "Niñas";
 
+        if ($orientacionmx==1)
+        $omx="Izquierda"; 
+        if ($orientacionmx==2)
+        $omx="Centro"; 
+        if ($orientacionmx==3)
+        $omx="Derecha"; 
+
+        if ($orientacionmd==1)
+        $omd="Izquierda"; 
+        if ($orientacionmd==2)
+        $omd="Centro"; 
+        if ($orientacionmd==3)
+        $omd="Derecha"; 
+
+
+        if($milimetrosmx==1)
+        $mmx="1";
+        if($milimetrosmx==2)
+        $mmx="2";
+        if($milimetrosmx==3)
+        $mmx="3";
+        if($milimetrosmx==4)
+        $mmx="4";
+        if($milimetrosmx==5)
+        $mmx="5";
+
+         if($milimetrosmd==1)
+        $mmd="1";
+        if($milimetrosmd==2)
+        $mmd="2";
+        if($milimetrosmd==3)
+        $mmd="3";
+        if($milimetrosmd==4)
+        $mmd="4";
+        if($milimetrosmd==5)
+        $mmd="5";
+
+
+
         $pdo_fecha_inicio = $fecha_inicio->format('Y-m-d');// Formatear la fecha al estilo de MySQL
         $pdo_fecha_fin = $fecha_fin->format('Y-m-d');
         $conn = $this->getDoctrine()->getManager()->getConnection();// Obtener la conexión a la base de datos
@@ -457,10 +559,8 @@ public function validateLineasMediasAction(Request $request)
         $stmt->bindParam(':milimetrosmx', $milimetrosmx, \PDO::PARAM_INT);
         $stmt->bindParam(':milimetrosmd', $milimetrosmd, \PDO::PARAM_INT);
         $stmt->execute();// Ejecutar la consulta
-         $stmt = $conn->query('SELECT @totalx4, @totalx5, @totalx6, @totalx7, @totalx8, @totalx9, @totalx10, @totalx11, @total2x4, @total2x5, @total2x6, @total2x7, @total2x8, @total2x9, @total2x10, @total2x11');
-      
+        $stmt = $conn->query('SELECT @totalx4, @totalx5, @totalx6, @totalx7, @totalx8, @totalx9, @totalx10, @totalx11, @total2x4, @total2x5, @total2x6, @total2x7, @total2x8, @total2x9, @total2x10, @total2x11');
         $result = $stmt->fetchAll();// Obtener los valores del resultado
-
 
         return array(// Pasar las variables a la vista del reporte
             'titulo'       => "Reporte de Lineas Medias",
@@ -471,8 +571,12 @@ public function validateLineasMediasAction(Request $request)
              'orientacionmd'    => $orientacionmd,
               'milimetrosmx'    => $milimetrosmx,
               'milimetrosmd'    => $milimetrosmd,
-              'sexo'     =>$sexo,
+              'sexo'     =>  $sexo,
                'mensaje'    => $mensaje,
+               'milimetrosmx'     =>  $mmx,
+               'milimetrosmd'     =>  $mmd,
+               'desviacionmx'     =>  $omx,
+               'desviacionmd'     =>  $omd,
             
             'cant4anios'  => $result[0]['@totalx4'],
             'cant4nina'  => $result[0]['@total2x4'],

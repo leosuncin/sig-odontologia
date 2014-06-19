@@ -24,7 +24,7 @@ class Bitacora
     /**
      * @var string
      *
-     * @ORM\Column(name="accion", type="string", length=50, nullable=false)
+     * @ORM\Column(name="accion", type="text", nullable=false)
      */
     private $accion;
 
@@ -45,8 +45,9 @@ class Bitacora
      */
     private $idusuario;
 
-
-
+    public function __construct() {
+        $this->fechayhora = new \DateTime('NOW', new \DateTimeZone('America/El_Salvador'));
+    }
     /**
      * Get idaccion
      *

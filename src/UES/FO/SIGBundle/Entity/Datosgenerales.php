@@ -29,9 +29,9 @@ class Datosgenerales
     private $edadregistro;
 
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="genero", type="string", length=1, nullable=false)
+     * @ORM\Column(name="genero", type="integer", nullable=false)
      */
     private $genero;
 
@@ -87,7 +87,7 @@ class Datosgenerales
     /**
      * Set genero
      *
-     * @param string $genero
+     * @param integer $genero
      * @return Datosgenerales
      */
     public function setGenero($genero)
@@ -100,7 +100,7 @@ class Datosgenerales
     /**
      * Get genero
      *
-     * @return string 
+     * @return integer 
      */
     public function getGenero()
     {

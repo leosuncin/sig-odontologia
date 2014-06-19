@@ -1,31 +1,24 @@
-{% extends 'SIGBundle:Usuario:index.html.twig' %}
-
+{% extends 'SIGBundle:Default:index.html.twig' %}
+{% import 'SIGBundle::macros.html.twig' as util %}
 {% block content %}
 <h1>{{ title }}</h1>
-{{ form(edit_form, { 'style': 'horizontal' }) }}
-<a class="btn btn-default" id="usario_actions_regresar" href="{{ path('usuario_show', { 'username':edit_form.vars.value.username }) }}">Regresar</a>
+{{ form(edit_form) }}
+<a class="btn btn-default" id="usario_edit_actions_regresar" href="{{ path('usuario_show', { 'username': edit_form.vars.value.username }) }}">Regresar</a>
 {% if is_granted('ROLE_OPERATIVE') and app.user.username != edit_form.vars.value.username %}
     {{ util.modal('modal-confirm-del', 'sm', 'Confirmar eliminación', '¿Desea eliminar al usuario?<br />La operación no se puede revertir') }}
 {% endif %}
-{{ util.modal('modal-confirm-pwd', '', 'Cambiar contraseña', '') }}
+{{ util.modal('modal-confirm-pwd', 'lg', 'Cambiar contraseña') }}
 {% endblock %}
 
 {% block javascript %}
 <script>
     require([
-        '../bundles/sig/js/util/dom_usuario',
-        '../bundles/sig/js/util/listener_usuario',
-        '../bundles/sig/js/validator/validadores',
-        '../bundles/sig/js/util/toys'
-        ], function(dom, listener, validador, toys){
-        dom.actualizar();
-        validador.actualizar('form[name="usuario"]');
-        listener.eliminarUsuario(Routing.generate('usuario_delete', {'username':'{{ edit_form.vars.value.username }}'}));
-        listener.passwordUsuario(Routing.generate('usuario_pwd', { 'username': '{{ edit_form.vars.value.username }}' }), Routing.generate('usuario_pwd_update', { 'username': '{{ edit_form.vars.value.username }}' }));
-        toys.bootswitch('#usuario_enabled');
-        toys.bootswitch('#usuario_locked');
-        toys.strengthPwd('#form_old_password');
-
+        '../bundles/sig/js/usuario_edit',
+        '../bundles/sig/js/util/listener_usuario_del',
+        '../bundles/sig/js/util/listener_usuario_pwd'
+    ], function(usuario_edit, usuario_del, usuario_pwd) {
+        usuario_del('#modal-confirm-del', Routing.generate('usuario_delete', {'username':'{{ edit_form.vars.value.username }}'}));
+        usuario_pwd('#modal-confirm-pwd', Routing.generate('usuario_pwd', { 'username': '{{ edit_form.vars.value.username }}' }), Routing.generate('usuario_pwd_update', { 'username': '{{ edit_form.vars.value.username }}' }));
     });
 </script>
 {% endblock %}
