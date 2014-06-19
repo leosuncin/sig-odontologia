@@ -1,41 +1,42 @@
 {% extends "SIGBundle::reporteMaestro.pdf.twig" %}
 {% block contenido %}
-<p text-align="center">Desde {{ util.fecha(fecha_inicio) }} hasta el {{ util.fecha(fecha_fin) }}</p>
-<h2 text-align="center">Estadios de Nolla --- Autor {{autor}}</h2>
+<h2 text-align="center">Estadios de Nolla </h2>
+<p text-align="center">Desde <b> {{ util.fecha(fecha_inicio) }} </b> hasta el <b> {{ util.fecha(fecha_fin) }} </b></p>
 <br />
 <br />
 <br />
 <br />
 <br />
 <br />
-	<p text-align="center"> Cantidad de Ninas por Edades </p>
-	<br />
-	<table style="border-color: white; font-size:14px;" text-align="center">
-		<tr style="background-color:#63A1D3; border-color: white;  ">
-			<td style="border-color: white; " >estadioCero</td>
-			<td style="border-color: white; ">estadioUno</td>
-			<td style="border-color: white; ">estadioDos</td>
-			<td style="border-color: white; ">estadioTres</td>
-			<td style="border-color: white; ">estadioCuatro</td>
-			<td style="border-color: white; ">estadioCinco</td>
-			<td style="border-color: white; ">estadioSeis</td>
-			<td style="border-color: white; ">estadioSiete</td>
-			<td style="border-color: white; ">estadioOcho</td>
-			<td style="border-color: white; ">estadioNueve</td>
-			<td style="border-color: white; ">estadioDiez</td>
+	<table width="100%" text-align="center" style="border-color: white; font-size:14px;">
+		<tr style="background-color:white; border-color: black;  ">
+			<td colspan="11" style="border-color: black; "><p text-align="center"><b>Estadios de Nolla que tienen mayor frecuencia de la pieza seleccionada.</b></p></td>
 		</tr>
-		<tr style="background-color:#C5D1DB; border-color: white;">
-			<td style="border-color: white; ">{{ cero }}</td>
-			<td style="border-color: white; ">{{ uno }}</td>
-			<td style="border-color: white; ">{{ dos }}</td>
-			<td style="border-color: white; ">{{ tres }}</td>
-			<td style="border-color: white; ">{{ cuatro }}</td>
-			<td style="border-color: white; ">{{ cinco }}</td>
-			<td style="border-color: white; ">{{ seis }}</td>
-			<td style="border-color: white; ">{{ siete }}</td>
-			<td style="border-color: white; ">{{ ocho }}</td>
-			<td style="border-color: white; ">{{ nueve }}</td>
-			<td style="border-color: white; ">{{ diez }}</td>
+		<tr style="background-color: white; ">
+			<td style="border-color: black; "><p text-align="center">Cero</p></td>
+			<td style="border-color: black; "><p text-align="center">Uno</p></td>
+			<td style="border-color: black; "><p text-align="center">Dos</p></td>
+			<td style="border-color: black; "><p text-align="center">Tres</p></td>
+			<td style="border-color: black; "><p text-align="center">Cuatro</p></td>
+			<td style="border-color: black; "><p text-align="center">Cinco</p></td>
+			<td style="border-color: black; "><p text-align="center">Seis</p></td>
+			<td style="border-color: black; "><p text-align="center">Siete</p></td>
+			<td style="border-color: black; "><p text-align="center">Ocho</p></td>
+			<td style="border-color: black; "><p text-align="center">Nueve</p></td>
+			<td style="border-color: black; "><p text-align="center">Diez</p></td>
+		</tr>
+		<tr style="background-color: white;">
+			<td style="border-color: black; "><p text-align="center">{{ cero }}</p></td>
+			<td style="border-color: black; "><p text-align="center">{{ uno }}</p></td>
+			<td style="border-color: black; "><p text-align="center">{{ dos }}</p></td>
+			<td style="border-color: black; "><p text-align="center">{{ tres }}</p></td>
+			<td style="border-color: black; "><p text-align="center">{{ cuatro }}</p></td>
+			<td style="border-color: black; "><p text-align="center">{{ cinco }}</p></td>
+			<td style="border-color: black; "><p text-align="center">{{ seis }}</p></td>
+			<td style="border-color: black; "><p text-align="center">{{ siete }}</p></td>
+			<td style="border-color: black; "><p text-align="center">{{ ocho }}</p></td>
+			<td style="border-color: black; "><p text-align="center">{{ nueve }}</p></td>
+			<td style="border-color: black; "><p text-align="center">{{ diez }}</p></td>
 		</tr>
 	</table>
 {% endblock %}

@@ -701,11 +701,11 @@ public function validateLineasMediasAction(Request $request)
         }
         /*Es Nina, nino o ambos?*/
         if($sexo==0)
-            $mensaje = "Ninos y Ninas";
+            $mensaje = "Niños y Niñas";
         else if($sexo==1)
-            $mensaje = "Ninos";
+            $mensaje = "Niños";
         else
-            $mensaje = "Ninas";
+            $mensaje = "Niñas";
 
         $pdo_fecha_inicio = $fecha_inicio->format('Y-m-d');
         $pdo_fecha_fin = $fecha_fin->format('Y-m-d');
@@ -744,7 +744,9 @@ public function validateLineasMediasAction(Request $request)
             'cant11anios'  => $result[0]['@totalx11'],
             'cant11nina'  => $result[0]['@totalx11nina'],
             'cant12anios'  => $result[0]['@totalx12'],
-            'cant12nina'  => $result[0]['@totalx12nina']
+            'cant12nina'  => $result[0]['@totalx12nina'],
+            'mmh'  => $milihorizontal,
+            'mmv' => $milivertical
         );
     }
 
@@ -856,11 +858,11 @@ public function validateLineasMediasAction(Request $request)
         }
         /*Es Nina, nino o ambos?*/
         if($sexo==0)
-            $mensaje = "Ninos y Ninas";
+            $mensaje = "Niños y Niñas";
         else if($sexo==1)
-            $mensaje = "Ninos";
+            $mensaje = "Niños";
         else
-            $mensaje = "Ninas";
+            $mensaje = "Niñas";
 
         $pdo_fecha_inicio = $fecha_inicio->format('Y-m-d');
         $pdo_fecha_fin = $fecha_fin->format('Y-m-d');
@@ -901,7 +903,11 @@ public function validateLineasMediasAction(Request $request)
             'cant11anios'  => $result[0]['@totalx11'],
             'cant11nina'  => $result[0]['@totalx11nina'],
             'cant12anios'  => $result[0]['@totalx12'],
-            'cant12nina'  => $result[0]['@totalx12nina']
+            'cant12nina'  => $result[0]['@totalx12nina'],
+            'cuadsup' => $cuadrantesup,
+            'pzsup' => $piezasup,
+            'cuadinf' => $cuadranteinf,
+            'pzinf' => $piezainf
         );
     }
 
@@ -922,6 +928,8 @@ public function validateLineasMediasAction(Request $request)
                 'attr' => array('col_size' => 'xs')// el tamaño mínimo del dispositivo
             ));
         // enviar variables a la vista para ser mostrada
+        $bitacora = $this->get('bitacora');
+        $bitacora->actividad('Mostrar generacion Estadios de Nolla');
         return array('title' => 'Reporte de Estadios de Nolla', 'form'=> $form->createView());
     }
 
