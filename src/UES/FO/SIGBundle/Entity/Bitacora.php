@@ -24,7 +24,7 @@ class Bitacora
     /**
      * @var string
      *
-     * @ORM\Column(name="accion", type="string", length=200, nullable=false)
+     * @ORM\Column(name="accion", type="text", nullable=false)
      */
     private $accion;
 
