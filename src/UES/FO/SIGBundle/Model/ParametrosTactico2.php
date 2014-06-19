@@ -93,18 +93,9 @@ class ParametrosTactico2
      * 
      * @var int
      *
-     * @Assert\Choice(choices = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19}, message = "La pieza Con Estadio de Nolla a Buscar")
+     * @Assert\Choice(choices = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,20,21,22,23,24,25,26,27,28,29,30,31,32}, message = "La pieza Con Estadio de Nolla a Buscar")
      */
     private $pieza_estadios;
-
-/**
-     * Los estadios de nolla de 0-10
-     * 
-     * @var int
-     *
-     * @Assert\Choice(choices = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, message = "Escoja numero de Estadio de Nolla a muestrear")
-     */
-    private $estadios;
 
 /**
      * set fecha_inicio
@@ -291,25 +282,6 @@ class ParametrosTactico2
     public function getPiezaInf()
     {
         return $this->piezainf;
-    }
-
-/**
-     * set estadios
-     * @param \int $estadios
-     */
-    public function setEstadio($estadios)
-    {
-        $this->estadios = $estadios;
-        return $this;
-    }
-
-/**
-     * get estadios
-     * @return \int
-     */
-    public function getEstadio()
-    {
-        return $this->estadios;
     }
 
 /**

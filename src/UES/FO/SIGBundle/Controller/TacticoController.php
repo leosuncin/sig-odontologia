@@ -174,6 +174,7 @@ public function validateEnfermedadesPadecidasAction(Request $request)
         $stmt->execute();// Ejecutar la consulta
         $stmt = $conn->query('SELECT @total4, @total5, @total6, @total7, @total8, @total9, @total10, @total11, @totalf4, @totalf5, @totalf6, @totalf7, @totalf8, @totalf9, @totalf10, @totalf11');
         $result = $stmt->fetchAll();// Obtener los valores del resultado
+        $this->get('bitacora')->actividad('Creo el reporte de Enfermedades Padecidas');
       
 
         return array(// Pasar las variables a la vista del reporte
@@ -360,7 +361,7 @@ public function validateEnfermedadesPadecidasAction(Request $request)
         $stmt->execute();// Ejecutar la consulta
         $stmt = $conn->query('SELECT @totalx4, @totalx5, @totalx6, @totalx7, @totalx8, @totalx9, @totalx10, @totalx11, @total2x4, @total2x5, @total2x6, @total2x7, @total2x8, @total2x9, @total2x10, @total2x11');
         $result = $stmt->fetchAll();// Obtener los valores del resultado
-
+        $this->get('bitacora')->actividad('Creo el reporte de Tipos de Perfil');
 
         return array(// Pasar las variables a la vista del reporte
             'titulo'       => "Reporte de Tipo de Perfil",
@@ -460,7 +461,7 @@ public function validateLineasMediasAction(Request $request)
         if ($ajax) {
             return new JsonResponse(json_encode(FormUtils::getFormErrors($form)), 400);// sí la petición es AJAX responder con JSON con los errores
         } else {
-            return array('title' => 'Reporte de lineas medias', 'form'=> $form->createView());// sí no mostrar de nuevo el formulario con los errores
+            return array('title' => 'Reporte de Lineas Medias a Facial', 'form'=> $form->createView());// sí no mostrar de nuevo el formulario con los errores
         }
     }
 
@@ -561,7 +562,7 @@ public function validateLineasMediasAction(Request $request)
         $stmt->execute();// Ejecutar la consulta
         $stmt = $conn->query('SELECT @totalx4, @totalx5, @totalx6, @totalx7, @totalx8, @totalx9, @totalx10, @totalx11, @total2x4, @total2x5, @total2x6, @total2x7, @total2x8, @total2x9, @total2x10, @total2x11');
         $result = $stmt->fetchAll();// Obtener los valores del resultado
-
+        $this->get('bitacora')->actividad('Creo el reporte de Lineas Medias Dentales a Facial');
         return array(// Pasar las variables a la vista del reporte
             'titulo'       => "Reporte de Lineas Medias",
             'autor'        => $this->getUser()->getNombreCompleto(),
@@ -955,8 +956,6 @@ public function validateLineasMediasAction(Request $request)
             $route = $this->generateUrl('pdf_viewer').'?file='.$this->generateUrl('reporte-estadios-nolla', array(
                     'fecha_inicio' => $data->getFechaInicio()->format('d-m-Y'),
                     'fecha_fin'    => $data->getFechaFin()->format('d-m-Y'),
-                    'sexo'         => $data->getSexo(),
-                    'estadio'      => $data->getEstadio(),
                     'pieza_estadio'=> $data->getPiezaEstadio(),
                     '_format'      =>'pdf'), true);
             if($ajax) {
@@ -973,17 +972,60 @@ public function validateLineasMediasAction(Request $request)
         }
     }
     /**
+     * Genera el reporte de estadios de nolla
+     *
      * @Route(
-     *     "/estadios-nolla.{_format}",
+     *     "/{fecha_inicio}/{fecha_fin}/{pieza_estadio}/reporteEstadiosNolla.{_format}",
      *     name="reporte-estadios-nolla",
-     *     options={"expose"=true}
-     * )
-     * @Method("POST")
+     *     requirements={
+     *         "fecha_inicio"="\d{2}-\d{2}-\d{4}",
+     *         "fecha_fin"="\d{2}-\d{2}-\d{4}",
+     *         "_format"="pdf|html",
+     *         "pieza_estadio"="1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|32"
+     * })
+     * @Method("GET")
      * @Template()
      * @Pdf()
      */
-    public function reporteEstadiosNollaAction($request)
+    public function reporteEstadiosNollaAction(\DateTime $fecha_inicio, \DateTime $fecha_fin, $pieza_estadio)
     {
+        $parametros = new ParametrosTactico2();
+        $parametros->setFechaInicio($fecha_inicio);
+        $parametros->setFechaFin($fecha_fin);
+        $parametros->setPiezaEstadio($pieza_estadio);
+        $errores = $this->get('validator')->validate($parametros);
+        if (count($errores) > 0) {
+            throw new BadRequestHttpException((string) $errores);
+        }
+
+        $pdo_fecha_inicio = $fecha_inicio->format('Y-m-d');
+        $pdo_fecha_fin = $fecha_fin->format('Y-m-d');
+        $conn = $this->getDoctrine()->getManager()->getConnection();
+        $stmt = $conn->prepare('CALL estadiosNolla2(:fecha_inicio,:fecha_fin,:pieza_estadio,@totalcero,@totaluno,@totaldos,@totaltres,@totalcuatro,@totalcinco,@totalseis,@totalsiete,@totalocho,@totalnueve,@totaldiez)');
+        $stmt->bindParam(':fecha_inicio', $pdo_fecha_inicio, \PDO::PARAM_STR);
+        $stmt->bindParam(':fecha_fin', $pdo_fecha_fin, \PDO::PARAM_STR);
+        $stmt->bindParam(':pieza_estadio', $pieza_estadio, \PDO::PARAM_INT);
+        $stmt->execute();
+        $stmt = $conn->query('SELECT @totalcero,@totaluno,@totaldos,@totaltres,@totalcuatro,@totalcinco,@totalseis,@totalsiete,@totalocho,@totalnueve,@totaldiez');
+        $result = $stmt->fetchAll();
+
+        return array(
+            'titulo'       => 'Reporte de estadios de Nolla',
+            'autor'        => $this->getUser()->getNombreCompleto(),
+            'fecha_inicio' => $fecha_inicio,
+            'fecha_fin'    => $fecha_fin,
+            'cero'  => $result[0]['@totalcero'],
+            'uno'  => $result[0]['@totaluno'],
+            'dos'  => $result[0]['@totaldos'],
+            'tres'  => $result[0]['@totaltres'],
+            'cuatro'  => $result[0]['@totalcuatro'],
+            'cinco'  => $result[0]['@totalcinco'],
+            'seis'  => $result[0]['@totalseis'],
+            'siete'  => $result[0]['@totalsiete'],
+            'ocho'  => $result[0]['@totalocho'],
+            'nueve'  => $result[0]['@totalnueve'],
+            'diez'  => $result[0]['@totaldiez']
+        );
     }
 
   private function getFormErrors(\Symfony\Component\Form\Form $form) {        
