@@ -33,12 +33,13 @@ class ParametrosTactico2
      * @Assert\Choice(choices = {0, 1, 2}, message = "Escoja un sexo valido")
      */
     private $sexo;
+
 /**
      * milimetros horizontales escogidos
      * 
      * @var int
      *
-     *@Assert\Choice(choices = {0, 1, 2, 3, 4}, message = "Escoja milimetros horizontales de sobremordida")
+     *@Assert\Choice(choices = {0, 1, 2, 3, 4, 5}, message = "Escoja milimetros horizontales de sobremordida")
      */
     private $milihorizontal;
 
@@ -47,27 +48,45 @@ class ParametrosTactico2
      * 
      * @var int
      *
-     *@Assert\Choice(choices = {0, 1, 2, 3, 4}, message = "Escoja milimetros verticales de sobremordida")
+     *@Assert\Choice(choices = {0, 1, 2, 3, 4, 5}, message = "Escoja milimetros verticales de sobremordida")
      */
     private $milivertical;
 
-    /**
-     * El cuadrante en mordidas cruzadas
+/**
+     * El cuadrante superior en mordidas cruzadas
      * 
      * @var int
      *
-     * @Assert\Choice(choices = {0, 1, 2, 3}, message = "Escoja cuadrantes de mordidas cruzadas")
+     * @Assert\Choice(choices = {5, 6}, message = "Escoja cuadrante superior de mordidas cruzadas")
      */
-    private $cuadrante;
+    private $cuadrantesup;
 
 /**
-     * La pieza en Mordidas Cruzadas
+     * El cuadrante superior en mordidas cruzadas
      * 
      * @var int
      *
-     * @Assert\Choice(choices = {0, 1, 2, 3, 4}, message = "Escoja las piezas en mordidas cruzadas")
+     * @Assert\Choice(choices = {7, 8}, message = "Escoja cuadrante inferior de mordidas cruzadas")
      */
-    private $pieza;
+    private $cuadranteinf;
+
+/**
+     * La pieza superior en Mordidas Cruzadas
+     * 
+     * @var int
+     *
+     * @Assert\Choice(choices = {1, 2, 3, 4, 5}, message = "Escoja las piezas en mordidas cruzadas")
+     */
+    private $piezasup;
+
+/**
+     * La pieza inferior en Mordidas Cruzadas
+     * 
+     * @var int
+     *
+     * @Assert\Choice(choices = {1, 2, 3, 4, 5}, message = "Escoja las piezas en mordidas cruzadas")
+     */
+    private $piezainf;
 
 /**
      * Los estadios de nolla de 0-10
@@ -180,7 +199,7 @@ class ParametrosTactico2
     }
 
 /**
-     * set perfil
+     * set miliVertical
      * @param \int $milivertical
      */
     public function setMiliVertical($milivertical)
@@ -199,31 +218,50 @@ class ParametrosTactico2
     }
 
 /**
-     * set cuadrante
-     * @param \int $cuadrante
+     * set cuadrante superior
+     * @param \int $cuadrante_superior
      */
-    public function setCuadrante($cuadrante)
+    public function setCuadranteSup($cuadrantesup)
     {
-        $this->cuadrante = $cuadrante;
+        $this->cuadrantesup = $cuadrantesup;
         return $this;
     }
 
 /**
-     * get cuadrante
+     * get cuadrante superior
      * @return \int
      */
-    public function getCuadrante()
+    public function getCuadranteSup()
     {
-        return $this->cuadrante;
+        return $this->cuadrantesup;
+    }
+
+/**
+     * set cuadrante inferior
+     * @param \int $cuadrante_inferior
+     */
+    public function setCuadranteInf($cuadranteinf)
+    {
+        $this->cuadranteinf = $cuadranteinf;
+        return $this;
+    }
+
+/**
+     * get cuadrante inferior
+     * @return \int
+     */
+    public function getCuadranteInf()
+    {
+        return $this->cuadranteinf;
     }
 
 /**
      * set pieza
      * @param \int $pieza
-     */
-    public function setPieza($pieza)
+     *//*Asi seria va*//*Si asi seria */
+    public function setPiezaSup($piezasup)/*Aqui es la regada creo*//*El metodo no se llama setPiezeSuperior*/
     {
-        $this->pieza = $pieza;
+        $this->piezasup = $piezasup;
         return $this;
     }
 
@@ -231,9 +269,28 @@ class ParametrosTactico2
      * get pieza
      * @return \int
      */
-    public function getPieza()
+    public function getPiezaSup()
     {
-        return $this->pieza;
+        return $this->piezasup;
+    }
+
+/**
+     * set pieza inferior
+     * @param \int $pieza_inferior
+     */
+    public function setPiezaInf($piezainf)
+    {
+        $this->piezainf = $piezainf;
+        return $this;
+    }
+
+/**
+     * get pieza_inferior
+     * @return \int
+     */
+    public function getPiezaInf()
+    {
+        return $this->piezainf;
     }
 
 /**

@@ -1,5 +1,5 @@
-{% extends 'SIGBundle:Usuario:index.html.twig' %}
-{% import _self as util %}
+{% extends 'SIGBundle:Default:index.html.twig' %}
+{% import 'SIGBundle::macros.html.twig' as util %}
 {% block content %}
 <h1>{{ title }}</h1>
 <div class="row">
@@ -18,16 +18,16 @@
     <span class="col-xs-4">Nivel</span>
     <span class="col-xs-8">{% for rol in entity.role %}{{ util.getNivel(rol) }}{% endfor %}</span>
 </div>
-    {% if is_granted('ROLE_OPERATIVE') %}
-<div class="row">
-    <span class="col-xs-4">Habilitado</span>
-    <span class="col-xs-8">{{ util.estado(entity.enabled) }}</span>
-</div>
-<div class="row">
-    <span class="col-xs-4">Bloqueado</span>
-    <span class="col-xs-8">{{ util.estado(entity.locked) }}</span>
-</div>
-    {% endif %}
+{% if is_granted('ROLE_OPERATIVE') %}
+    <div class="row">
+        <span class="col-xs-4">Habilitado</span>
+        <span class="col-xs-8">{{ util.estado(entity.enabled) }}</span>
+    </div>
+    <div class="row">
+        <span class="col-xs-4">Bloqueado</span>
+        <span class="col-xs-8">{{ util.estado(entity.locked) }}</span>
+    </div>
+{% endif %}
 <div class="form-actions">
     <a class="btn btn-primary" href="{{ path('usuario_edit', { 'username': entity.username }) }}">Modificar</a>
     {% if is_granted('ROLE_OPERATIVE') and app.user.username != entity.username %}
@@ -36,17 +36,17 @@
     {% endif %}
     <button type="button" id="usuario_pwd" class="btn btn-info" data-target="#modal-confirm-pwd" data-toggle="modal">Cambiar contraseña</button>
     {% if is_granted('ROLE_OPERATIVE') %}
-    <a class="btn btn-default" href="{{ path('usuario_index') }}">Regresar</a>
+        <a class="btn btn-default" href="{{ path('usuario_index') }}">Regresar</a>
     {% endif %}
 </div>
-{{ util.modal('modal-confirm-pwd', '', 'Cambiar contraseña', '') }}
+{{ util.modal('modal-confirm-pwd', 'lg', 'Cambiar contraseña', '') }}
 {% endblock %}
 
 {% block javascript %}
 <script>
-    require(['../bundles/sig/js/util/listener_usuario'], function(listener) {
-        listener.eliminarUsuario(Routing.generate('usuario_delete', {'username':'{{ entity.username }}'}));
-        listener.passwordUsuario(Routing.generate('usuario_pwd', { 'username': '{{ entity.username }}' }), Routing.generate('usuario_pwd_update', { 'username': '{{ entity.username }}' }));
+    require(['../bundles/sig/js/util/listener_usuario_del', '../bundles/sig/js/util/listener_usuario_pwd'], function(usuario_del, usuario_pwd) {
+        usuario_del('#modal-confirm-del', Routing.generate('usuario_delete', {'username':'{{ entity.username }}'}));
+        usuario_pwd('#modal-confirm-pwd', Routing.generate('usuario_pwd', { 'username': '{{ entity.username }}' }), Routing.generate('usuario_pwd_update', { 'username': '{{ entity.username }}' }));
     });
 </script>
 {% endblock %}

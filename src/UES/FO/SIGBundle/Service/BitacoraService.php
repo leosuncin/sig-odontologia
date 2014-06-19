@@ -3,14 +3,14 @@
 namespace UES\FO\SIGBundle\Service;
 
 use Doctrine\ORM\EntityManager;
-use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use Symfony\Component\Security\Core\SecurityContextInterface;
 use UES\FO\SIGBundle\Entity\Bitacora;
 
 class BitacoraService {
     private $em;
     private $user;
 
-    public function __construct(EntityManager $em, $context)
+    public function __construct(EntityManager $em, SecurityContextInterface $context)
     {
         $this->em = $em;
         $usuario = $context->getToken()->getUser();
@@ -22,7 +22,6 @@ class BitacoraService {
     {
         $actividad = new Bitacora();
         $actividad->setAccion($message)
-            ->setFechayhora(new \DateTime('NOW', new \DateTimeZone('America/El_Salvador')))
             ->setIdusuario($this->user);
         $this->em->persist($actividad);
         $this->em->flush();

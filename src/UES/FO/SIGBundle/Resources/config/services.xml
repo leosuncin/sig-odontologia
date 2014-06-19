@@ -5,11 +5,32 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
+        <parameter key="usuario_new.class">UES\FO\SIGBundle\Form\UsuarioType</parameter>
+        <parameter key="usuario_edit.class">UES\FO\SIGBundle\Form\UsuarioEditType</parameter>
+        <parameter key="usuario_edit_simple.class">UES\FO\SIGBundle\Form\UsuarioEdit2Type</parameter>
+        <parameter key="usuario_pwd.class">UES\FO\SIGBundle\Form\UsuarioPwdType</parameter>
+        <parameter key="recover_type.class">UES\FO\SIGBundle\Form\RecoverType</parameter>
         <parameter key="periodo_validator.class">UES\FO\SIGBundle\Validator\PeriodoValidator</parameter>
         <parameter key="bitacora.class">UES\FO\SIGBundle\Service\BitacoraService</parameter>
     </parameters>
 
     <services>
+		<service id="usuario_new" class="%usuario_new.class%">
+            <tag name="form.type" alias="usuario_new" />
+        </service>
+        <service id="usuario_edit" class="%usuario_edit.class%">
+            <tag name="form.type" alias="usuario_edit" />
+        </service>
+        <service id="usuario_dit_simple" class="%usuario_edit_simple.class%">
+            <tag name="form.type" alias="usuario_edit_simple" />
+        </service>
+        <service id="usuario_pwd" class="%usuario_pwd.class%">
+            <tag name="form.type" alias="usuario_pwd" />
+        </service>
+        <service id="recover_type" class="%recover_type.class%">
+            <argument type="service" id="doctrine.orm.default_entity_manager" />
+            <tag name="form.type" alias="recover_type" />
+        </service>
         <service id="periodo_validator" class="%periodo_validator.class%">
             <argument type="service" id="doctrine.orm.default_entity_manager" />
             <tag name="validator.constraint_validator" alias="periodo_validator" />

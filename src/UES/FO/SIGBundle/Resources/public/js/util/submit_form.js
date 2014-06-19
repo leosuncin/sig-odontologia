@@ -1,4 +1,5 @@
 define(['bootstrap', './errors_form'], function($, form) {
+    'use strict';
     var btn = $('button[type="submit"]');
     var preview = $('#preview-report');
 

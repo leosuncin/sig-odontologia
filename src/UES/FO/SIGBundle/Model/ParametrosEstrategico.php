@@ -13,6 +13,7 @@ class ParametrosEstrategico
      *
      * @var \DateTime
      *
+     * @Assert\NotNull(message = "Debe escribir una fecha")
      * @Assert\NotBlank(message = "El campo no puede quedar vacio")
      * @Assert\Date(message = "Ingrese una fecha valida")
      * @SigAssert\FechaInicio
@@ -24,6 +25,7 @@ class ParametrosEstrategico
      *
      * @var \DateTime
      *
+     * @Assert\NotNull(message = "Debe escribir una fecha")
      * @Assert\NotBlank(message = "El campo no puede quedar vacio")
      * @Assert\Date(message = "Ingrese una fecha valida")
      * @SigAssert\FechaFin
