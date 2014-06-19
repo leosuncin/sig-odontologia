@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new Ps\PdfBundle\PsPdfBundle(),
             new Gregwar\CaptchaBundle\GregwarCaptchaBundle(),
             new UES\FO\SIGBundle\SIGBundle(),
+            new ENC\Bundle\BackupRestoreBundle\BackupRestoreBundle()
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
