@@ -194,7 +194,7 @@ class EstrategicoController extends Controller
         $years = $edad;
     }
 
-    $log = 'Generacón del reporte de relaciones sagitales, parametros: fecha inicio: '.$pdo_fecha_inicio.' fecha fin: '.$pdo_fecha_fin.' edad: '.$years.' sexo: '.$sex;
+    $log = 'Generación del reporte de relaciones sagitales, parametros: fecha inicio: '.$pdo_fecha_inicio.' fecha fin: '.$pdo_fecha_fin.' edad: '.$years.' sexo: '.$sex;
     $this->get('bitacora')->actividad($log);
     //******************* Registro de actividad ******************
      return array(
@@ -346,7 +346,7 @@ class EstrategicoController extends Controller
             $years = $edad;
         }
 
-        $log = 'Generacón del reporte de Cantidad de Citas, parametros: fecha inicio: '.$pdo_fecha_inicio.' fecha fin: '.$pdo_fecha_fin.' edad: '.$years.' sexo: '.$sex;
+        $log = 'Generación del reporte de Cantidad de Citas, parametros: fecha inicio: '.$pdo_fecha_inicio.' fecha fin: '.$pdo_fecha_fin.' edad: '.$years.' sexo: '.$sex;
         $this->get('bitacora')->actividad($log);
         //******************* Registro de actividad ******************
 
