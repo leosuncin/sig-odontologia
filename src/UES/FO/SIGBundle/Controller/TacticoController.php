@@ -174,6 +174,7 @@ public function validateEnfermedadesPadecidasAction(Request $request)
         $stmt->execute();// Ejecutar la consulta
         $stmt = $conn->query('SELECT @total4, @total5, @total6, @total7, @total8, @total9, @total10, @total11, @totalf4, @totalf5, @totalf6, @totalf7, @totalf8, @totalf9, @totalf10, @totalf11');
         $result = $stmt->fetchAll();// Obtener los valores del resultado
+        $this->get('bitacora')->actividad('Creo el reporte de Enfermedades Padecidas');
       
 
         return array(// Pasar las variables a la vista del reporte
@@ -360,7 +361,7 @@ public function validateEnfermedadesPadecidasAction(Request $request)
         $stmt->execute();// Ejecutar la consulta
         $stmt = $conn->query('SELECT @totalx4, @totalx5, @totalx6, @totalx7, @totalx8, @totalx9, @totalx10, @totalx11, @total2x4, @total2x5, @total2x6, @total2x7, @total2x8, @total2x9, @total2x10, @total2x11');
         $result = $stmt->fetchAll();// Obtener los valores del resultado
-
+        $this->get('bitacora')->actividad('Creo el reporte de Tipos de Perfil');
 
         return array(// Pasar las variables a la vista del reporte
             'titulo'       => "Reporte de Tipo de Perfil",
@@ -460,7 +461,7 @@ public function validateLineasMediasAction(Request $request)
         if ($ajax) {
             return new JsonResponse(json_encode(FormUtils::getFormErrors($form)), 400);// sí la petición es AJAX responder con JSON con los errores
         } else {
-            return array('title' => 'Reporte de lineas medias', 'form'=> $form->createView());// sí no mostrar de nuevo el formulario con los errores
+            return array('title' => 'Reporte de Lineas Medias a Facial', 'form'=> $form->createView());// sí no mostrar de nuevo el formulario con los errores
         }
     }
 
@@ -561,7 +562,7 @@ public function validateLineasMediasAction(Request $request)
         $stmt->execute();// Ejecutar la consulta
         $stmt = $conn->query('SELECT @totalx4, @totalx5, @totalx6, @totalx7, @totalx8, @totalx9, @totalx10, @totalx11, @total2x4, @total2x5, @total2x6, @total2x7, @total2x8, @total2x9, @total2x10, @total2x11');
         $result = $stmt->fetchAll();// Obtener los valores del resultado
-
+        $this->get('bitacora')->actividad('Creo el reporte de Lineas Medias Dentales a Facial');
         return array(// Pasar las variables a la vista del reporte
             'titulo'       => "Reporte de Lineas Medias",
             'autor'        => $this->getUser()->getNombreCompleto(),
