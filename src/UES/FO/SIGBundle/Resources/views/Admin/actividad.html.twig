@@ -1,5 +1,31 @@
 {% extends "SIGBundle:Default:index.html.twig" %}
 
 {% block content %}
-<h1>Welcome to the Admin:actividad page</h1>
+<h1>{{ title }}</h1>
+<div class="table-responsive">
+    <table class="table striped">
+        <thead>
+            <tr>
+                <th>Acción</th>
+                <th>Nombre de usuario</th>
+                <th>Fecha y hora</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entity in entities %}
+            <tr>
+                <td>{{ entity.accion }}</td>
+                <td>{{ entity.idusuario }}</td>
+                <td>{{ entity.fechayhora|date('d/m/y h:m') }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% if index <= 0 %}
+    <a href="{{ path('actividad-sistema', {'index': index+10} ) }}"><i class="glyphicon glyphicon-arrow-right"></i> Siguiente</a>
+{% else %}
+    <a href="{{ path('actividad-sistema', {'index': index-10} ) }}"><i class="glyphicon glyphicon-arrow-left"></i>Anterior</a>
+    <a href="{{ path('actividad-sistema', {'index': index+10} ) }}"><i class="glyphicon glyphicon-arrow-right"></i>Siguiente</a>
+{% endif %}
 {% endblock %}
