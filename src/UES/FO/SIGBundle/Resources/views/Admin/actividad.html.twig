@@ -7,7 +7,7 @@
         <thead>
             <tr>
                 <th>Acción</th>
-                <th>Nombre de usuario</th>
+                <th>Usuario</th>
                 <th>Fecha y hora</th>
             </tr>
         </thead>
@@ -15,17 +15,21 @@
             {% for entity in entities %}
             <tr>
                 <td>{{ entity.accion }}</td>
-                <td>{{ entity.idusuario }}</td>
-                <td>{{ entity.fechayhora|date('d/m/y h:m') }}</td>
+                <td><a href="{{ path('usuario_show', { 'username': entity.idusuario.username }) }}" data-toggle="tooltip" title="{{ entity.idusuario }}">{{ entity.idusuario.username }}</a></td>
+                <td>{{ entity.fechayhora|date('d/m/Y H:m:s') }}</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
 </div>
-{% if index <= 0 %}
-    <a href="{{ path('actividad-sistema', {'index': index+10} ) }}"><i class="glyphicon glyphicon-arrow-right"></i> Siguiente</a>
-{% else %}
-    <a href="{{ path('actividad-sistema', {'index': index-10} ) }}"><i class="glyphicon glyphicon-arrow-left"></i>Anterior</a>
-    <a href="{{ path('actividad-sistema', {'index': index+10} ) }}"><i class="glyphicon glyphicon-arrow-right"></i>Siguiente</a>
-{% endif %}
+<ul class="pager">
+    {% if index <= 0 %}
+        <li class="next"><a href="{{ path('actividad-sistema', {'index': index + 10} ) }}">Siguiente <i class="glyphicon glyphicon-arrow-right"></i></a></li>
+    {% else %}
+        <li class="previous"><a href="{{ path('actividad-sistema', {'index': index - 10} ) }}"><i class="glyphicon glyphicon-arrow-left"></i> Anterior</a></li>
+        {% if entities|length > 9 %}
+            <li class="next"><a href="{{ path('actividad-sistema', {'index': index + 10} ) }}">Siguiente <i class="glyphicon glyphicon-arrow-right"></i></a></li>
+        {% endif %}
+    {% endif %}
+</ul>
 {% endblock %}

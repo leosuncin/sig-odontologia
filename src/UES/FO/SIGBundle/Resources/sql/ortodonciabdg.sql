@@ -984,6 +984,3 @@ INSERT INTO `ortodonciabdg`.`catalogoenfermedades` (`idenfermedad`, `nombreenfer
 
 COMMIT;
 
-ALTER TABLE `usuario` ADD COLUMN `recover` BOOLEAN;
-ALTER TABLE `bitacora` CHANGE COLUMN `accion` `accion` TEXT NOT NULL;
-
