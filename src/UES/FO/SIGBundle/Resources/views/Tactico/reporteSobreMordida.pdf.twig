@@ -1,15 +1,11 @@
 {% extends "SIGBundle::reporteMaestro.pdf.twig" %}
 
 {% block contenido %}
-<h2 text-align="center">Sobre Mordidas</h2>
+<h2 text-align="center">Sobre Mordidas de {{ mensaje }} </h2>
 <p text-align="center">Desde <b> {{ util.fecha(fecha_inicio) }} </b> hasta el <b> {{ util.fecha(fecha_fin) }} </b></p>
 <br />
 <br />
 <br />
-<br />
-<br />
-<br />
-<h3> Sexo Escogido:  {{ mensaje }}  </h3>
 <br />
 <br />
 <br />
@@ -52,6 +48,8 @@
 	<br />
 	<br />
 	<br />
+	<br />
+	<br />
 	<table width="100%" text-align="center" style="border-color: white; font-size:14px;">
 		<tr style="background-color:white; border-color: black;  ">
 			<td colspan="9" style="border-color: black; "><p text-align="center"><b>Cantidad de niñas con {{mmh}} mm Horizontales
@@ -80,6 +78,10 @@
 			<td style="border-color: black; "><p text-align="center">{{ cant12nina }}</p></td>
 		</tr>
 	</table>
+	<br />
+	<br />
+	<br />
+	<h3> Total de {{mensaje}}:   {{cant4anios + cant5anios + cant6anios + cant7anios + cant8anios + cant9anios + cant10anios + cant11anios + cant12anios + cant4nina + cant5nina + cant6nina + cant7nina + cant8nina + cant9nina + cant10nina + cant11nina + cant12nina}} </h3>
 {% endif %}
 
 {% if sexo == 1 %}
@@ -111,6 +113,7 @@
 			<td style="border-color: black; "><p text-align="center">{{ cant12anios }}</p></td>
 		</tr>
 	</table>
+	<h3> Total de {{mensaje}}:   {{cant4anios + cant5anios + cant6anios + cant7anios + cant8anios + cant9anios + cant10anios + cant11anios + cant12anios}} </h3>
 {% endif %}
 
 {% if sexo == 2 %}
@@ -142,5 +145,6 @@
 			<td style="border-color: black; "><p text-align="center">{{ cant12anios }}</p></td>
 		</tr>
 	</table>
+	<h3> Total de {{mensaje}}:   {{cant4anios + cant5anios + cant6anios + cant7anios + cant8anios + cant9anios + cant10anios + cant11anios + cant12anios}} </h3>
 {% endif %}
 {% endblock %}

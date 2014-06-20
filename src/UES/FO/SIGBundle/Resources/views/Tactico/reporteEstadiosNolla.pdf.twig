@@ -1,16 +1,19 @@
 {% extends "SIGBundle::reporteMaestro.pdf.twig" %}
 {% block contenido %}
-<h2 text-align="center">Estadios de Nolla </h2>
+<h2 text-align="center">Estadios de Nolla de la pieza {{pz}}</h2>
 <p text-align="center">Desde <b> {{ util.fecha(fecha_inicio) }} </b> hasta el <b> {{ util.fecha(fecha_fin) }} </b></p>
 <br />
 <br />
 <br />
 <br />
 <br />
+<h3 text-align="center">Frecuencia de pacientes por cada Estadio de Nolla (de cero a diez) en la pieza {{pz}}</h3>
+<br />
+<br />
 <br />
 	<table width="100%" text-align="center" style="border-color: white; font-size:14px;">
 		<tr style="background-color:white; border-color: black;  ">
-			<td colspan="11" style="border-color: black; "><p text-align="center"><b>Estadios de Nolla que tienen mayor frecuencia de la pieza seleccionada.</b></p></td>
+			<td colspan="11" style="border-color: black; "><p text-align="center"><b>Estadios de Nolla (Cero -- Diez)</b></p></td>
 		</tr>
 		<tr style="background-color: white; ">
 			<td style="border-color: black; "><p text-align="center">Cero</p></td>

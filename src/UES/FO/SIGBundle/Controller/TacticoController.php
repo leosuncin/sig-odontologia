@@ -1005,7 +1005,70 @@ public function validateLineasMediasAction(Request $request)
         if (count($errores) > 0) {
             throw new BadRequestHttpException((string) $errores);
         }
-
+        if($pieza_estadio==1)
+            $pz="1-1";
+        if($pieza_estadio==2)
+            $pz="1-2";
+        if($pieza_estadio==3)
+            $pz="1-3";
+        if($pieza_estadio==4)
+            $pz="1-4";
+        if($pieza_estadio==5)
+            $pz="1-5";
+        if($pieza_estadio==6)
+            $pz="1-6";
+        if($pieza_estadio==7)
+            $pz="1-7";
+        if($pieza_estadio==8)
+            $pz="1-8";
+        if($pieza_estadio==9)
+            $pz="2-1";
+        if($pieza_estadio==10)
+            $pz="2-2";
+        if($pieza_estadio==11)
+            $pz="2-3";
+        if($pieza_estadio==12)
+            $pz="2-4";
+        if($pieza_estadio==13)
+            $pz="2-5";
+        if($pieza_estadio==14)
+            $pz="2-6";
+        if($pieza_estadio==15)
+            $pz="2-7";
+        if($pieza_estadio==16)
+            $pz="2-8";
+        if($pieza_estadio==17)
+            $pz="3-1";
+        if($pieza_estadio==18)
+            $pz="3-2";
+        if($pieza_estadio==19)
+            $pz="3-3";
+        if($pieza_estadio==20)
+            $pz="3-4";
+        if($pieza_estadio==21)
+            $pz="3-5";
+        if($pieza_estadio==22)
+            $pz="3-6";
+        if($pieza_estadio==23)
+            $pz="3-7";
+        if($pieza_estadio==24)
+            $pz="3-8";
+        if($pieza_estadio==25)
+            $pz="4-1";
+        if($pieza_estadio==26)
+            $pz="4-2";
+        if($pieza_estadio==27)
+            $pz="4-3";
+        if($pieza_estadio==28)
+            $pz="4-4";
+        if($pieza_estadio==29)
+            $pz="4-5";
+        if($pieza_estadio==30)
+            $pz="4-6";
+        if($pieza_estadio==31)
+            $pz="4-7";
+        if($pieza_estadio==32)
+            $pz="4-8";
         $pdo_fecha_inicio = $fecha_inicio->format('Y-m-d');
         $pdo_fecha_fin = $fecha_fin->format('Y-m-d');
         $conn = $this->getDoctrine()->getManager()->getConnection();
@@ -1032,7 +1095,8 @@ public function validateLineasMediasAction(Request $request)
             'siete'  => $result[0]['@totalsiete'],
             'ocho'  => $result[0]['@totalocho'],
             'nueve'  => $result[0]['@totalnueve'],
-            'diez'  => $result[0]['@totaldiez']
+            'diez'  => $result[0]['@totaldiez'],
+            'pz' => $pz
         );
     }
 
