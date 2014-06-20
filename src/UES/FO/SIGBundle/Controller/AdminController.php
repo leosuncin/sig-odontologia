@@ -21,12 +21,19 @@ use UES\FO\SIGBundle\Model\ParametrosAdmin;
 class AdminController extends Controller
 {
     /**
-     * @Route("/actividad", name="actividad-sistema")
+     * @Route("/actividad/{index}", name="actividad-sistema")
      * @Template()
      */
-    public function actividadAction()
+    public function actividadAction($index = 0)
     {
-        return array();
+        $em = $this->getDoctrine()->getManager();
+        $repo = $em->getRepository('SIGBundle:Bitacora');
+        $entities = $repo->findBy(array(), null, 10, $index);
+        return array(
+            'title' => 'Registro de actividad',
+            'entities' => $entities,
+            'index' => $index
+            );
     }
 
     /**
@@ -78,8 +85,8 @@ class AdminController extends Controller
         if ($form->isValid()) {// Symfony verifica que la información enviada cumpla con las reglas
             // generar la URL donde se mostrará el PDF
             if($data->getTipo() == 0) {
-                $factory = $container->get('backup_restore.factory');
-                $backupInstance = $factory->getBackupInstance($myConnectionServiceId);
+                $factory = $this->get('backup_restore.factory');
+                $backupInstance = $factory->getBackupInstance('doctrine.dbal.default_connection');
                 $backupInstance->backupDatabase('/home/xscharlie', 'new_bak.sql');
             }
         }

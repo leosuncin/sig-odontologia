@@ -1,7 +1,7 @@
 {% extends "SIGBundle::reporteMaestro.pdf.twig" %}
 
 {% block contenido %}
-<h2 text-align="center">Tipos de Perfil</h2>
+<h2 text-align="center">Tipos de Perfil de {{ mensaje }} </h2>
 
 <p text-align="center">Desde <b> {{ util.fecha(fecha_inicio) }} </b> hasta el <b> {{ util.fecha(fecha_fin) }} </b> </p>
 <br />
@@ -81,6 +81,12 @@
 	
 	</tr>
 </table>
+
+<br />
+<br />
+<br />
+<br />
+<p> El total de {{ mensaje }} es: {{ cant4anios + cant5anios + cant6anios + cant7anios + cant8anios + cant9anios + cant10anios + cant11anios + cant4nina + cant5nina + cant6nina + cant7nina + cant8nina  + cant9nina  + cant10nina + cant11nina }} </p>
 {% endif %}
 
 
@@ -114,6 +120,11 @@
 		
 	</tr>
 </table>
+<br />
+<br />
+<br />
+<br />
+<p> El total de {{ mensaje }} es: {{ cant4anios + cant5anios + cant6anios + cant7anios + cant8anios + cant9anios + cant10anios + cant11anios }} </p>
 {% endif %}
 
 
@@ -148,6 +159,12 @@
 	
 	</tr>
 </table>
+<br />
+<br />
+<br />
+<br />
+<p> El total de {{ mensaje }} es: {{ cant4nina + cant5nina + cant6nina + cant7nina + cant8nina  + cant9nina  + cant10nina + cant11nina }} </p>
+
 {% endif %}
 
 
