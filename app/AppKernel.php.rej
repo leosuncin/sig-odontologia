@@ -1,9 +1,0 @@
-diff a/app/AppKernel.php b/app/AppKernel.php	(rejected hunks)
-@@ -20,6 +20,7 @@
-             new Ps\PdfBundle\PsPdfBundle(),
-             new Gregwar\CaptchaBundle\GregwarCaptchaBundle(),
-             new UES\FO\SIGBundle\SIGBundle(),
-+            new ENC\Bundle\BackupRestoreBundle\BackupRestoreBundle()
-         );
- 
-         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

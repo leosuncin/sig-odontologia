@@ -47,3 +47,4 @@ nb-configuration.xml
 *.bak
 composer.lock
 .travis.yml
+app/backups
