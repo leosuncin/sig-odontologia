@@ -20,11 +20,11 @@ class AdminController extends Controller
      */
     public function actividadAction($index = 0)
     {
+        if($index == 0)
+            $this->get('bitacora')->actividad('Se consulto la actividad del sistema');
         $em       = $this->getDoctrine()->getManager();
         $repo     = $em->getRepository('SIGBundle:Bitacora');
         $entities = $repo->findBy(array(), array('fechayhora' => 'DESC'), 10, $index);
-        if($index == 0)
-            $this->get('bitacora')->actividad('Se consulto la actividad del sistema');
         return array(
             'title'    => 'Registro de actividad',
             'entities' => $entities,
@@ -44,16 +44,19 @@ class AdminController extends Controller
         $backups = array();
         while ($backup = readdir($backup_dir)) {
             if(!is_dir($backup) && $backup != '.' && $backup != '..') {
+                $fecha = new \DateTime();
                 array_push($backups, array(
                     'nombre' => str_replace('.sql', '', $backup),
-                    'fecha'  => \DateTime::createFromFormat('U', filemtime($backupDir.'/'.$backup)
-                )));
+                    'fecha'  => $fecha->setTimestamp(filemtime($backupDir.'/'.$backup))
+                ));
             }
         }
         closedir($backup_dir);
         if (count($backups) == 0) {
             $this->get('braincrafted_bootstrap.flash')->info('No se han creado respaldos de la base de datos');
         }
+        //array_multisort($backups, SORT_DESC);
+        //die(var_dump($backups));
         $this->get('bitacora')->actividad('Se consulto los respaldos de la base de datos');
         return array(
             'title'   => 'Gestión de la base de datos',
@@ -69,7 +72,7 @@ class AdminController extends Controller
     {
         $time   = new \DateTime('NOW', new \DateTimeZone('America/El_Salvador'));
         $backup = $this->get('backup_restore.factory')->getBackupInstance('doctrine.dbal.default_connection');
-        $backup->backupDatabase($this->container->getParameter('backup_dir'), $time->format('U').'.sql');
+        $backup->backupDatabase($this->container->getParameter('backup_dir'), $time->getTimestamp().'.sql');
         $this->get('braincrafted_bootstrap.flash')->success('Se creo el respaldo de la base de datos');
         $this->get('bitacora')->actividad('Se creo un respaldo de la base datos «'.$time->format('U').'»');
         return $this->redirect($this->generateUrl('gestion-bd'));
@@ -83,7 +86,7 @@ class AdminController extends Controller
     {
         $restore = $this->get('backup_restore.factory')->getRestoreInstance('doctrine.dbal.default_connection');
         $restore->restoreDatabase($this->container->getParameter('backup_dir').'/'.$backup.'.sql');
-        $this->get('braincrafted_bootstrap.flash')->success('Se restauro la base de datos');
+        $this->get('braincrafted_bootstrap.flash')->success('Se restauro la base de datos respecto a «'.$backup.'»');
         $this->get('bitacora')->actividad('Se restauro la base de datos respecto a «'.$backup.'»');
         return $this->redirect($this->generateUrl('gestion-bd'));
     }
