@@ -39,13 +39,21 @@ class AdminController extends Controller
      */
     public function showBackupsAction()
     {
-        $backup_dir = opendir($this->container->getParameter('backup_dir'));
+        $backupDir = $this->container->getParameter('backup_dir');
+        $backup_dir = opendir($backupDir);
+        $backups = array();
         while ($backup = readdir($backup_dir)) {
             if(!is_dir($backup) && $backup != '.' && $backup != '..') {
-                $backups[] = str_replace('.sql', '', $backup);
+                array_push($backups, array(
+                    'nombre' => str_replace('.sql', '', $backup),
+                    'fecha'  => \DateTime::createFromFormat('U', filemtime($backupDir.'/'.$backup)
+                )));
             }
         }
         closedir($backup_dir);
+        if (count($backups) == 0) {
+            $this->get('braincrafted_bootstrap.flash')->info('No se han creado respaldos de la base de datos');
+        }
         $this->get('bitacora')->actividad('Se consulto los respaldos de la base de datos');
         return array(
             'title'   => 'Gestión de la base de datos',
@@ -59,7 +67,7 @@ class AdminController extends Controller
      */
     public function createBackupAction()
     {
-        $time   = new \DateTime('NOW');
+        $time   = new \DateTime('NOW', new \DateTimeZone('America/El_Salvador'));
         $backup = $this->get('backup_restore.factory')->getBackupInstance('doctrine.dbal.default_connection');
         $backup->backupDatabase($this->container->getParameter('backup_dir'), $time->format('U').'.sql');
         $this->get('braincrafted_bootstrap.flash')->success('Se creo el respaldo de la base de datos');

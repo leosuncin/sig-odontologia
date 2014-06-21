@@ -4,38 +4,32 @@
 <h1>{{ title }}</h1>
 <br />
 <br />
-<br />
-<h2><span class="label label-success">Lista de respaldos realizados</span></h2>
+<h3><span class="label label-success">Lista de respaldos realizados</span></h3>
 <div class="table-responsive">
 	<table class="table striped">
 		<thead>
 			<tr>
 				<th>Respaldo</th>
+				<th>Fecha de modificación</th>
 				<th>Operación</th>
 			</tr>
-			<tbody>
-				{% for backup in backups %}
-				<tr>
-					<td>{{ backup }}</th>
-					<td>
-						<div class="btn-group">
-							<a href="{{ path('backup-save', { 'backup': backup }) }}" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-floppy-save"></i> Descargar</a>
-							<a href="{{ path('backup-restore', { 'backup': backup }) }}" class="btn btn-info btn-xs"><i class="glyphicon glyphicon-floppy-saved"></i> Restaurar</a>
-							<a href="{{ path('backup-delete', { 'backup': backup }) }}" class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-floppy-remove"></i> Eliminar</a>
-						</div>
-					</td>
-				</tr>
-				{% endfor %}
-			</tbody>
 		</thead>
+		<tbody>
+			{% for backup in backups %}
+			<tr>
+				<td>{{ backup.nombre }}</td>
+				<td>{{ backup.fecha|date('d/m/Y H:m:s') }}</td>
+				<td>
+					<div class="btn-group">
+						<a href="{{ path('backup-save', { 'backup': backup.nombre }) }}" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-floppy-save"></i> Descargar</a>
+						<a href="{{ path('backup-restore', { 'backup': backup.nombre }) }}" class="btn btn-info btn-xs"><i class="glyphicon glyphicon-floppy-saved"></i> Restaurar</a>
+						<a href="{{ path('backup-delete', { 'backup': backup.nombre }) }}" class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-floppy-remove"></i> Eliminar</a>
+					</div>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
 	</table>
 </div>
 <a href="{{ path('backup-create') }}" class="btn btn-primary pull-right"><i class="glyphicon glyphicon-plus"></i> Crear respaldo</a>
-{% endblock %}
-
-{% block javascript %}
-<script>
-    require(['../bundles/sig/js/bd'], function(bd) {
-    });
-</script>
 {% endblock %}
