@@ -23,6 +23,8 @@ class AdminController extends Controller
         $em       = $this->getDoctrine()->getManager();
         $repo     = $em->getRepository('SIGBundle:Bitacora');
         $entities = $repo->findBy(array(), array('fechayhora' => 'DESC'), 10, $index);
+        if($index == 0)
+            $this->get('bitacora')->actividad('Se consulto la actividad del sistema');
         return array(
             'title'    => 'Registro de actividad',
             'entities' => $entities,
@@ -44,7 +46,7 @@ class AdminController extends Controller
             }
         }
         closedir($backup_dir);
-
+        $this->get('bitacora')->actividad('Se consulto los respaldos de la base de datos');
         return array(
             'title'   => 'Gestión de la base de datos',
             'backups' => $backups
@@ -61,6 +63,7 @@ class AdminController extends Controller
         $backup = $this->get('backup_restore.factory')->getBackupInstance('doctrine.dbal.default_connection');
         $backup->backupDatabase($this->container->getParameter('backup_dir'), $time->format('U').'.sql');
         $this->get('braincrafted_bootstrap.flash')->success('Se creo el respaldo de la base de datos');
+        $this->get('bitacora')->actividad('Se creo un respaldo de la base datos «'.$time->format('U').'»');
         return $this->redirect($this->generateUrl('gestion-bd'));
     }
 
@@ -73,6 +76,7 @@ class AdminController extends Controller
         $restore = $this->get('backup_restore.factory')->getRestoreInstance('doctrine.dbal.default_connection');
         $restore->restoreDatabase($this->container->getParameter('backup_dir').'/'.$backup.'.sql');
         $this->get('braincrafted_bootstrap.flash')->success('Se restauro la base de datos');
+        $this->get('bitacora')->actividad('Se restauro la base de datos respecto a «'.$backup.'»');
         return $this->redirect($this->generateUrl('gestion-bd'));
     }
 
@@ -84,10 +88,14 @@ class AdminController extends Controller
     {
         $flash    = $this->get('braincrafted_bootstrap.flash');
         $filename = $this->container->getParameter('backup_dir').'/'.$backup.'.sql';
-        if(unlink($filename))
+        $bitacora = $this->get('bitacora');
+        if(unlink($filename)) {
             $flash->success('Se elimino el archivo de respaldo «'.$backup.'»');
-        else
+            $bitacora->actividad('Se elimino el archivo de respaldo «'.$backup.'»');
+        } else {
             $flash->error('No se pudo eliminar el respaldo «'.$backup.'»');
+            $bitacora->actividad('No se pudo eliminar el respaldo «'.$backup.'»');
+        }
         return $this->redirect($this->generateUrl('gestion-bd'));
     }
 
