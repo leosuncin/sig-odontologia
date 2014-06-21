@@ -2,5 +2,23 @@
 
 {% block contenido %}
 <h2 text-align="center">Plan de tratamiento</h2>
-<p text-align="center">Desde {{ util.fecha(fecha_inicio) }} hasta el {{ util.fecha(fecha_fin) }}</p>
+<p text-align="center">Desde <b>{{ util.fecha(fecha_inicio) }}</b> hasta el <b>{{ util.fecha(fecha_fin) }}</b></p>
+<br />
+<br />
+<br />
+{% if cant is not defined %}
+{% set cant = {
+    'prev': random(2000),
+    'inter': random(2000),
+    'orto': random(2000),
+    'fija': random(2000)
+} %}
+{% endif %}
+<div font-size="14px">
+    <p>Cantidad de pacientes con ortodoncia preventiva: {{ cant.prev }}</p>
+    <p>Cantidad de pacientes con ortodoncia interceptiva: {{ cant.inter }}</p>
+    <p>Cantidad de pacientes con ortopedia: {{ cant.orto }}</p>
+    <p>Cantidad de pacientes con ortodoncia fija: {{ cant.fija }}</p>
+    <p>Total de pacientes tratados: {{ cant.prev + cant.inter + cant.orto + cant.fija }}</p>
+</div>
 {% endblock %}

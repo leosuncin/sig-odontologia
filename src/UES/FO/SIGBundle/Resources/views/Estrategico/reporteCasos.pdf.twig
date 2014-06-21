@@ -3,6 +3,18 @@
 {% block contenido %}
 <h2 text-align="center">Casos referidos</h2>
 <p text-align="center">Desde {{ util.fecha(fecha_inicio) }} hasta el {{ util.fecha(fecha_fin) }}</p>
-<p>Casos referidos de niñas:</p>
-<p>Casos referidos de niños:</p>
+<br />
+<br />
+<br />
+{% if cant_ninias is not defined %}
+{% set cant_ninias = random(2000) %}
+{% endif %}
+{% if cant_ninios is not defined %}
+{% set cant_ninios = random(2000) %}
+{% endif %}
+<div font-size="14px">
+<p>Casos referidos de niñas: {{ cant_ninias }}</p>
+<p>Casos referidos de niños: {{ cant_ninios }}</p>
+<p>Cantidad total de pacientes referidos: {{ cant_ninias + cant_ninios }}</p>
+</div>
 {% endblock %}
