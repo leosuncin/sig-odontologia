@@ -18,6 +18,7 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
+        $this->get('bitacora')->actividad('El usuario accedio al sistema');
         return array();
     }
 

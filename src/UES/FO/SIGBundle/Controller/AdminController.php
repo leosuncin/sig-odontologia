@@ -14,6 +14,8 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class AdminController extends Controller
 {
+    private $format = 'Y-m-d-H-m-s';
+
     /**
      * @Route("/actividad/{index}", name="actividad-sistema")
      * @Template()
@@ -39,15 +41,15 @@ class AdminController extends Controller
      */
     public function showBackupsAction()
     {
-        $backupDir = $this->container->getParameter('backup_dir');
+        $backupDir  = $this->container->getParameter('backup_dir');
         $backup_dir = opendir($backupDir);
-        $backups = array();
+        $backups    = array();
         while ($backup = readdir($backup_dir)) {
             if(!is_dir($backup) && $backup != '.' && $backup != '..') {
-                $fecha = new \DateTime();
+                $nombre = str_replace('.sql', '', $backup);
                 array_push($backups, array(
                     'nombre' => str_replace('.sql', '', $backup),
-                    'fecha'  => $fecha->setTimestamp(filemtime($backupDir.'/'.$backup))
+                    'fecha'  => \DateTime::createFromFormat($this->format, $nombre)
                 ));
             }
         }
@@ -72,9 +74,9 @@ class AdminController extends Controller
     {
         $time   = new \DateTime('NOW', new \DateTimeZone('America/El_Salvador'));
         $backup = $this->get('backup_restore.factory')->getBackupInstance('doctrine.dbal.default_connection');
-        $backup->backupDatabase($this->container->getParameter('backup_dir'), $time->getTimestamp().'.sql');
-        $this->get('braincrafted_bootstrap.flash')->success('Se creo el respaldo de la base de datos');
-        $this->get('bitacora')->actividad('Se creo un respaldo de la base datos «'.$time->format('U').'»');
+        $backup->backupDatabase($this->container->getParameter('backup_dir'), $time->format($this->format).'.sql');
+        $this->get('braincrafted_bootstrap.flash')->success('Se creo el respaldo de la base de datos «'.$time->format($this->format).'»');
+        $this->get('bitacora')->actividad('Se creo un respaldo de la base datos «'.$time->format($this->format).'»');
         return $this->redirect($this->generateUrl('gestion-bd'));
     }
 

@@ -10,7 +10,7 @@
 		<thead>
 			<tr>
 				<th>Respaldo</th>
-				<th>Fecha de modificación</th>
+				<th>Fecha de creación</th>
 				<th>Operación</th>
 			</tr>
 		</thead>
@@ -18,7 +18,7 @@
 			{% for backup in backups %}
 			<tr>
 				<td>{{ backup.nombre }}</td>
-				<td>{{ backup.fecha|date('d/m/Y H:m') }}</td>
+				<td>{{ backup.fecha|date('d/m/Y H:m:s') }}</td>
 				<td>
 					<div class="btn-group">
 						<a href="{{ path('backup-save', { 'backup': backup.nombre }) }}" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-floppy-save"></i> Descargar</a>
