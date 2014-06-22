@@ -31,7 +31,8 @@
         "needim/noty": "2.2.2",
         "kartik-v/strength-meter": "dev-master",
         "nostalgiaz/bootstrap-switch": "3.0.0",
-        "moment/moment": "2.6.0"
+        "moment/moment": "2.6.0",
+        "sorich87/bootstrap-tour": "0.9.3"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "2.2.*"
@@ -267,14 +268,50 @@
                         "dist/css/bootstrap3/bootstrap-switch.min.css"
                     ],
                     "shim": {
-                        "deps": ["jquery"],
+                        "deps": ["jquery", "bootstrap"],
                         "exports": "$"
                     }
                 }
             },
             "require": {
                 "robloach/component-installer": "*",
-                "components/jquery": "1.9.*"
+                "components/jquery": "1.9.*",
+                "twbs/bootstrap": "3.*"
+            }
+        }
+    }, {
+        "type": "package",
+        "package": {
+            "name": "sorich87/bootstrap-tour",
+            "type": "component",
+            "version": "0.9.3",
+            "dist": {
+                "url": "https://github.com/sorich87/bootstrap-tour/archive/v0.9.3.zip",
+                "type": "zip"
+            },
+            "source": {
+                "url": "https://github.com/sorich87/bootstrap-tour.git",
+                "type": "git",
+                "reference": "v0.9.3"
+            },
+            "extra": {
+                "component": {
+                    "scripts": [
+                        "build/js/bootstrap-tour.min.js"
+                    ],
+                    "styles": [
+                        "build/css/bootstrap-tour.min.css"
+                    ],
+                    "shim": {
+                        "deps": ["jquery", "bootstrap"],
+                        "exports": "$"
+                    }
+                }
+            },
+            "require": {
+                "robloach/component-installer": "*",
+                "components/jquery": "1.9.*",
+                "twbs/bootstrap": "3.*"
             }
         }
     }]
