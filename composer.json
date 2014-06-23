@@ -32,7 +32,8 @@
         "kartik-v/strength-meter": "dev-master",
         "nostalgiaz/bootstrap-switch": "3.0.0",
         "moment/moment": "2.6.0",
-        "sorich87/bootstrap-tour": "0.9.3"
+        "sorich87/bootstrap-tour": "0.9.3",
+        "mistic100/bootstrap-confirmation": "2.1.0"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "2.2.*"
@@ -301,6 +302,38 @@
                     ],
                     "styles": [
                         "build/css/bootstrap-tour.min.css"
+                    ],
+                    "shim": {
+                        "deps": ["jquery", "bootstrap"],
+                        "exports": "$"
+                    }
+                }
+            },
+            "require": {
+                "robloach/component-installer": "*",
+                "components/jquery": "1.9.*",
+                "twbs/bootstrap": "3.*"
+            }
+        }
+    }, {
+        "type": "package",
+        "package": {
+            "name": "mistic100/bootstrap-confirmation",
+            "type": "component",
+            "version": "2.1.0",
+            "dist": {
+                "url": "https://github.com/mistic100/Bootstrap-Confirmation/archive/v2.1.0.zip",
+                "type": "zip"
+            },
+            "source": {
+                "url": "https://github.com/mistic100/Bootstrap-Confirmation.git",
+                "type": "git",
+                "reference": "v2.1.0"
+            },
+            "extra": {
+                "component": {
+                    "scripts": [
+                        "bootstrap-confirmation.min.js"
                     ],
                     "shim": {
                         "deps": ["jquery", "bootstrap"],
