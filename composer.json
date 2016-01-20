@@ -54,7 +54,8 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
         ],
         "compile": [
-            "php ./app/console assetic:dump"
+            "php ./app/console assetic:dump",
+            "php ./app/console assets:install"
         ]
     },
     "config": {
