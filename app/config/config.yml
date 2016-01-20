@@ -63,5 +63,6 @@ doctrine:
 
 braincrafted_bootstrap:
     less_filter: none
+    jquery_path: %kernel.root_dir%/../vendor/components/jquery/jquery.min.js
 
 gregwar_captcha: ~
