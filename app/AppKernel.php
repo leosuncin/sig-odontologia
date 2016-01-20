@@ -19,7 +19,7 @@ class AppKernel extends Kernel
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new Ps\PdfBundle\PsPdfBundle(),
             new Gregwar\CaptchaBundle\GregwarCaptchaBundle(),
-            new ENC\Bundle\BackupRestoreBundle\BackupRestoreBundle(),
+            // new ENC\Bundle\BackupRestoreBundle\BackupRestoreBundle(),
             new UES\FO\SIGBundle\SIGBundle()
         );
 
